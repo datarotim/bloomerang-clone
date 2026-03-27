@@ -11,7 +11,7 @@
 3. `donor_retention.png` — Donor Retention donut chart (58%, green)
 4. `amount_raised.png` — Amount Raised weekly/monthly/fiscal year card
 5. `tasks_widget.png` — Tasks widget with ALL/MY tabs
-6. `generosity_score.png` — Generosity Score with DonorSearch bar meter
+6. `generosity_score.png` — Generosity Score with Dataro bar meter
 
 ### From Bloomerang Help Center (5 screenshots):
 7. `penny_ai/08_rate_good.jpg` — Penny AI feedback UI (thumbs up/down, submit feedback modal)

@@ -124,7 +124,7 @@ The constituent page has **4 main tabs** plus a persistent header:
 - **Engagement Level** — Cold → Cool → Warm → Hot → On Fire
   - Algorithm by Dr. Adrian Sargeant
   - Based on giving, volunteerism, marketing engagement
-- **Generosity Score** — from DonorSearch wealth screening
+- **Generosity Score** — from Dataro wealth screening
   - Same scale: Cold → Cool → Warm → Hot → On Fire
 - **Relationships** — linked contacts, households
 

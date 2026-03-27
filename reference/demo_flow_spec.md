@@ -67,7 +67,7 @@ Dennis Fois, CEO of Bloomerang + leadership team
   - Recurring Conversion: 78/100
   - Next Best Action: "Schedule personal meeting to discuss Spring Gala sponsorship"
 - **Engagement Level:** On Fire (standard Bloomerang meter)
-- **Generosity Score:** Hot (standard Bloomerang from DonorSearch)
+- **Generosity Score:** Hot (standard Bloomerang from Dataro)
 - **Recent Timeline** (abbreviated)
 - **Relationships**
 

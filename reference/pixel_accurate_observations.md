@@ -180,7 +180,7 @@ Each task entry shows:
 - White card with subtle shadow
 
 ### Header Row
-- **DonorSearch icon:** Multicolor "D" logo (teal #2B8C96 + orange segments)
+- **Dataro icon:** Dataro logo (teal #2B8C96)
 - **Title:** "Generosity" in large dark serif text
 - **"Update" button:** Gray outlined, rounded corners, right-aligned
 
@@ -195,7 +195,7 @@ Each task entry shows:
 - "On Fire!" in large dark text below bar
 
 ### CTA Button
-- **"View in DonorSearch"** button
+- **"View Generosity Details"** button
 - Full-width
 - TEAL background (#2B8C96 or similar)
 - White text
@@ -210,7 +210,7 @@ Each task entry shows:
 |---------|------------------|
 | Active nav/tab green | #4AA74B |
 | Brand dark green | #3F9107 |
-| Teal (DonorSearch/CTA) | #2B8C96 |
+| Teal (Dataro/CTA) | #2B8C96 |
 | Generosity bar red | #E74C3C |
 | Chart green fill | #7BC67E (with transparency) |
 | Retention donut filled | #3F9107 |
