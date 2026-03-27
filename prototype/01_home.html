@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloomerang CRM — Home Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #f4f5f5; color: #252b37; line-height: 1.5; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+/* ── TOKENS ── */
+:root {
+  --green: #3f9107;
+  --green-light: #d7f5c3;
+  --green-sage: #D4E8C4;
+  --teal: #2B8C96;
+  --gray-900: #252b37;
+  --gray-700: #535862;
+  --gray-500: #a4a7ae;
+  --gray-400: #717680;
+  --gray-300: #d5d7da;
+  --gray-200: #e9eaeb;
+  --gray-100: #f4f5f5;
+  --white: #ffffff;
+  --orange: #f4913c;
+  --red: #dc3545;
+  --blue: #2a80e4;
+  --dataro: #00B4D8;
+  --dataro-dark: #0096B4;
+  --dataro-light: #48CAE4;
+  --dataro-bg: #F0FBFF;
+  --sidebar-w: 200px;
+  --header-h: 56px;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w); background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  z-index: 1030; display: flex; flex-direction: column;
+  transition: width .25s ease;
+}
+.sidebar-logo { padding: 16px 20px 12px; position: relative; border-bottom: 1px solid var(--gray-200); }
+.sidebar-logo .logo-text {
+  font-size: 20px; font-weight: 700; color: var(--gray-900); letter-spacing: -0.5px;
+  position: relative; display: inline-block; padding-top: 14px;
+}
+.sidebar-logo .logo-text::before {
+  content: '';
+  position: absolute; top: 0; left: 1px;
+  width: 12px; height: 14px;
+  background: #6abf40;
+  clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+  transform: rotate(-10deg);
+}
+.sidebar-logo .crm-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; color: var(--gray-900);
+  margin-top: -2px; letter-spacing: 1px;
+}
+.sidebar-logo .crm-bar {
+  display: inline-block; width: 24px; height: 3px;
+  background: var(--green); border-radius: 2px;
+}
+.collapse-btn {
+  position: absolute; top: 20px; right: -14px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 10;
+  color: var(--gray-500); font-size: 18px;
+}
+.sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-nav .nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; font-size: 14px; font-weight: 500;
+  color: var(--gray-700); cursor: pointer; position: relative;
+  transition: background .15s, color .15s;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+.sidebar-nav .nav-item:hover { background: #f8f9fa; }
+.sidebar-nav .nav-item.active {
+  background: var(--green-light); color: var(--green);
+  border-left-color: var(--green);
+}
+.sidebar-nav .nav-item.active .material-icons-outlined { color: var(--green); }
+.sidebar-nav .nav-item .material-icons-outlined {
+  font-size: 22px; color: var(--gray-500);
+}
+.sidebar-nav .nav-item .chevron {
+  margin-left: auto; font-size: 18px; color: var(--gray-400);
+}
+
+/* ── HEADER ── */
+.header {
+  position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+  height: var(--header-h); background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; z-index: 1020;
+}
+.header-left { display: flex; align-items: center; gap: 0; flex: 1; max-width: 480px; }
+.search-wrapper {
+  display: flex; align-items: center; width: 100%;
+  border: 1px solid var(--gray-300); border-radius: 6px; overflow: hidden;
+  background: var(--white); height: 38px;
+}
+.search-dropdown {
+  display: flex; align-items: center; gap: 4px;
+  padding: 0 12px; font-size: 14px; font-weight: 600;
+  color: var(--gray-700); border-right: 1px solid var(--gray-300);
+  height: 100%; cursor: pointer; white-space: nowrap;
+}
+.search-dropdown .material-icons-outlined { font-size: 18px; }
+.search-input {
+  flex: 1; border: none; outline: none; padding: 0 12px;
+  font-size: 14px; font-family: inherit; color: var(--gray-700);
+  height: 100%; background: transparent;
+}
+.search-input::placeholder { color: var(--gray-500); }
+.search-icon { padding: 0 10px; color: var(--gray-500); display: flex; align-items: center; }
+
+.header-right { display: flex; align-items: center; gap: 6px; }
+.header-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; color: var(--gray-700); transition: background .15s;
+}
+.header-icon-btn:hover { background: var(--gray-100); }
+.header-icon-btn .material-icons-outlined { font-size: 22px; }
+.header-icon-btn.bloom-b {
+  color: var(--green);
+}
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); border: 2px solid var(--white);
+}
+.ask-penny-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border: none;
+  border-radius: 20px; font-size: 13px; font-weight: 600;
+  color: var(--white); background: var(--green);
+  transition: background .15s;
+}
+.ask-penny-btn:hover { background: #357a06; }
+.ask-penny-btn .sparkle { font-size: 16px; }
+.avatar-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gray-900); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.apps-grid { display: flex; flex-wrap: wrap; width: 18px; gap: 2px; }
+.apps-grid span { width: 4px; height: 4px; border-radius: 1px; background: var(--gray-700); }
+.header-sep { width: 1px; height: 24px; background: var(--gray-200); margin: 0 4px; }
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: var(--sidebar-w); margin-top: var(--header-h);
+  padding: 24px; min-height: calc(100vh - var(--header-h));
+}
+
+/* ── GREETING ── */
+.greeting-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 24px;
+}
+.greeting h1 { font-size: 24px; font-weight: 700; color: var(--gray-900); line-height: 1.3; }
+.greeting p { font-size: 14px; color: var(--gray-500); margin-top: 2px; }
+.last-updated { font-size: 13px; color: var(--gray-500); white-space: nowrap; padding-top: 4px; }
+.last-updated a { color: var(--green); font-weight: 600; margin-left: 4px; }
+.last-updated a:hover { text-decoration: underline; }
+
+/* ── CARD ── */
+.card {
+  background: var(--white); border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  padding: 20px; overflow: hidden;
+}
+.card-header {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--gray-500); margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  line-height: 1;
+}
+.card-header .material-icons-outlined { font-size: 16px; color: var(--gray-400); cursor: pointer; }
+.card-header-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ── GRID ── */
+.grid-row { display: grid; gap: 16px; margin-bottom: 16px; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3-1 { grid-template-columns: 3fr 1fr; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* ── RECENT CONSTITUENTS ── */
+.constituent-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.constituent-list a {
+  font-size: 14px; font-weight: 600; color: var(--teal);
+  transition: color .15s;
+}
+.constituent-list a:hover { color: #1f6a72; text-decoration: underline; }
+.btn-outlined {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 16px; border: 1.5px solid var(--green); border-radius: 6px;
+  font-size: 13px; font-weight: 600; color: var(--green);
+  background: var(--white); width: 100%; transition: background .15s;
+}
+.btn-outlined:hover { background: #f0fbe8; }
+
+/* ── AMOUNT RAISED ── */
+.amount-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0;
+}
+.amount-row + .amount-row { border-top: 1px solid var(--gray-200); }
+.amount-label { font-size: 12px; color: var(--gray-500); margin-bottom: 2px; }
+.amount-value { font-size: 28px; font-weight: 700; color: var(--gray-900); font-family: Georgia, 'Times New Roman', serif; }
+.amount-detail { font-size: 12px; color: var(--gray-500); text-align: right; line-height: 1.6; }
+
+/* ── DONOR RETENTION ── */
+.donut-wrapper { display: flex; flex-direction: column; align-items: center; position: relative; }
+.donut-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; width: 100%; }
+.donut-nav .chevron-btn {
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--gray-300);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-400); font-size: 18px; background: var(--white);
+}
+.donut-container { position: relative; width: 160px; height: 160px; margin: 0 auto 12px; }
+.donut-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  text-align: center;
+}
+.donut-center .pct { font-size: 32px; font-weight: 700; color: var(--gray-900); line-height: 1; }
+.donut-center .label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-500); }
+.retention-text { font-size: 13px; color: var(--gray-700); text-align: center; margin-top: 4px; }
+.pagination-dots { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+.pagination-dots .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray-300); }
+.pagination-dots .dot.active { background: var(--gray-700); }
+
+/* ── FIRST-TIME DONOR CALLS ── */
+.donor-call-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--gray-200);
+  gap: 8px;
+}
+.donor-call-row:last-of-type { border-bottom: none; }
+.donor-call-info { flex: 1; min-width: 0; }
+.donor-call-info .name { font-size: 13px; font-weight: 600; color: var(--teal); }
+.donor-call-info .meta { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+.badge-1st {
+  font-size: 9px; font-weight: 700; background: #4AA74B; color: var(--white);
+  padding: 2px 6px; border-radius: 3px; white-space: nowrap; letter-spacing: 0.5px;
+}
+.btn-call {
+  font-size: 11px; font-weight: 600; color: var(--teal);
+  border: 1px solid var(--teal); border-radius: 4px;
+  padding: 4px 10px; white-space: nowrap; background: var(--white);
+  transition: background .15s;
+}
+.btn-call:hover { background: #e8f7f8; }
+.see-full { font-size: 13px; font-weight: 600; color: var(--green); margin-top: 10px; display: flex; align-items: center; gap: 4px; }
+.see-full:hover { text-decoration: underline; }
+
+/* ── FUNDRAISING BRAIN (Dataro) ── */
+.card-dataro {
+  border: 2px solid var(--dataro);
+  background: linear-gradient(135deg, #fff 0%, var(--dataro-bg) 100%);
+  box-shadow: 0 4px 16px rgba(0,180,216,0.12);
+  padding: 24px;
+}
+.dataro-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.dataro-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #00B4D8, #48CAE4);
+  color: var(--white); font-size: 11px; font-weight: 700;
+  padding: 5px 14px; border-radius: 20px; letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.dataro-badge .sparkle { font-size: 14px; }
+.dataro-powered { font-size: 12px; color: var(--gray-500); }
+.dataro-powered span { color: var(--dataro); font-weight: 700; }
+.dataro-title { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; line-height: 1.4; }
+.dataro-subtitle { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; line-height: 1.5; }
+
+.prospect-row {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  cursor: pointer;
+}
+.prospect-row:hover {
+  border-color: var(--dataro); box-shadow: 0 4px 12px rgba(0,180,216,0.12);
+  transform: translateY(-1px);
+}
+.prospect-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--white); flex-shrink: 0;
+}
+.prospect-avatar.green { background: #4AA74B; }
+.prospect-avatar.blue { background: var(--blue); }
+.prospect-avatar.orange { background: var(--orange); }
+.prospect-info { flex: 1; min-width: 0; }
+.prospect-info .name { font-size: 14px; font-weight: 700; color: var(--gray-900); }
+.prospect-info .detail { font-size: 12px; color: var(--gray-500); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.score-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  white-space: nowrap;
+}
+.score-pill.green { background: #3f9107; color: #fff; }
+.ask-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  background: #4AA74B; color: #fff; white-space: nowrap;
+}
+.btn-view-profile {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  color: var(--white); background: var(--teal); white-space: nowrap;
+  transition: background .15s;
+}
+.btn-view-profile:hover { background: #1f6a72; }
+.prospect-scores { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.prospect-chevron { color: var(--gray-400); font-size: 20px; flex-shrink: 0; }
+
+.insight-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px;
+}
+.insight-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: 8px; padding: 12px; text-align: center;
+}
+.insight-card .insight-value { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.insight-card .insight-label { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.insight-card .insight-icon { font-size: 20px; margin-bottom: 4px; }
+.insight-card .insight-icon.red { color: var(--red); }
+.insight-card .insight-icon.green { color: var(--green); }
+.insight-card .insight-icon.blue { color: var(--blue); }
+.insight-card .insight-icon.orange { color: var(--orange); }
+
+/* ── TASKS ── */
+.tasks-header-row { display: flex; align-items: center; gap: 8px; }
+.tasks-header-row .material-icons-outlined { font-size: 16px; color: var(--gray-400); }
+.add-btn {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--gray-900); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; margin-left: auto;
+}
+.tabs { display: flex; gap: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--gray-200); }
+.tabs .tab {
+  font-size: 13px; font-weight: 700; padding: 8px 0;
+  color: var(--gray-500); cursor: pointer; position: relative;
+}
+.tabs .tab.active { color: var(--gray-900); }
+.tabs .tab.active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 3px; background: var(--green); border-radius: 2px 2px 0 0;
+}
+.due-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-500); margin-bottom: 10px; }
+.task-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid var(--gray-200);
+  gap: 8px;
+}
+.task-row:last-child { border-bottom: none; }
+.task-info { flex: 1; min-width: 0; }
+.task-info .task-title { font-size: 13px; font-weight: 700; color: var(--gray-900); line-height: 1.3; }
+.task-info .task-meta { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.task-date { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; white-space: nowrap; }
+.task-chevron { color: var(--gray-400); font-size: 18px; }
+
+/* ── RECENT REPORTS ── */
+.report-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.report-list a { font-size: 14px; font-weight: 600; color: var(--teal); }
+.report-list a:hover { text-decoration: underline; }
+
+/* ── CAMPAIGNS ── */
+.campaign-item { margin-bottom: 16px; }
+.campaign-item:last-child { margin-bottom: 0; }
+.campaign-name { font-size: 13px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.campaign-bar { height: 12px; background: var(--gray-200); border-radius: 6px; overflow: hidden; position: relative; }
+.campaign-fill { height: 100%; border-radius: 6px; transition: width .5s ease; }
+.campaign-fill.green { background: var(--green); }
+.campaign-fill.orange { background: var(--orange); }
+.campaign-pct { font-size: 12px; font-weight: 700; color: var(--gray-700); margin-top: 3px; }
+
+/* ── SUSTAINABILITY ── */
+.sustainability-content { text-align: center; padding: 20px 0; }
+.sustainability-content p { font-size: 13px; color: var(--gray-500); margin-bottom: 14px; }
+.btn-green {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 24px; background: var(--green); color: var(--white);
+  border-radius: 6px; font-size: 14px; font-weight: 600; transition: background .15s;
+}
+.btn-green:hover { background: #357a06; }
+
+/* ── FLOATING CHAT BUTTON ── */
+.chat-fab {
+  position: fixed; bottom: 24px; left: 24px;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--green); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  z-index: 1100; cursor: pointer; border: none;
+  transition: background .15s, transform .15s;
+}
+.chat-fab:hover { background: #357a06; transform: scale(1.08); }
+.chat-fab .material-icons-outlined { font-size: 24px; }
+
+/* ── HAMBURGER (hidden by default) ── */
+.hamburger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; font-size: 24px; color: var(--gray-700);
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  border-radius: 6px; transition: background .15s;
+}
+.hamburger:hover { background: var(--gray-100); }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1999; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1200px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3-1 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 64px; }
+  .sidebar .nav-item span:not(.material-icons-outlined) { display: none; }
+  .sidebar .nav-item .chevron { display: none; }
+  .sidebar .nav-item { justify-content: center; padding: 12px 0; gap: 0; }
+  .sidebar-logo .logo-text, .sidebar-logo .crm-label { display: none; }
+  .collapse-btn { display: none; }
+  .header { left: 64px; }
+  .main { margin-left: 64px; padding: 16px; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3-1, .grid-3 { grid-template-columns: 1fr; }
+  .insight-strip { grid-template-columns: repeat(2, 1fr); }
+  .greeting-row { flex-direction: column; gap: 8px; }
+  .prospect-row { flex-wrap: wrap; }
+  .prospect-scores { flex-wrap: wrap; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 200px; transform: translateX(-100%);
+    transition: transform 0.3s ease; z-index: 2000;
+  }
+  .sidebar .nav-item span:not(.material-icons-outlined) { display: inline; }
+  .sidebar .nav-item .chevron { display: inline; }
+  .sidebar .nav-item { justify-content: flex-start; padding: 14px 20px; gap: 12px; }
+  .sidebar-logo .logo-text, .sidebar-logo .crm-label { display: block; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open + .sidebar-overlay { display: block; }
+  .hamburger { display: flex; }
+  .header { left: 0; padding: 0 12px; }
+  .main { margin-left: 0; padding: 12px; -webkit-overflow-scrolling: touch; }
+  .grid-4, .grid-3-1, .grid-3 { grid-template-columns: 1fr; }
+  .insight-strip { grid-template-columns: 1fr; }
+  .amount-value { font-size: 22px; }
+  .donut-container { width: 140px; height: 140px; }
+  .donut-container svg { width: 140px; height: 140px; }
+  .donut-center .pct { font-size: 26px; }
+  .greeting h1 { font-size: 20px; }
+  .greeting p { font-size: 13px; }
+  .prospect-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .prospect-scores { width: 100%; flex-wrap: wrap; gap: 8px; }
+  .btn-view-profile { width: 100%; justify-content: center; }
+  .search-dropdown { display: none; }
+  .card { padding: 16px; }
+  .dataro-title { font-size: 16px; }
+  .dataro-subtitle { font-size: 13px; }
+  .ask-penny-btn { padding: 7px 10px; font-size: 12px; }
+  .btn-call, .badge-1st { min-height: 44px; display: inline-flex; align-items: center; }
+  .btn-outlined { min-height: 44px; }
+  .btn-green { min-height: 44px; }
+  .chat-fab { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
+  body { font-size: 15px; }
+  .search-input, input[type="text"], input[type="email"], input[type="search"] { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">bloomerang</div>
+    <div class="crm-label">CRM <span class="crm-bar"></span></div>
+    <button class="collapse-btn"><span class="material-icons-outlined">chevron_left</span></button>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="01_home.html" class="nav-item active">
+        <span class="material-icons-outlined">home</span>
+        <span>Home</span>
+      </a></li>
+      <li><a href="02_constituent.html" class="nav-item">
+        <span class="material-icons-outlined">people_outline</span>
+        <span>Constituents</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">workspaces</span>
+        <span>Groups</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">pie_chart_outline</span>
+        <span>Reports</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">chat_bubble_outline</span>
+        <span>Communications</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">folder_open</span>
+        <span>Data Tools</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">settings</span>
+        <span>Settings</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">volunteer_activism</span>
+        <span>Kindful</span>
+      </a></li>
+    </ul>
+  </nav>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger" aria-label="Open menu">&#9776;</button>
+    <div class="search-wrapper">
+      <div class="search-dropdown">
+        All
+        <span class="material-icons-outlined">expand_more</span>
+      </div>
+      <span class="search-icon"><span class="material-icons-outlined" style="font-size:20px">search</span></span>
+      <input class="search-input" type="text" placeholder="Search for constituents">
+    </div>
+  </div>
+  <div class="header-right">
+    <a href="03_penny.html" class="ask-penny-btn" title="Ask Penny AI">
+      <span class="sparkle material-icons-outlined" style="font-size:16px">auto_awesome</span>
+      Ask Penny
+    </a>
+    <button class="header-icon-btn bloom-b" title="Bloomerang Home">
+      <span class="material-icons-outlined" style="font-size:24px;color:var(--green);">auto_awesome</span>
+    </button>
+    <span class="header-sep"></span>
+    <button class="header-icon-btn" title="Notifications">
+      <span class="material-icons-outlined">notifications_none</span>
+      <span class="notif-dot"></span>
+    </button>
+    <button class="header-icon-btn" title="Help">
+      <span class="material-icons-outlined">help_outline</span>
+    </button>
+    <div class="avatar-circle" title="Jessica Davis">JD</div>
+    <button class="header-icon-btn" title="Apps">
+      <span class="material-icons-outlined">apps</span>
+    </button>
+  </div>
+</header>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="main">
+
+  <!-- GREETING -->
+  <div class="greeting-row">
+    <div class="greeting">
+      <h1>Good morning, Jessica</h1>
+      <p>What's happening with Hope Valley Foundation today</p>
+    </div>
+    <div class="last-updated">
+      Last updated Mar 27, 2026
+      <a href="#">Refresh</a>
+    </div>
+  </div>
+
+  <!-- ──── ROW 1: 4 widgets ──── -->
+  <div class="grid-row grid-4">
+
+    <!-- RECENT CONSTITUENTS -->
+    <div class="card">
+      <div class="card-header">Recent Constituents</div>
+      <div class="constituent-list">
+        <a href="02_constituent.html">Sarah Mitchell</a>
+        <a href="#">Robert Jimenez</a>
+        <a href="#">Linda Worthington</a>
+        <a href="#">Thomas Nguyen</a>
+        <a href="#">Karen Phillips</a>
+      </div>
+      <button class="btn-outlined">
+        <span class="material-icons-outlined" style="font-size:16px">add</span>
+        Add new Constituent
+      </button>
+    </div>
+
+    <!-- AMOUNT RAISED -->
+    <div class="card">
+      <div class="card-header">Amount Raised</div>
+      <div class="amount-row">
+        <div>
+          <div class="amount-label">This week</div>
+          <div class="amount-value">$12,450</div>
+        </div>
+        <div class="amount-detail">14 transactions<br>$889.29 avg</div>
+      </div>
+      <div class="amount-row">
+        <div>
+          <div class="amount-label">This month</div>
+          <div class="amount-value">$47,832</div>
+        </div>
+        <div class="amount-detail">127 transactions<br>$376.63 avg</div>
+      </div>
+      <div class="amount-row">
+        <div>
+          <div class="amount-label">This fiscal year</div>
+          <div class="amount-value">$312,500</div>
+        </div>
+        <div class="amount-detail">1,842 transactions<br>$169.65 avg</div>
+      </div>
+    </div>
+
+    <!-- DONOR RETENTION -->
+    <div class="card">
+      <div class="card-header">
+        Donor Retention
+        <span class="material-icons-outlined" style="cursor:pointer">edit</span>
+      </div>
+      <div class="donut-wrapper">
+        <div style="display:flex;align-items:center;width:100%;justify-content:center;gap:8px;">
+          <button class="chevron-btn" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--gray-300);background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--gray-400);cursor:pointer;">
+            <span class="material-icons-outlined" style="font-size:18px">chevron_left</span>
+          </button>
+          <div class="donut-container">
+            <svg viewBox="0 0 160 160" width="160" height="160">
+              <!-- Background ring -->
+              <circle cx="80" cy="80" r="64" fill="none" stroke="#D4E8C4" stroke-width="20"/>
+              <!-- Filled ring: 68% = 68% of 2*pi*64 ≈ 273.3 -->
+              <circle cx="80" cy="80" r="64" fill="none" stroke="#3f9107" stroke-width="20"
+                stroke-dasharray="273.4 402.1" stroke-dashoffset="0"
+                transform="rotate(-90 80 80)" stroke-linecap="butt"/>
+            </svg>
+            <div class="donut-center">
+              <div class="pct">68%</div>
+              <div class="label">Overall</div>
+            </div>
+          </div>
+          <div style="width:28px"></div><!-- spacer for symmetry -->
+        </div>
+        <div class="retention-text">386 out of 567 donors retained</div>
+        <div class="pagination-dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIRST-TIME DONOR CALLS -->
+    <div class="card">
+      <div class="card-header">
+        First-Time Donor Calls
+        <span class="material-icons-outlined" style="cursor:pointer">refresh</span>
+      </div>
+      <div class="donor-call-row">
+        <div class="donor-call-info">
+          <div class="name">Emily Crawford</div>
+          <div class="meta">$1,200 Donation &middot; 3/25/2026</div>
+        </div>
+        <span class="badge-1st">1ST TIME</span>
+        <button class="btn-call">Enter a Call</button>
+      </div>
+      <div class="donor-call-row">
+        <div class="donor-call-info">
+          <div class="name">Marcus Webb</div>
+          <div class="meta">$750 Pledge &middot; 3/24/2026</div>
+        </div>
+        <span class="badge-1st">1ST TIME</span>
+        <button class="btn-call">Enter a Call</button>
+      </div>
+      <div class="donor-call-row">
+        <div class="donor-call-info">
+          <div class="name">Priya Sharma</div>
+          <div class="meta">$2,500 Donation &middot; 3/22/2026</div>
+        </div>
+        <span class="badge-1st">1ST TIME</span>
+        <button class="btn-call">Enter a Call</button>
+      </div>
+      <a href="#" class="see-full">
+        <span class="material-icons-outlined" style="font-size:16px">assessment</span>
+        See full report
+      </a>
+    </div>
+
+  </div><!-- /grid-4 -->
+
+  <!-- ──── ROW 2: Fundraising Brain + Tasks ──── -->
+  <div class="grid-row grid-3-1">
+
+    <!-- FUNDRAISING BRAIN (Dataro) -->
+    <div class="card card-dataro">
+      <div class="dataro-top">
+        <span class="dataro-badge">
+          <span class="sparkle material-icons-outlined" style="font-size:14px">auto_awesome</span>
+          Fundraising Brain
+        </span>
+        <span class="dataro-powered">Powered by <span>Dataro</span></span>
+      </div>
+      <div class="dataro-title">We identified 3 event attendees with a HIGH chance of giving a major gift</div>
+      <div class="dataro-subtitle">These constituents attended your Spring Gala Preview last week and their profiles indicate strong major gift potential. We recommend personal outreach within 48 hours.</div>
+
+      <!-- Prospect 1 — Sarah Mitchell -->
+      <a href="02_constituent.html" class="prospect-row" style="text-decoration:none;color:inherit;">
+        <div class="prospect-avatar green">SM</div>
+        <div class="prospect-info">
+          <div class="name">Sarah Mitchell</div>
+          <div class="detail">Board member, Riverside Corp &middot; 3-year donor &middot; Last gift: $2,500</div>
+        </div>
+        <div class="prospect-scores">
+          <span class="score-pill green" title="Propensity Score">94</span>
+          <span class="ask-pill" title="Recommended Ask">Ask $25K</span>
+          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+        </div>
+        <span class="prospect-chevron material-icons-outlined">chevron_right</span>
+      </a>
+
+      <!-- Prospect 2 — Robert Jimenez -->
+      <div class="prospect-row">
+        <div class="prospect-avatar blue">RJ</div>
+        <div class="prospect-info">
+          <div class="name">Robert Jimenez</div>
+          <div class="detail">CEO, Jimenez Holdings &middot; 1st event &middot; Wealth: $500K+</div>
+        </div>
+        <div class="prospect-scores">
+          <span class="score-pill green">87</span>
+          <span class="ask-pill">Ask $15K</span>
+          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+        </div>
+        <span class="prospect-chevron material-icons-outlined">chevron_right</span>
+      </div>
+
+      <!-- Prospect 3 — Linda Worthington -->
+      <div class="prospect-row">
+        <div class="prospect-avatar orange">LW</div>
+        <div class="prospect-info">
+          <div class="name">Linda Worthington</div>
+          <div class="detail">Retired educator &middot; Lifetime: $18,200 &middot; Monthly since 2022</div>
+        </div>
+        <div class="prospect-scores">
+          <span class="score-pill green">82</span>
+          <span class="ask-pill">Ask $10K</span>
+          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+        </div>
+        <span class="prospect-chevron material-icons-outlined">chevron_right</span>
+      </div>
+
+      <!-- Insight Strip -->
+      <div class="insight-strip">
+        <div class="insight-card">
+          <div class="insight-icon red material-icons-outlined">warning</div>
+          <div class="insight-value">12</div>
+          <div class="insight-label">At-Risk Donors</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon green material-icons-outlined">trending_up</div>
+          <div class="insight-value">$47K</div>
+          <div class="insight-label">Upgrade Revenue</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon blue material-icons-outlined">autorenew</div>
+          <div class="insight-value">23</div>
+          <div class="insight-label">Monthly Convert</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon orange material-icons-outlined">replay</div>
+          <div class="insight-value">8</div>
+          <div class="insight-label">Lapsed Win-Back</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="tasks-header-row">
+          <span class="material-icons-outlined" style="font-size:16px;color:var(--gray-400)">schedule</span>
+          Tasks
+        </div>
+        <div class="add-btn"><span class="material-icons-outlined" style="font-size:16px">add</span></div>
+      </div>
+      <div class="tabs">
+        <div class="tab active">ALL</div>
+        <div class="tab">MY</div>
+      </div>
+      <div class="due-label">Due Soon</div>
+
+      <div class="task-row">
+        <div class="task-info">
+          <div class="task-title">Follow up with Spring Gala sponsors</div>
+          <div class="task-meta">Sarah Mitchell &middot; Phone<br>Assignee: Jessica</div>
+        </div>
+        <div style="text-align:right">
+          <div class="task-date">MAR 28</div>
+          <span class="task-chevron material-icons-outlined">chevron_right</span>
+        </div>
+      </div>
+
+      <div class="task-row">
+        <div class="task-info">
+          <div class="task-title">Send thank-you letters batch</div>
+          <div class="task-meta">Hope Valley Foundation &middot; Email<br>Assignee: Marcus</div>
+        </div>
+        <div style="text-align:right">
+          <div class="task-date">MAR 29</div>
+          <span class="task-chevron material-icons-outlined">chevron_right</span>
+        </div>
+      </div>
+
+      <div class="task-row">
+        <div class="task-info">
+          <div class="task-title">Update campaign progress report</div>
+          <div class="task-meta">Annual Fund &middot; Mass Email<br>Assignee: Jessica</div>
+        </div>
+        <div style="text-align:right">
+          <div class="task-date">MAR 31</div>
+          <span class="task-chevron material-icons-outlined">chevron_right</span>
+        </div>
+      </div>
+
+      <div class="task-row">
+        <div class="task-info">
+          <div class="task-title">Call major gift prospects</div>
+          <div class="task-meta">Robert Jimenez &middot; Phone<br>Assignee: Jessica</div>
+        </div>
+        <div style="text-align:right">
+          <div class="task-date">APR 02</div>
+          <span class="task-chevron material-icons-outlined">chevron_right</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-3-1 -->
+
+  <!-- ──── ROW 3: Reports + Campaigns + Sustainability ──── -->
+  <div class="grid-row grid-3">
+
+    <!-- RECENT REPORTS -->
+    <div class="card">
+      <div class="card-header">Recent Reports</div>
+      <div class="report-list">
+        <a href="#">LYBUNT Report — Lapsed Donors</a>
+        <a href="#">Monthly Giving Trends (FY 2026)</a>
+        <a href="#">Spring Gala Attendance Summary</a>
+      </div>
+      <button class="btn-outlined">
+        <span class="material-icons-outlined" style="font-size:16px">assessment</span>
+        Go to Reports
+      </button>
+    </div>
+
+    <!-- CAMPAIGNS -->
+    <div class="card">
+      <div class="card-header">
+        Campaigns
+        <a href="#" style="font-size:12px;font-weight:600;color:var(--green);text-transform:none;letter-spacing:0;">View all</a>
+      </div>
+      <div class="campaign-item">
+        <div class="campaign-name">Spring Gala 2026</div>
+        <div class="campaign-bar"><div class="campaign-fill green" style="width:73%"></div></div>
+        <div class="campaign-pct">73% &middot; $182,500 of $250,000</div>
+      </div>
+      <div class="campaign-item">
+        <div class="campaign-name">Annual Fund</div>
+        <div class="campaign-bar"><div class="campaign-fill green" style="width:45%"></div></div>
+        <div class="campaign-pct">45% &middot; $112,500 of $250,000</div>
+      </div>
+      <div class="campaign-item">
+        <div class="campaign-name">Building Expansion</div>
+        <div class="campaign-bar"><div class="campaign-fill orange" style="width:28%"></div></div>
+        <div class="campaign-pct">28% &middot; $140,000 of $500,000</div>
+      </div>
+    </div>
+
+    <!-- SUSTAINABILITY SCORECARD -->
+    <div class="card">
+      <div class="card-header">Sustainability Scorecard</div>
+      <div class="sustainability-content">
+        <div style="margin-bottom:12px;">
+          <span class="material-icons-outlined" style="font-size:48px;color:var(--green)">eco</span>
+        </div>
+        <p>Track your organization's donor sustainability metrics and retention health at a glance.</p>
+        <button class="btn-green">View Now</button>
+      </div>
+    </div>
+
+  </div><!-- /grid-3 -->
+
+</main>
+
+<!-- ════════════ FLOATING CHAT BUTTON ════════════ -->
+<button class="chat-fab" title="Chat with us">
+  <span class="material-icons-outlined">chat_bubble</span>
+</button>
+
+<script>
+(function(){
+  var hamburger = document.querySelector('.hamburger');
+  var sidebar = document.querySelector('.sidebar');
+  var overlay = document.querySelector('.sidebar-overlay');
+  if (hamburger) {
+    hamburger.addEventListener('click', function() { sidebar.classList.toggle('open'); });
+  }
+  if (overlay) {
+    overlay.addEventListener('click', function() { sidebar.classList.remove('open'); });
+  }
+})();
+</script>
+</body>
+</html>

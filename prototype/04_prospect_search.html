@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect Research - Bloomerang CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Quicksand', 'Noto Sans', system-ui, -apple-system, sans-serif;
+    background: #f4f5f5;
+    color: #252b37;
+    display: flex;
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 200px;
+    min-width: 200px;
+    background: #fff;
+    border-right: 1px solid #e9eaeb;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1030;
+  }
+  .sidebar-logo {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid #e9eaeb;
+  }
+  .sidebar-logo .logo-bloom {
+    font-size: 20px;
+    font-weight: 700;
+    color: #252b37;
+    letter-spacing: -0.5px;
+    position: relative;
+    display: inline-block;
+    padding-top: 14px;
+  }
+  .sidebar-logo .logo-bloom::before {
+    content: '';
+    position: absolute; top: 0; left: 1px;
+    width: 12px; height: 14px;
+    background: #6abf40;
+    clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+    transform: rotate(-10deg);
+  }
+  .sidebar-logo .logo-sub {
+    font-size: 11px;
+    font-weight: 700;
+    color: #252b37;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -2px;
+  }
+  .sidebar-logo .logo-sub span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #252b37;
+    letter-spacing: 1px;
+  }
+  .sidebar-logo .logo-sub .bar {
+    width: 24px;
+    height: 3px;
+    background: #3f9107;
+    border-radius: 2px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 8px 0;
+    overflow-y: auto;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #535862;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    position: relative;
+  }
+  .nav-item:hover {
+    background: #f4f5f5;
+  }
+  .nav-item.active {
+    background: #d7f5c3;
+    color: #3f9107;
+    font-weight: 600;
+    border-left: 3px solid #3f9107;
+    padding-left: 17px;
+  }
+  .nav-item.active .material-icons-outlined {
+    color: #3f9107;
+  }
+  .nav-item .material-icons-outlined {
+    font-size: 20px;
+    color: #a4a7ae;
+  }
+  .nav-item .chevron {
+    margin-left: auto;
+    font-size: 16px;
+  }
+  .nav-item .new-badge {
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #00B4D8, #48CAE4);
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-left: 4px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main-wrap {
+    margin-left: 200px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    height: 56px;
+    background: #fff;
+    border-bottom: 1px solid #e9eaeb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+  }
+  .top-bar-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f4f5f5;
+    border: 1px solid #e9eaeb;
+    border-radius: 6px;
+    padding: 6px 12px;
+    width: 320px;
+  }
+  .top-bar-search .material-icons-outlined { font-size: 18px; color: #a4a7ae; }
+  .top-bar-search input {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: #535862;
+    outline: none;
+    width: 100%;
+  }
+  .top-bar-search input::placeholder { color: #a4a7ae; }
+  .top-bar-search select {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 12px;
+    color: #535862;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  /* Ask Penny — GREEN FILLED PILL */
+  .ask-penny-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #3f9107;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0 18px;
+    height: 36px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .ask-penny-btn:hover { background: #357a06; }
+  .ask-penny-btn .material-icons-outlined { font-size: 16px; }
+  .top-icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #535862;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .top-icon-btn:hover { background: #f4f5f5; }
+  .top-icon-btn .material-icons-outlined { font-size: 20px; }
+  .top-icon-btn .notif-dot {
+    width: 8px;
+    height: 8px;
+    background: #dc3545;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    border: 2px solid #fff;
+  }
+  .top-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #535862;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* ── PAGE CONTENT ── */
+  .page-content {
+    padding: 24px;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-header-left h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #252b37;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .page-header-left h1 .material-icons-outlined {
+    font-size: 26px;
+    color: #00B4D8;
+  }
+  .page-header-left .subtitle {
+    font-size: 14px;
+    color: #717680;
+    margin-top: 4px;
+  }
+  .dataro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #00B4D8, #48CAE4);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 45px;
+    white-space: nowrap;
+  }
+  .dataro-badge .material-icons-outlined { font-size: 14px; }
+
+  /* ── SEARCH SECTION ── */
+  .search-section {
+    margin-bottom: 24px;
+  }
+  .search-bar-wrap {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #e9eaeb;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .search-bar-wrap:focus-within {
+    border-color: #00B4D8;
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.12);
+  }
+  .search-bar-wrap .search-icon {
+    padding: 0 14px 0 16px;
+    color: #a4a7ae;
+    display: flex;
+    align-items: center;
+  }
+  .search-bar-wrap .search-icon .material-icons-outlined { font-size: 22px; }
+  .search-bar-wrap input {
+    flex: 1;
+    height: 48px;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 15px;
+    color: #252b37;
+    background: transparent;
+  }
+  .search-bar-wrap input::placeholder { color: #a4a7ae; }
+  .search-btn {
+    height: 48px;
+    padding: 0 24px;
+    background: #3f9107;
+    color: #fff;
+    border: none;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .search-btn:hover { background: #357a06; }
+  .search-btn .material-icons-outlined { font-size: 18px; }
+
+  /* ── FILTER PILLS ── */
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .pill {
+    padding: 6px 14px;
+    border-radius: 45px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #d5d7da;
+    background: #fff;
+    color: #535862;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .pill:hover {
+    border-color: #3f9107;
+    color: #3f9107;
+  }
+  .pill.active {
+    background: #3f9107;
+    color: #fff;
+    border-color: #3f9107;
+  }
+
+  /* ── RESULTS HEADER ── */
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .results-count {
+    font-size: 14px;
+    color: #717680;
+    font-weight: 500;
+  }
+  .results-sort select {
+    border: 1px solid #d5d7da;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    color: #535862;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* ── SUCCESS BANNER ── */
+  .success-banner {
+    background: #d7f5c3;
+    border: 1px solid #94cf35;
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    animation: slideDown 0.3s ease;
+  }
+  .success-banner.show { display: flex; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .success-banner .banner-icon {
+    color: #3f9107;
+    font-size: 22px;
+  }
+  .success-banner .banner-text {
+    flex: 1;
+    font-size: 14px;
+    color: #252b37;
+    font-weight: 500;
+  }
+  .success-banner .banner-text a {
+    color: #00B4D8;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 8px;
+  }
+  .success-banner .banner-text a:hover { text-decoration: underline; }
+  .success-banner .banner-undo {
+    font-size: 13px;
+    color: #717680;
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+  .success-banner .banner-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #717680;
+    display: flex;
+    align-items: center;
+  }
+  .success-banner .banner-close .material-icons-outlined { font-size: 20px; }
+
+  /* ── PROSPECT CARD ── */
+  .prospect-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    padding: 20px;
+    margin-bottom: 12px;
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-left-color 0.15s ease;
+    border-left: 3px solid transparent;
+  }
+  .prospect-card:hover {
+    box-shadow: 0 6px 16px rgba(0,180,216,0.12);
+    transform: translateY(-2px);
+    border-left-color: #00B4D8;
+  }
+  .prospect-card.added {
+    border-left-color: #3f9107;
+  }
+  .card-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .avatar.purple { background: #9b59b6; }
+  .avatar.blue { background: #2a80e4; }
+  .avatar.teal { background: #00B4D8; }
+  .avatar.orange { background: #f4913c; }
+  .avatar.pink { background: #e74c8b; }
+
+  .card-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .card-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #252b37;
+  }
+  .card-title {
+    font-size: 14px;
+    color: #717680;
+    margin-top: 2px;
+  }
+  .card-location {
+    font-size: 13px;
+    color: #a4a7ae;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 2px;
+  }
+  .card-location .material-icons-outlined { font-size: 14px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tag {
+    padding: 3px 10px;
+    border-radius: 45px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #F0FBFF;
+    color: #00B4D8;
+    border: 1px solid #90E0EF;
+  }
+
+  .card-scores {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+  }
+  .score-block {
+    text-align: center;
+  }
+  .score-label {
+    font-size: 11px;
+    color: #a4a7ae;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+  }
+  .score-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #252b37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .score-value .arrow-up {
+    color: #3f9107;
+    font-size: 16px;
+  }
+
+  /* Affinity score with circular progress */
+  .affinity-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .affinity-circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .affinity-circle svg {
+    transform: rotate(-90deg);
+    width: 64px;
+    height: 64px;
+  }
+  .affinity-circle .bg-ring {
+    fill: none;
+    stroke: #e9eaeb;
+    stroke-width: 5;
+  }
+  .affinity-circle .fg-ring {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+  }
+  .affinity-circle .fg-ring.high { stroke: #3f9107; }
+  .affinity-circle .fg-ring.good { stroke: #68a82a; }
+  .affinity-circle .fg-ring.medium { stroke: #f4913c; }
+  .affinity-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .affinity-number.high { color: #3f9107; }
+  .affinity-number.good { color: #68a82a; }
+  .affinity-number.medium { color: #f4913c; }
+  .affinity-sub-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3f9107;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* Add to CRM button — VERY PROMINENT */
+  .add-btn {
+    height: 44px;
+    padding: 0 28px;
+    background: #3f9107;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(63,145,7,0.25);
+  }
+  .add-btn:hover {
+    background: #357a06;
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(63,145,7,0.35);
+  }
+  .add-btn:active { transform: scale(0.98); }
+  .add-btn .plus-icon {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .add-btn.adding {
+    background: #357a06;
+    pointer-events: none;
+    min-width: 150px;
+    justify-content: center;
+  }
+  .add-btn.added-state {
+    background: #2d7a00;
+    pointer-events: none;
+    min-width: 150px;
+    justify-content: center;
+    box-shadow: none;
+  }
+  .add-btn .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── EXPANDED SECTION ── */
+  .card-expanded {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e9eaeb;
+  }
+  .expanded-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .expanded-item {
+    padding: 14px;
+    background: #F0FBFF;
+    border-radius: 8px;
+    border-left: 3px solid #00B4D8;
+  }
+  .expanded-item h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #00B4D8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .expanded-item p {
+    font-size: 13px;
+    color: #535862;
+    line-height: 1.5;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    background: #fff;
+    border: 2px solid #00B4D8;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.12);
+    padding: 24px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .bottom-cta-text h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #252b37;
+    margin-bottom: 4px;
+  }
+  .bottom-cta-text p {
+    font-size: 14px;
+    color: #717680;
+  }
+  .learn-more-btn {
+    padding: 10px 24px;
+    border: 2px solid #00B4D8;
+    background: #fff;
+    color: #00B4D8;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .learn-more-btn:hover {
+    background: #00B4D8;
+    color: #fff;
+  }
+
+  /* ── BOTTOM-LEFT GREEN CHAT CIRCLE ── */
+  .chat-trigger {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 48px;
+    height: 48px;
+    background: #3f9107;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(63,145,7,0.3);
+    z-index: 900;
+    border: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .chat-trigger:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(63,145,7,0.4);
+  }
+  .chat-trigger .material-icons-outlined {
+    color: #fff;
+    font-size: 24px;
+  }
+
+  /* ── HAMBURGER (hidden by default) ── */
+  .hamburger {
+    display: none; align-items: center; justify-content: center;
+    width: 44px; height: 44px; font-size: 24px; color: #535862;
+    background: none; border: none; cursor: pointer; flex-shrink: 0;
+    border-radius: 6px; transition: background .15s;
+  }
+  .hamburger:hover { background: #f4f5f5; }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1999; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .sidebar { width: 64px; min-width: 64px; }
+    .sidebar .nav-label, .sidebar .new-badge, .sidebar .chevron,
+    .sidebar-logo .logo-bloom, .sidebar-logo .logo-sub { display: none; }
+    .sidebar .nav-item { justify-content: center; padding: 12px 0; }
+    .sidebar .nav-item.active { padding-left: 0; border-left: 3px solid #3f9107; }
+    .main-wrap { margin-left: 64px; }
+    .card-main { flex-wrap: wrap; }
+    .card-scores { flex-wrap: wrap; gap: 16px; width: 100%; margin-top: 12px; }
+    .expanded-grid { grid-template-columns: 1fr; }
+    .page-header { flex-direction: column; gap: 12px; }
+    .bottom-cta { flex-direction: column; text-align: center; }
+    .top-bar-search { width: 200px; }
+    .filter-pills { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+    .pill { flex-shrink: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 200px; min-width: 200px;
+      transform: translateX(-100%); transition: transform 0.3s ease; z-index: 2000;
+    }
+    .sidebar .nav-label, .sidebar .new-badge, .sidebar .chevron,
+    .sidebar-logo .logo-bloom, .sidebar-logo .logo-sub { display: initial; }
+    .sidebar .nav-item { justify-content: flex-start; padding: 12px 20px; }
+    .sidebar .nav-item.active { padding-left: 17px; }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar.open + .sidebar-overlay { display: block; }
+    .hamburger { display: flex; }
+    .main-wrap { margin-left: 0; -webkit-overflow-scrolling: touch; }
+    .top-bar { padding: 0 12px; }
+    .top-bar-search { display: none; }
+    .card-main { flex-direction: column; align-items: flex-start; }
+    .card-scores { flex-direction: column; align-items: flex-start; width: 100%; gap: 8px; }
+    .add-btn { width: 100%; justify-content: center; min-height: 44px; }
+    .filter-pills { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 8px; }
+    .pill { font-size: 12px; padding: 5px 10px; flex-shrink: 0; min-height: 44px; display: inline-flex; align-items: center; }
+    .prospect-card { padding: 16px; }
+    .expanded-grid { grid-template-columns: 1fr; }
+    .search-bar-wrap input { font-size: 16px; }
+    .search-btn { padding: 0 16px; font-size: 14px; }
+    .page-content { padding: 16px; }
+    .page-header { flex-direction: column; gap: 12px; }
+    .bottom-cta { flex-direction: column; text-align: center; }
+    .learn-more-btn { width: 100%; min-height: 44px; }
+    .ask-penny-btn { padding: 0 12px; font-size: 12px; }
+    body { font-size: 14px; }
+    .chat-trigger { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
+    input[type="text"], input[type="search"] { font-size: 16px; }
+    .top-bar-search input { font-size: 16px; }
+    .results-sort select { min-height: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-bloom">bloomerang</div>
+    <div class="logo-sub"><span>CRM</span><div class="bar"></div></div>
+  </div>
+  <div class="sidebar-nav">
+    <a href="01_home.html" class="nav-item">
+      <span class="material-icons-outlined">home</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="02_constituent.html" class="nav-item">
+      <span class="material-icons-outlined">people</span>
+      <span class="nav-label">Constituents</span>
+    </a>
+    <a class="nav-item">
+      <span class="material-icons-outlined">hexagon</span>
+      <span class="nav-label">Groups</span>
+    </a>
+    <a class="nav-item">
+      <span class="material-icons-outlined">pie_chart</span>
+      <span class="nav-label">Reports</span>
+    </a>
+    <a class="nav-item active">
+      <span class="material-icons-outlined">person_search</span>
+      <span class="nav-label">Prospect Research</span>
+      <span class="new-badge">NEW</span>
+    </a>
+    <a class="nav-item">
+      <span class="material-icons-outlined">chat_bubble_outline</span>
+      <span class="nav-label">Communications</span>
+      <span class="material-icons-outlined chevron nav-label">expand_more</span>
+    </a>
+    <a class="nav-item">
+      <span class="material-icons-outlined">folder_open</span>
+      <span class="nav-label">Data Tools</span>
+      <span class="material-icons-outlined chevron nav-label">expand_more</span>
+    </a>
+    <a class="nav-item">
+      <span class="material-icons-outlined">settings</span>
+      <span class="nav-label">Settings</span>
+      <span class="material-icons-outlined chevron nav-label">expand_more</span>
+    </a>
+  </div>
+</nav>
+<div class="sidebar-overlay"></div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="main-wrap">
+
+  <!-- ── TOP BAR ── -->
+  <header class="top-bar">
+    <button class="hamburger" aria-label="Open menu">&#9776;</button>
+    <div class="top-bar-search">
+      <select><option>All</option></select>
+      <span class="material-icons-outlined">search</span>
+      <input type="text" placeholder="Search for constituents">
+    </div>
+    <div class="top-bar-right">
+      <button class="ask-penny-btn">
+        <span class="material-icons-outlined">auto_awesome</span>
+        Ask Penny
+      </button>
+      <button class="top-icon-btn" title="Bloomerang Home">
+        <span class="material-icons-outlined" style="color:#3f9107;">auto_awesome</span>
+      </button>
+      <span style="width:1px;height:24px;background:#e9eaeb;margin:0 4px;display:inline-block;"></span>
+      <button class="top-icon-btn" style="position:relative;">
+        <span class="material-icons-outlined">notifications</span>
+        <span style="width:8px;height:8px;background:#dc3545;border-radius:50%;position:absolute;top:6px;right:6px;border:2px solid #fff;"></span>
+      </button>
+      <button class="top-icon-btn">
+        <span class="material-icons-outlined">help_outline</span>
+      </button>
+      <div class="top-avatar">JD</div>
+      <button class="top-icon-btn" title="Apps">
+        <span class="material-icons-outlined">apps</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── PAGE ── -->
+  <div class="page-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>
+          <span class="material-icons-outlined">person_search</span>
+          Prospect Research
+        </h1>
+        <p class="subtitle">Find and add new prospects to your database &mdash; powered by Dataro ProspectAI</p>
+      </div>
+      <div class="dataro-badge">
+        <span class="material-icons-outlined">bolt</span>
+        Powered by Dataro
+      </div>
+    </div>
+
+    <!-- SEARCH SECTION -->
+    <div class="search-section">
+      <div class="search-bar-wrap">
+        <div class="search-icon"><span class="material-icons-outlined">search</span></div>
+        <input type="text" id="searchInput" value="tech executives Indianapolis education" placeholder="Search by name, company, location, or area of interest...">
+        <button class="search-btn" onclick="doSearch()">
+          <span class="material-icons-outlined">search</span>
+          Search
+        </button>
+      </div>
+      <div class="filter-pills">
+        <button class="pill active" onclick="togglePill(this)">All</button>
+        <button class="pill" onclick="togglePill(this)">Tech Executives</button>
+        <button class="pill" onclick="togglePill(this)">Education</button>
+        <button class="pill" onclick="togglePill(this)">Healthcare</button>
+        <button class="pill" onclick="togglePill(this)">Austin, TX</button>
+        <button class="pill" onclick="togglePill(this)">Indianapolis, IN</button>
+      </div>
+    </div>
+
+    <!-- RESULTS HEADER -->
+    <div class="results-header">
+      <span class="results-count">5 prospects found</span>
+      <div class="results-sort">
+        <select>
+          <option>Sorted by affinity score</option>
+          <option>Sorted by capacity</option>
+          <option>Sorted by name</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SUCCESS BANNER (hidden by default) -->
+    <div class="success-banner" id="successBanner">
+      <span class="material-icons-outlined banner-icon">check_circle</span>
+      <span class="banner-text" id="bannerText"></span>
+      <button class="banner-undo" onclick="undoAdd()">Undo</button>
+      <button class="banner-close" onclick="closeBanner()"><span class="material-icons-outlined">close</span></button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="resultsContainer">
+
+      <!-- CARD 1 — EXPANDED -->
+      <div class="prospect-card" id="card-0">
+        <div class="card-main">
+          <div class="avatar purple">EM</div>
+          <div class="card-info">
+            <div class="card-name">Elizabeth Monroe</div>
+            <div class="card-title">VP of Development, TechVentures Inc.</div>
+            <div class="card-location">
+              <span class="material-icons-outlined">location_on</span>
+              Indianapolis, IN
+            </div>
+            <div class="card-tags">
+              <span class="tag">Education</span>
+              <span class="tag">Technology</span>
+              <span class="tag">Youth</span>
+            </div>
+          </div>
+          <div class="card-scores">
+            <div class="score-block">
+              <div class="score-label">Capacity</div>
+              <div class="score-value">$1M+ <span class="material-icons-outlined arrow-up">trending_up</span></div>
+            </div>
+            <div class="score-block">
+              <div class="score-label">Affinity</div>
+              <div class="affinity-wrap">
+                <div class="affinity-circle">
+                  <svg viewBox="0 0 64 64">
+                    <circle class="bg-ring" cx="32" cy="32" r="27"></circle>
+                    <circle class="fg-ring high" cx="32" cy="32" r="27" stroke-dasharray="169.65" stroke-dashoffset="6.79"></circle>
+                  </svg>
+                  <div class="affinity-number high">96</div>
+                </div>
+                <span class="affinity-sub-label">Excellent</span>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addToCRM(this, 'Elizabeth Monroe', 0)">
+              <span class="plus-icon">+</span>
+              Add to CRM
+            </button>
+          </div>
+        </div>
+        <!-- Expanded mini-report -->
+        <div class="card-expanded">
+          <div class="expanded-grid">
+            <div class="expanded-item">
+              <h4>Background</h4>
+              <p>20+ years in nonprofit development, board member of 3 education-focused organizations</p>
+            </div>
+            <div class="expanded-item">
+              <h4>Giving History</h4>
+              <p>Known gifts to: Indianapolis Education Foundation ($25K), Arts Council ($10K), Children's Museum ($15K)</p>
+            </div>
+            <div class="expanded-item">
+              <h4>Connection</h4>
+              <p>Attended same Rotary chapter as your board member David Chen</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="prospect-card" id="card-1">
+        <div class="card-main">
+          <div class="avatar blue">MW</div>
+          <div class="card-info">
+            <div class="card-name">Marcus Webb</div>
+            <div class="card-title">CEO, Webb Financial Group</div>
+            <div class="card-location">
+              <span class="material-icons-outlined">location_on</span>
+              Indianapolis, IN
+            </div>
+          </div>
+          <div class="card-scores">
+            <div class="score-block">
+              <div class="score-label">Capacity</div>
+              <div class="score-value">$2M+ <span class="material-icons-outlined arrow-up">trending_up</span></div>
+            </div>
+            <div class="score-block">
+              <div class="score-label">Affinity</div>
+              <div class="affinity-wrap">
+                <div class="affinity-circle">
+                  <svg viewBox="0 0 64 64">
+                    <circle class="bg-ring" cx="32" cy="32" r="27"></circle>
+                    <circle class="fg-ring high" cx="32" cy="32" r="27" stroke-dasharray="169.65" stroke-dashoffset="15.27"></circle>
+                  </svg>
+                  <div class="affinity-number high">91</div>
+                </div>
+                <span class="affinity-sub-label">Excellent</span>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addToCRM(this, 'Marcus Webb', 1)">
+              <span class="plus-icon">+</span>
+              Add to CRM
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="prospect-card" id="card-2">
+        <div class="card-main">
+          <div class="avatar teal">PO</div>
+          <div class="card-info">
+            <div class="card-name">Patricia Okafor</div>
+            <div class="card-title">Retired Professor, Butler University</div>
+            <div class="card-location">
+              <span class="material-icons-outlined">location_on</span>
+              Indianapolis, IN
+            </div>
+          </div>
+          <div class="card-scores">
+            <div class="score-block">
+              <div class="score-label">Capacity</div>
+              <div class="score-value">$500K+</div>
+            </div>
+            <div class="score-block">
+              <div class="score-label">Affinity</div>
+              <div class="affinity-wrap">
+                <div class="affinity-circle">
+                  <svg viewBox="0 0 64 64">
+                    <circle class="bg-ring" cx="32" cy="32" r="27"></circle>
+                    <circle class="fg-ring good" cx="32" cy="32" r="27" stroke-dasharray="169.65" stroke-dashoffset="20.36"></circle>
+                  </svg>
+                  <div class="affinity-number good">88</div>
+                </div>
+                <span class="affinity-sub-label" style="color:#68a82a;">Strong</span>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addToCRM(this, 'Patricia Okafor', 2)">
+              <span class="plus-icon">+</span>
+              Add to CRM
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="prospect-card" id="card-3">
+        <div class="card-main">
+          <div class="avatar orange">JT</div>
+          <div class="card-info">
+            <div class="card-name">James Thornton</div>
+            <div class="card-title">Partner, Thornton &amp; Associates Law</div>
+            <div class="card-location">
+              <span class="material-icons-outlined">location_on</span>
+              Carmel, IN
+            </div>
+          </div>
+          <div class="card-scores">
+            <div class="score-block">
+              <div class="score-label">Capacity</div>
+              <div class="score-value">$750K+</div>
+            </div>
+            <div class="score-block">
+              <div class="score-label">Affinity</div>
+              <div class="affinity-wrap">
+                <div class="affinity-circle">
+                  <svg viewBox="0 0 64 64">
+                    <circle class="bg-ring" cx="32" cy="32" r="27"></circle>
+                    <circle class="fg-ring good" cx="32" cy="32" r="27" stroke-dasharray="169.65" stroke-dashoffset="27.14"></circle>
+                  </svg>
+                  <div class="affinity-number good">84</div>
+                </div>
+                <span class="affinity-sub-label" style="color:#68a82a;">Strong</span>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addToCRM(this, 'James Thornton', 3)">
+              <span class="plus-icon">+</span>
+              Add to CRM
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="prospect-card" id="card-4">
+        <div class="card-main">
+          <div class="avatar pink">DR</div>
+          <div class="card-info">
+            <div class="card-name">Diana Reeves</div>
+            <div class="card-title">Tech Entrepreneur</div>
+            <div class="card-location">
+              <span class="material-icons-outlined">location_on</span>
+              Indianapolis, IN
+            </div>
+          </div>
+          <div class="card-scores">
+            <div class="score-block">
+              <div class="score-label">Capacity</div>
+              <div class="score-value">$3M+ <span class="material-icons-outlined arrow-up">trending_up</span></div>
+            </div>
+            <div class="score-block">
+              <div class="score-label">Affinity</div>
+              <div class="affinity-wrap">
+                <div class="affinity-circle">
+                  <svg viewBox="0 0 64 64">
+                    <circle class="bg-ring" cx="32" cy="32" r="27"></circle>
+                    <circle class="fg-ring medium" cx="32" cy="32" r="27" stroke-dasharray="169.65" stroke-dashoffset="35.63"></circle>
+                  </svg>
+                  <div class="affinity-number medium">79</div>
+                </div>
+                <span class="affinity-sub-label" style="color:#f4913c;">Good</span>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addToCRM(this, 'Diana Reeves', 4)">
+              <span class="plus-icon">+</span>
+              Add to CRM
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /resultsContainer -->
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <div class="bottom-cta-text">
+        <h3>Want more results?</h3>
+        <p>Upgrade to ProspectAI Premium for unlimited searches, batch prospecting, and automated prospect discovery.</p>
+      </div>
+      <button class="learn-more-btn">Learn More</button>
+    </div>
+
+  </div><!-- /page-content -->
+</div><!-- /main-wrap -->
+
+<!-- ── BOTTOM-LEFT GREEN CHAT CIRCLE ── -->
+<button class="chat-trigger" title="Chat with us">
+  <span class="material-icons-outlined">chat_bubble</span>
+</button>
+
+<script>
+  // ── Add to CRM interaction ──
+  var lastAddedBtn = null;
+  var lastAddedCard = null;
+  var lastAddedName = '';
+
+  function addToCRM(btn, name, cardIdx) {
+    // 1. Show spinner
+    btn.classList.add('adding');
+    btn.innerHTML = '<div class="spinner"></div>';
+
+    setTimeout(function() {
+      // 2. Show checkmark + "Added!"
+      btn.classList.remove('adding');
+      btn.classList.add('added-state');
+      btn.innerHTML = '<span class="material-icons-outlined" style="font-size:20px">check_circle</span> Added!';
+
+      // 3. Add green left border to card
+      var card = document.getElementById('card-' + cardIdx);
+      card.classList.add('added');
+
+      // 4. Show success banner
+      lastAddedBtn = btn;
+      lastAddedCard = card;
+      lastAddedName = name;
+      showBanner(name);
+    }, 500);
+  }
+
+  var bannerTimeout = null;
+  function showBanner(name) {
+    var banner = document.getElementById('successBanner');
+    var text = document.getElementById('bannerText');
+    text.innerHTML = '<strong>' + name + '</strong> has been added to your database as a new constituent.' +
+      '<a href="02_constituent.html">View Profile &rarr;</a>';
+    banner.classList.remove('show');
+    // Force reflow for re-animation
+    void banner.offsetWidth;
+    banner.classList.add('show');
+    // Auto-dismiss after 8 seconds
+    if (bannerTimeout) clearTimeout(bannerTimeout);
+    bannerTimeout = setTimeout(function() { closeBanner(); }, 8000);
+  }
+
+  function closeBanner() {
+    if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
+    document.getElementById('successBanner').classList.remove('show');
+  }
+
+  function undoAdd() {
+    if (lastAddedBtn) {
+      lastAddedBtn.classList.remove('added-state');
+      lastAddedBtn.innerHTML = '<span class="plus-icon">+</span> Add to CRM';
+      var savedBtn = lastAddedBtn;
+      var savedName = lastAddedName;
+      var savedCard = lastAddedCard;
+      savedBtn.onclick = function() { addToCRM(savedBtn, savedName, savedCard.id.split('-')[1]); };
+    }
+    if (lastAddedCard) {
+      lastAddedCard.classList.remove('added');
+    }
+    closeBanner();
+  }
+
+  // ── Filter pills ──
+  function togglePill(el) {
+    document.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('active'); });
+    el.classList.add('active');
+  }
+
+  // ── Search (cosmetic) ──
+  function doSearch() {
+    var input = document.getElementById('searchInput');
+    if (input.value.trim()) {
+      var btn = document.querySelector('.search-btn');
+      btn.style.background = '#2d7a00';
+      setTimeout(function() { btn.style.background = ''; }, 200);
+    }
+  }
+
+  // Enter key triggers search
+  document.getElementById('searchInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  // Hamburger menu
+  (function(){
+    var hamburger = document.querySelector('.hamburger');
+    var sidebar = document.querySelector('.sidebar');
+    var overlay = document.querySelector('.sidebar-overlay');
+    if (hamburger) {
+      hamburger.addEventListener('click', function() { sidebar.classList.toggle('open'); });
+    }
+    if (overlay) {
+      overlay.addEventListener('click', function() { sidebar.classList.remove('open'); });
+    }
+  })();
+</script>
+
+</body>
+</html>

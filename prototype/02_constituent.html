@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarah Mitchell - Constituent | Bloomerang CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Quicksand', system-ui, -apple-system, sans-serif; background: #f4f5f5; color: #252b37; line-height: 1.5; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 200px;
+  background: #fff; border-right: 1px solid #e9eaeb; z-index: 1030;
+  display: flex; flex-direction: column; transition: width 0.3s ease;
+}
+.sidebar-logo { padding: 16px 20px 12px; border-bottom: 1px solid #e9eaeb; }
+.sidebar-logo .logo-text {
+  font-size: 20px; font-weight: 700; color: #252b37; letter-spacing: -0.5px;
+  position: relative; display: inline-block; padding-top: 14px;
+}
+.sidebar-logo .logo-text::before {
+  content: '';
+  position: absolute; top: 0; left: 1px;
+  width: 12px; height: 14px;
+  background: #6abf40;
+  clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+  transform: rotate(-10deg);
+}
+.sidebar-logo .logo-sub {
+  font-size: 11px; font-weight: 700; color: #252b37; display: flex; align-items: center; gap: 6px; margin-top: -2px;
+}
+.sidebar-logo .logo-sub .bar { width: 24px; height: 3px; background: #3f9107; border-radius: 2px; }
+.sidebar-collapse {
+  position: absolute; top: 18px; right: -12px; width: 24px; height: 24px;
+  background: #fff; border: 1px solid #d5d7da; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; color: #717680;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
+}
+.sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-nav li { position: relative; }
+.sidebar-nav li a {
+  display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+  font-size: 14px; font-weight: 500; color: #535862; transition: all 0.15s ease;
+}
+.sidebar-nav li a:hover { background: #f4f5f5; }
+.sidebar-nav li a .material-icons-outlined { font-size: 20px; color: #a4a7ae; }
+.sidebar-nav li.active a {
+  background: #d7f5c3; color: #3f9107; border-left: 3px solid #3f9107;
+  padding-left: 17px;
+}
+.sidebar-nav li.active a .material-icons-outlined { color: #3f9107; }
+.sidebar-nav li a .chevron { margin-left: auto; font-size: 16px; color: #a4a7ae; }
+
+/* ── TOP HEADER ── */
+.top-header {
+  position: fixed; top: 0; left: 200px; right: 0; height: 56px;
+  background: #fff; border-bottom: 1px solid #e9eaeb; z-index: 1020;
+  display: flex; align-items: center; padding: 0 16px; gap: 12px;
+}
+.search-wrapper {
+  display: flex; align-items: center; flex: 1; max-width: 520px; gap: 0;
+}
+.search-type {
+  padding: 7px 12px; border: 1px solid #d5d7da; border-right: none;
+  border-radius: 6px 0 0 6px; background: #fff; font-size: 13px;
+  color: #535862; display: flex; align-items: center; gap: 4px; height: 36px;
+  font-family: inherit; font-weight: 500;
+}
+.search-bar {
+  flex: 1; height: 36px; border: 1px solid #d5d7da; border-radius: 0 6px 6px 0;
+  padding: 0 12px 0 36px; font-size: 14px; font-family: inherit;
+  background: #fff; color: #252b37; position: relative;
+}
+.search-bar::placeholder { color: #a4a7ae; }
+.search-icon {
+  position: absolute; left: 168px; top: 50%; transform: translateY(-50%);
+  color: #a4a7ae; font-size: 18px; pointer-events: none;
+}
+.header-right { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.header-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; color: #535862; position: relative;
+}
+.header-icon-btn:hover { background: #f4f5f5; }
+.header-icon-btn .material-icons-outlined { font-size: 22px; }
+.header-icon-btn.bloom-logo .material-icons-outlined { color: #3f9107; font-size: 20px; }
+.notif-dot {
+  position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
+  background: #dc3545; border-radius: 50%; border: 2px solid #fff;
+}
+.ask-penny-btn {
+  display: flex; align-items: center; gap: 6px; padding: 7px 16px;
+  background: #3f9107; color: #fff; border-radius: 20px; font-size: 13px;
+  font-weight: 600; font-family: inherit; transition: background 0.15s;
+}
+.ask-penny-btn:hover { background: #357a06; }
+.ask-penny-btn .sparkle { font-size: 16px; }
+.avatar-btn {
+  width: 32px; height: 32px; border-radius: 50%; background: #535862;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.apps-grid-btn .material-icons-outlined { font-size: 20px; }
+
+/* ── MAIN CONTENT ── */
+.main-content {
+  margin-left: 200px; margin-top: 56px; min-height: calc(100vh - 56px);
+}
+
+/* ── CONSTITUENT HEADER ── */
+.constituent-header {
+  background: #fff; border-bottom: 1px solid #e9eaeb; padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: #d5d7da;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.profile-avatar .material-icons-outlined { font-size: 28px; color: #fff; }
+.profile-info-name { flex: 0 0 auto; min-width: 160px; padding-right: 24px; border-right: 1px solid #e9eaeb; }
+.profile-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.profile-name { font-size: 20px; font-weight: 700; color: #252b37; }
+.profile-id { font-size: 13px; color: #a4a7ae; font-weight: 500; }
+.profile-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.profile-badge.active { background: #4AA74B; }
+.profile-badge.prospective { background: #2B8C96; }
+.profile-detail-columns {
+  display: flex; align-items: flex-start; gap: 24px; flex: 1; padding: 0 16px;
+}
+.profile-detail-col { font-size: 13px; color: #535862; line-height: 1.4; }
+.profile-detail-col .label { font-size: 12px; font-weight: 700; color: #252b37; margin-bottom: 2px; }
+.profile-detail-col a { color: #2B8C96; }
+.profile-detail-col .bad-addr {
+  display: inline-flex; align-items: center; gap: 3px;
+  color: #dc3545; font-size: 12px; font-weight: 600;
+}
+.profile-dropdown {
+  width: 44px; height: 44px; border-radius: 50%; background: #2B8C96;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: auto;
+}
+.profile-dropdown .material-icons-outlined { font-size: 26px; }
+
+/* ── TABS ── */
+.tabs-bar {
+  background: #fff; padding: 0 24px; display: flex; align-items: center;
+  border-bottom: 1px solid #e9eaeb;
+}
+.tabs-list { display: flex; gap: 4px; padding: 10px 0; }
+.tab-btn {
+  padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;
+  color: #717680; background: none; font-family: inherit; transition: all 0.15s;
+}
+.tab-btn:hover { background: #f4f5f5; color: #535862; }
+.tab-btn.active { background: #4AA74B; color: #fff; }
+.tab-btn.active:hover { background: #3f9107; }
+.tab-btn.dataro-tab { color: #2B8C96; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.tab-btn.dataro-tab .material-icons-outlined { color: #2B8C96; }
+.tab-btn.dataro-tab.active { background: #2B8C96; color: #fff; }
+.tab-btn.dataro-tab.active .material-icons-outlined { color: #fff; }
+.tabs-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.edit-dropdown-btn {
+  padding: 6px 14px; border: 1px solid #d5d7da; border-radius: 6px;
+  font-size: 13px; font-weight: 600; color: #535862; background: #fff;
+  display: flex; align-items: center; gap: 4px; font-family: inherit;
+}
+.edit-dropdown-btn:hover { background: #f4f5f5; }
+
+/* ── TAB PANELS ── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── SUMMARY TAB ── */
+.summary-layout {
+  display: grid; grid-template-columns: 1fr 340px; gap: 20px;
+  padding: 24px; max-width: 1200px;
+}
+
+/* ── CARD BASE ── */
+.card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  padding: 20px; margin-bottom: 20px;
+}
+.card:last-child { margin-bottom: 0; }
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; line-height: 1;
+}
+.card-title { font-size: 18px; font-weight: 700; color: #252b37; }
+.card-controls { display: flex; gap: 4px; }
+.card-ctrl-btn {
+  width: 22px; height: 22px; border-radius: 3px; display: flex;
+  align-items: center; justify-content: center; color: #4AA74B; font-size: 15px; font-weight: 700;
+  line-height: 1;
+}
+.card-ctrl-btn:hover { background: #d7f5c3; }
+
+/* ── GIVING SUMMARY ── */
+.toggle-pills { display: flex; gap: 4px; }
+.toggle-pill {
+  padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
+  color: #fff; font-family: inherit;
+}
+.toggle-pill.revenue { background: #4AA74B; }
+.toggle-pill.raised { background: #2B8C96; }
+.toggle-pill.soft-credits { background: #2B8C96; }
+
+.chart-area {
+  width: 100%; height: 180px; margin: 16px 0; position: relative;
+  border-bottom: 1px solid #e9eaeb; border-left: 1px solid #e9eaeb;
+}
+.chart-svg { width: 100%; height: 100%; }
+
+.metrics-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 16px;
+}
+.metric-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.metric-label { color: #535862; font-weight: 600; min-width: 110px; }
+.metric-badge {
+  padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  color: #fff;
+}
+.metric-badge.dark { background: #4AA74B; }
+.metric-badge.light { background: #7BC67E; }
+.metric-text { color: #3f9107; font-weight: 600; font-size: 13px; }
+.metric-date { color: #535862; font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+/* ── DATARO INTELLIGENCE ── */
+.dataro-card {
+  background: #F0FBFF; border: 2px solid #00B4D8;
+  border-radius: 8px; padding: 20px; margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.12);
+}
+.dataro-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.dataro-header .sparkle-icon { font-size: 20px; color: #00B4D8; }
+.dataro-header .title { font-size: 16px; font-weight: 700; color: #252b37; }
+.dataro-badge {
+  margin-left: auto; padding: 3px 10px; border-radius: 12px;
+  background: linear-gradient(135deg, #00B4D8, #48CAE4);
+  color: #fff; font-size: 11px; font-weight: 600;
+}
+.score-rows { display: flex; flex-direction: column; gap: 12px; }
+.score-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; background: #fff; border-radius: 8px;
+  border: 1px solid #e0f4f8;
+}
+.score-row .score-label { font-size: 14px; font-weight: 600; color: #252b37; }
+.score-row .score-value { display: flex; align-items: center; gap: 8px; }
+.score-circle {
+  width: 36px; height: 36px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff;
+}
+.score-circle.high { background: #3f9107; }
+.score-circle.medium { background: #94cf35; }
+.score-num { font-size: 16px; font-weight: 700; color: #252b37; }
+.score-max { font-size: 12px; color: #a4a7ae; }
+.score-pill {
+  padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
+}
+.score-pill.green { background: #3f9107; color: #fff; }
+.score-amount { font-size: 18px; font-weight: 700; color: #252b37; }
+.nba-box {
+  margin-top: 16px; padding: 14px; background: #fff; border-radius: 8px;
+  border: 1px solid #e0f4f8;
+}
+.nba-box .nba-label { font-size: 11px; color: #00B4D8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.nba-box .nba-text { font-size: 14px; color: #252b37; font-weight: 500; margin-bottom: 10px; }
+.nba-btn {
+  padding: 7px 16px; background: #00B4D8; color: #fff; border-radius: 6px;
+  font-size: 13px; font-weight: 600; font-family: inherit; display: inline-flex;
+  align-items: center; gap: 4px;
+}
+.nba-btn:hover { background: #0096B4; }
+
+/* ── TIMELINE ACTIVITY ── */
+.timeline-entry {
+  display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid #f4f5f5;
+}
+.timeline-entry:last-child { border-bottom: none; }
+.timeline-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+}
+.timeline-dot.green { background: #4AA74B; }
+.timeline-dot.teal { background: #2B8C96; }
+.timeline-dot.blue { background: #2a80e4; }
+.timeline-content { flex: 1; min-width: 0; }
+.timeline-date-label { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+.timeline-date { font-size: 12px; color: #a4a7ae; font-weight: 500; }
+.timeline-type-badge {
+  display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 600;
+}
+.timeline-type-badge.donation { background: #d7f5c3; color: #3f9107; }
+.timeline-type-badge.mail { background: #e0f4f8; color: #2B8C96; }
+.timeline-type-badge.pledge { background: #d7f5c3; color: #3f9107; }
+.timeline-desc { font-size: 13px; color: #252b37; font-weight: 500; }
+.timeline-amount { color: #3f9107; font-weight: 700; }
+
+/* ── RIGHT COLUMN WIDGETS ── */
+.engagement-widget .eng-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.eng-header .heart { color: #dc3545; font-size: 22px; }
+.eng-header .title { font-size: 16px; font-weight: 700; color: #252b37; }
+.eng-meter { display: flex; gap: 3px; margin-bottom: 6px; }
+.eng-segment {
+  flex: 1; height: 12px; border-radius: 3px; background: #e9eaeb;
+}
+.eng-segment.filled { background: #dc3545; }
+.eng-segment.filled.cool { background: #2B8C96; }
+.eng-status { font-size: 14px; font-weight: 700; color: #252b37; text-align: center; }
+
+.generosity-widget .gen-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.gen-header .ds-icon {
+  width: 24px; height: 24px; border-radius: 4px; font-size: 16px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #2B8C96 50%, #f4913c 50%); color: #fff;
+}
+.gen-header .title { font-size: 16px; font-weight: 700; color: #252b37; }
+.gen-header .update-btn {
+  margin-left: auto; padding: 4px 12px; border: 1px solid #d5d7da;
+  border-radius: 16px; font-size: 12px; font-weight: 600; color: #535862;
+  font-family: inherit;
+}
+.gen-header .update-btn:hover { background: #f4f5f5; }
+.gen-meter { display: flex; gap: 3px; margin-bottom: 6px; }
+.gen-segment {
+  flex: 1; height: 12px; border-radius: 3px; background: #e9eaeb;
+}
+.gen-segment.filled { background: #dc3545; }
+.gen-status { font-size: 14px; font-weight: 700; color: #252b37; text-align: center; margin-bottom: 12px; }
+.gen-cta {
+  display: block; width: 100%; padding: 10px; background: #2B8C96; color: #fff;
+  border-radius: 6px; font-size: 14px; font-weight: 600; text-align: center;
+  font-family: inherit;
+}
+.gen-cta:hover { background: #24757d; }
+
+.household-widget .hh-header { font-size: 16px; font-weight: 700; color: #252b37; margin-bottom: 12px; }
+.hh-member {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid #f4f5f5;
+}
+.hh-member-info .hh-name { font-size: 14px; font-weight: 600; color: #2B8C96; }
+.hh-member-info .hh-rel { font-size: 12px; color: #a4a7ae; }
+.hh-arrow { color: #a4a7ae; font-size: 20px; }
+.hh-label { font-size: 12px; color: #a4a7ae; font-weight: 500; margin-top: 8px; }
+
+/* ── FLOATING CHAT BUTTON ── */
+.floating-chat-btn {
+  position: fixed; bottom: 24px; left: 24px; width: 48px; height: 48px;
+  border-radius: 50%; background: #4AA74B; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1040;
+  border: none; cursor: pointer;
+}
+.floating-chat-btn:hover { background: #3f9107; }
+.floating-chat-btn .material-icons-outlined { font-size: 24px; }
+
+/* ── PROSPECT AI TAB ── */
+.prospect-ai-layout { padding: 24px; max-width: 900px; }
+.pai-header-card {
+  background: linear-gradient(135deg, #F0FBFF 0%, #e6f7ff 100%);
+  border: 2px solid #00B4D8; border-radius: 12px; padding: 24px;
+  margin-bottom: 24px; position: relative;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.12);
+}
+.pai-header-card .pai-brand {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.pai-header-card .pai-brand .sparkle { font-size: 28px; color: #00B4D8; }
+.pai-header-card .pai-brand .title { font-size: 22px; font-weight: 700; color: #023E58; }
+.pai-header-card .pai-brand .badge {
+  margin-left: auto; padding: 4px 12px; border-radius: 12px;
+  background: linear-gradient(135deg, #00B4D8, #48CAE4); color: #fff;
+  font-size: 12px; font-weight: 600;
+}
+.pai-header-card .pai-subtitle { font-size: 14px; color: #535862; line-height: 1.6; }
+
+.pai-section {
+  background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  margin-bottom: 16px; overflow: hidden;
+}
+.pai-section-header {
+  padding: 14px 20px; display: flex; align-items: center; gap: 10px;
+  cursor: pointer; user-select: none;
+}
+.pai-section-header:hover { background: #f8f9fa; }
+.pai-section-header .material-icons-outlined { color: #00B4D8; font-size: 20px; }
+.pai-section-header .section-title { font-size: 15px; font-weight: 700; color: #252b37; flex: 1; }
+.pai-section-header .expand-icon { color: #a4a7ae; font-size: 20px; transition: transform 0.2s; }
+.pai-section-header.open .expand-icon { transform: rotate(180deg); }
+.pai-section-body { padding: 0 20px 16px; font-size: 14px; color: #535862; line-height: 1.6; }
+.pai-section-body .source-link {
+  color: #00B4D8; font-size: 11px; vertical-align: super; cursor: pointer; margin-left: 2px;
+}
+.pai-section-body .source-link .material-icons-outlined { font-size: 12px; }
+.pai-section-body ul { padding-left: 18px; list-style: disc; }
+.pai-section-body ul li { margin-bottom: 4px; }
+.pai-section-body .tag {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 12px; font-weight: 600; margin: 2px 4px 2px 0;
+}
+.pai-section-body .tag.green { background: #d7f5c3; color: #3f9107; }
+.pai-section-body .tag.teal { background: #e0f4f8; color: #00B4D8; }
+.pai-section-body .tag.gray { background: #f4f5f5; color: #535862; }
+.pai-detail-row {
+  display: flex; justify-content: space-between; padding: 6px 0;
+  border-bottom: 1px solid #f4f5f5;
+}
+.pai-detail-row:last-child { border-bottom: none; }
+.pai-detail-row .key { font-weight: 600; color: #252b37; }
+.pai-detail-row .val { color: #535862; }
+.pai-affinity-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.pai-affinity-bar .bar-wrap { flex: 1; height: 8px; background: #e9eaeb; border-radius: 4px; max-width: 160px; }
+.pai-affinity-bar .bar-fill { height: 100%; border-radius: 4px; background: #00B4D8; }
+.pai-affinity-bar .pct { font-size: 13px; font-weight: 700; color: #252b37; min-width: 36px; }
+.pai-article {
+  padding: 10px 0; border-bottom: 1px solid #f4f5f5;
+}
+.pai-article:last-child { border-bottom: none; }
+.pai-article .article-title { font-weight: 600; color: #00B4D8; cursor: pointer; }
+.pai-article .article-meta { font-size: 12px; color: #a4a7ae; margin-top: 2px; }
+
+.pai-footer {
+  display: flex; align-items: center; gap: 12px; margin-top: 20px;
+  padding-top: 16px; border-top: 1px solid #e9eaeb;
+}
+.pai-footer .btn-teal-outline {
+  padding: 8px 20px; border: 2px solid #00B4D8; color: #00B4D8;
+  border-radius: 6px; font-size: 13px; font-weight: 600; font-family: inherit;
+}
+.pai-footer .btn-teal-outline:hover { background: #F0FBFF; }
+.pai-footer .btn-gray {
+  padding: 8px 20px; border: 1px solid #d5d7da; color: #535862;
+  border-radius: 6px; font-size: 13px; font-weight: 600; font-family: inherit; background: #fff;
+}
+.pai-footer .btn-gray:hover { background: #f4f5f5; }
+.pai-footer .updated { margin-left: auto; font-size: 12px; color: #a4a7ae; }
+
+/* ── PROFILE TAB PLACEHOLDER ── */
+.placeholder-tab { padding: 60px 24px; text-align: center; color: #a4a7ae; font-size: 16px; }
+
+/* ── HAMBURGER (hidden by default) ── */
+.hamburger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; font-size: 24px; color: #535862;
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  border-radius: 6px; transition: background .15s;
+}
+.hamburger:hover { background: #f4f5f5; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1999; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { width: 64px; }
+  .sidebar .logo-text, .sidebar-nav li a span, .sidebar-nav li a .chevron, .sidebar-logo .logo-sub { display: none; }
+  .sidebar-nav li a { justify-content: center; padding: 12px 0; }
+  .sidebar-nav li.active a { padding-left: 0; border-left: 3px solid #3f9107; }
+  .sidebar-collapse { display: none; }
+  .top-header { left: 64px; }
+  .main-content { margin-left: 64px; }
+  .summary-layout { grid-template-columns: 1fr; }
+  .constituent-header { flex-wrap: wrap; }
+  .profile-detail-columns { gap: 12px; flex-wrap: wrap; }
+  .profile-info-name { border-right: none; padding-right: 0; }
+  .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .card-controls { display: none; }
+  .dataro-card { padding: 16px; }
+  .metrics-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 200px;
+    transform: translateX(-100%); transition: transform 0.3s ease; z-index: 2000;
+  }
+  .sidebar .logo-text, .sidebar-nav li a span, .sidebar-nav li a .chevron, .sidebar-logo .logo-sub { display: initial; }
+  .sidebar-nav li a { justify-content: flex-start; padding: 12px 20px; }
+  .sidebar-nav li.active a { padding-left: 17px; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open + .sidebar-overlay { display: block; }
+  .hamburger { display: flex; }
+  .top-header { left: 0; padding: 0 10px; }
+  .main-content { margin-left: 0; -webkit-overflow-scrolling: touch; }
+  .summary-layout { padding: 12px; gap: 12px; }
+  .prospect-ai-layout { padding: 12px; }
+  .constituent-header { flex-direction: column; text-align: center; gap: 12px; padding: 16px; }
+  .profile-info-name { border-right: none; padding-right: 0; min-width: auto; }
+  .profile-detail-columns { flex-direction: column; padding: 0; gap: 8px; }
+  .profile-dropdown { margin-left: 0; }
+  .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 2px; }
+  .tab-btn { font-size: 13px; padding: 8px 14px; white-space: nowrap; flex-shrink: 0; min-height: 44px; }
+  .tabs-right { display: none; }
+  .card { padding: 16px; }
+  .pai-header-card { padding: 16px; }
+  .pai-header-card .pai-brand .title { font-size: 18px; }
+  .pai-section-body { padding: 0 14px 14px; }
+  .pai-footer { flex-wrap: wrap; gap: 8px; }
+  .nba-btn { min-height: 44px; }
+  .score-row { flex-wrap: wrap; gap: 8px; }
+  .search-type { display: none; }
+  .ask-penny-btn { padding: 7px 10px; font-size: 12px; }
+  body { font-size: 14px; }
+  .floating-chat-btn { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
+  .search-bar, input[type="text"], input[type="email"], input[type="search"] { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">bloomerang</div>
+    <div class="logo-sub">CRM <span class="bar"></span></div>
+  </div>
+  <button class="sidebar-collapse" title="Collapse sidebar">&lsaquo;</button>
+  <ul class="sidebar-nav">
+    <li><a href="01_home.html"><span class="material-icons-outlined">home</span><span>Home</span></a></li>
+    <li class="active"><a href="02_constituent.html"><span class="material-icons-outlined">people</span><span>Constituents</span></a></li>
+    <li><a href="#"><span class="material-icons-outlined">hexagon</span><span>Groups</span></a></li>
+    <li><a href="#"><span class="material-icons-outlined">pie_chart</span><span>Reports</span></a></li>
+    <li><a href="#"><span class="material-icons-outlined">chat_bubble_outline</span><span>Communications</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
+    <li><a href="#"><span class="material-icons-outlined">folder_open</span><span>Data Tools</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
+    <li><a href="#"><span class="material-icons-outlined">settings</span><span>Settings</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
+  </ul>
+</nav>
+<div class="sidebar-overlay"></div>
+
+<!-- ════════════ TOP HEADER ════════════ -->
+<header class="top-header">
+  <button class="hamburger" aria-label="Open menu">&#9776;</button>
+  <div class="search-wrapper">
+    <button class="search-type">All <span class="material-icons-outlined" style="font-size:16px">expand_more</span></button>
+    <span class="material-icons-outlined search-icon">search</span>
+    <input type="text" class="search-bar" placeholder="Search for constituents">
+  </div>
+  <div class="header-right">
+    <a href="03_penny.html" class="ask-penny-btn"><span class="material-icons-outlined sparkle">auto_awesome</span> Ask Penny</a>
+    <button class="header-icon-btn bloom-logo" title="Home"><span class="material-icons-outlined">spa</span></button>
+    <span style="width:1px;height:24px;background:#e9eaeb;margin:0 4px;"></span>
+    <button class="header-icon-btn" title="Notifications">
+      <span class="material-icons-outlined">notifications_none</span>
+      <span class="notif-dot"></span>
+    </button>
+    <button class="header-icon-btn" title="Help"><span class="material-icons-outlined">help_outline</span></button>
+    <button class="avatar-btn" title="Jessica Davis">JD</button>
+    <button class="header-icon-btn apps-grid-btn" title="Apps"><span class="material-icons-outlined">apps</span></button>
+  </div>
+</header>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="main-content">
+
+  <!-- ── CONSTITUENT HEADER ── -->
+  <div class="constituent-header">
+    <div class="profile-avatar">
+      <span class="material-icons-outlined">person</span>
+    </div>
+    <div class="profile-info-name">
+      <div class="profile-name-row">
+        <span class="profile-name">Sarah Mitchell</span>
+        <span class="profile-id">#158</span>
+      </div>
+      <span class="profile-badge active">ACTIVE</span>
+    </div>
+    <div class="profile-detail-columns">
+      <div class="profile-detail-col">
+        <div class="label">Address</div>
+        <a href="#">4521 Oak Valley Drive<br>Indianapolis, IN 46220</a>
+      </div>
+      <div class="profile-detail-col">
+        <div class="label">Phone</div>
+        Mobile (317) 555-0184
+      </div>
+    </div>
+    <button class="profile-dropdown"><span class="material-icons-outlined">expand_more</span></button>
+  </div>
+
+  <!-- ── TAB BAR ── -->
+  <div class="tabs-bar">
+    <div class="tabs-list">
+      <button class="tab-btn active" data-tab="summary">Summary</button>
+      <button class="tab-btn" data-tab="profile">Profile</button>
+      <button class="tab-btn" data-tab="timeline">Timeline</button>
+      <button class="tab-btn" data-tab="relationships">Relationships</button>
+      <button class="tab-btn dataro-tab" data-tab="prospectai"><span class="material-icons-outlined" style="font-size:16px">auto_awesome</span> ProspectAI</button>
+    </div>
+    <div class="tabs-right">
+      <button class="edit-dropdown-btn">Edit <span class="material-icons-outlined" style="font-size:16px">expand_more</span></button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── SUMMARY TAB ── -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-summary">
+    <div class="summary-layout">
+
+      <!-- ── LEFT COLUMN ── -->
+      <div class="summary-left">
+
+        <!-- Giving Summary -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Giving Summary</span>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="toggle-pills">
+                <button class="toggle-pill revenue">Revenue</button>
+                <button class="toggle-pill raised">Raised</button>
+                <button class="toggle-pill soft-credits">Soft Credits</button>
+              </div>
+              <div class="card-controls">
+                <button class="card-ctrl-btn" title="Minimize">&mdash;</button>
+                <button class="card-ctrl-btn" title="Maximize">&#9634;</button>
+                <button class="card-ctrl-btn" title="Close">&times;</button>
+              </div>
+            </div>
+          </div>
+          <!-- Chart -->
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 500 180" preserveAspectRatio="none">
+              <!-- Y axis labels -->
+              <text x="4" y="16" font-size="10" fill="#a4a7ae" font-family="Quicksand">$6,000</text>
+              <text x="4" y="56" font-size="10" fill="#a4a7ae" font-family="Quicksand">$4,000</text>
+              <text x="4" y="96" font-size="10" fill="#a4a7ae" font-family="Quicksand">$2,000</text>
+              <text x="4" y="136" font-size="10" fill="#a4a7ae" font-family="Quicksand">$0</text>
+              <!-- Grid lines -->
+              <line x1="50" y1="12" x2="490" y2="12" stroke="#f4f5f5" stroke-width="1"/>
+              <line x1="50" y1="52" x2="490" y2="52" stroke="#f4f5f5" stroke-width="1"/>
+              <line x1="50" y1="92" x2="490" y2="92" stroke="#f4f5f5" stroke-width="1"/>
+              <line x1="50" y1="132" x2="490" y2="132" stroke="#f4f5f5" stroke-width="1"/>
+              <!-- Green area fill -->
+              <polygon points="80,130 155,120 230,92 305,48 380,24 455,56 455,145 80,145" fill="rgba(122,198,126,0.3)" stroke="none"/>
+              <!-- Green solid line (Revenue) -->
+              <polyline points="80,130 155,120 230,92 305,48 380,24 455,56" fill="none" stroke="#4AA74B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <!-- Blue dashed line (Raised) -->
+              <polyline points="80,135 155,125 230,100 305,55 380,30 455,62" fill="none" stroke="#2B8C96" stroke-width="2" stroke-dasharray="6,4" stroke-linejoin="round"/>
+              <!-- Data points -->
+              <circle cx="80" cy="130" r="4" fill="#4AA74B"/>
+              <circle cx="155" cy="120" r="4" fill="#4AA74B"/>
+              <circle cx="230" cy="92" r="4" fill="#4AA74B"/>
+              <circle cx="305" cy="48" r="4" fill="#4AA74B"/>
+              <circle cx="380" cy="24" r="4" fill="#4AA74B"/>
+              <circle cx="455" cy="56" r="4" fill="#4AA74B"/>
+              <!-- X axis labels -->
+              <text x="75" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'16</text>
+              <text x="150" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'17</text>
+              <text x="225" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'18</text>
+              <text x="300" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'19</text>
+              <text x="375" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'20</text>
+              <text x="450" y="165" font-size="10" fill="#a4a7ae" font-family="Quicksand" text-anchor="middle">'21</text>
+            </svg>
+          </div>
+          <!-- Metrics -->
+          <div class="metrics-grid">
+            <div class="metric-row"><span class="metric-label">Lifetime</span><span class="metric-badge dark">$18,750.00</span></div>
+            <div class="metric-row"><span class="metric-label"></span><span class="metric-badge light">$22,400.00</span></div>
+            <div class="metric-row"><span class="metric-label">Average</span><span class="metric-badge dark">$625.00</span></div>
+            <div class="metric-row"><span class="metric-label"></span><span class="metric-badge light">$746.67</span></div>
+            <div class="metric-row"><span class="metric-label">First Transaction</span><span class="metric-text">$250.00</span><span class="metric-date">3/15/2022</span></div>
+            <div class="metric-row"><span class="metric-label">Latest Transaction</span><span class="metric-text">$2,500.00</span><span class="metric-date">12/8/2025</span></div>
+            <div class="metric-row"><span class="metric-label">Largest Transaction</span><span class="metric-text">$5,000.00</span><span class="metric-date">6/20/2024</span></div>
+          </div>
+        </div>
+
+        <!-- Dataro Intelligence Panel -->
+        <div class="dataro-card">
+          <div class="dataro-header">
+            <span class="material-icons-outlined sparkle-icon">auto_awesome</span>
+            <span class="title">AI Intelligence</span>
+            <span class="dataro-badge">Powered by Dataro</span>
+          </div>
+          <div class="score-rows">
+            <div class="score-row">
+              <span class="score-label">Major Gift Propensity</span>
+              <div class="score-value">
+                <span class="score-num">94</span><span class="score-max">/100</span>
+                <span class="score-circle high">94</span>
+              </div>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Recommended Ask</span>
+              <div class="score-value">
+                <span class="score-amount">$25,000</span>
+              </div>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Lapse Risk</span>
+              <div class="score-value">
+                <span class="score-pill green">Low</span>
+              </div>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Recurring Conversion</span>
+              <div class="score-value">
+                <span class="score-num">78</span><span class="score-max">/100</span>
+                <span class="score-circle medium">78</span>
+              </div>
+            </div>
+          </div>
+          <div class="nba-box">
+            <div class="nba-label">Next Best Action</div>
+            <div class="nba-text">Schedule personal meeting to discuss Spring Gala sponsorship</div>
+            <button class="nba-btn">Create Task <span class="material-icons-outlined" style="font-size:16px">arrow_forward</span></button>
+          </div>
+        </div>
+
+        <!-- Recent Timeline Activity -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Timeline Activity</span>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">9/24/2025</span>
+                <span class="timeline-type-badge donation">Donation</span>
+              </div>
+              <div class="timeline-desc"><span class="timeline-amount">$2,500.00</span></div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">8/15/2025</span>
+                <span class="timeline-type-badge donation">Donation</span>
+              </div>
+              <div class="timeline-desc"><span class="timeline-amount">$500.00</span></div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">5/1/2025</span>
+                <span class="timeline-type-badge pledge">Pledge Payment</span>
+              </div>
+              <div class="timeline-desc"><span class="timeline-amount">$500.00</span></div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot teal"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">2/11/2025</span>
+                <span class="timeline-type-badge mail">Mail</span>
+              </div>
+              <div class="timeline-desc">Acknowledgement - Letter: Acknowledgement Practice</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">2/1/2025</span>
+                <span class="timeline-type-badge donation">Donation</span>
+              </div>
+              <div class="timeline-desc"><span class="timeline-amount">$250.00</span></div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date-label">
+                <span class="timeline-date">1/1/2025</span>
+                <span class="timeline-type-badge pledge">Pledge</span>
+              </div>
+              <div class="timeline-desc"><span class="timeline-amount">$1,000.00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT COLUMN ── -->
+      <div class="summary-right">
+
+        <!-- Engagement Level -->
+        <div class="card engagement-widget">
+          <div class="eng-header">
+            <span class="material-icons-outlined heart">favorite</span>
+            <span class="title">Engagement Level</span>
+          </div>
+          <div class="eng-meter">
+            <div class="eng-segment filled"></div>
+            <div class="eng-segment filled"></div>
+            <div class="eng-segment filled"></div>
+            <div class="eng-segment filled"></div>
+            <div class="eng-segment filled"></div>
+          </div>
+          <div class="eng-status">On Fire!</div>
+        </div>
+
+        <!-- Generosity -->
+        <div class="card generosity-widget">
+          <div class="gen-header">
+            <div class="ds-icon">D</div>
+            <span class="title">Generosity</span>
+            <button class="update-btn">Update</button>
+          </div>
+          <div class="gen-meter">
+            <div class="gen-segment filled"></div>
+            <div class="gen-segment filled"></div>
+            <div class="gen-segment filled"></div>
+            <div class="gen-segment filled"></div>
+            <div class="gen-segment filled"></div>
+          </div>
+          <div class="gen-status">On Fire!</div>
+          <button class="gen-cta">View in DonorSearch</button>
+        </div>
+
+        <!-- Household Members -->
+        <div class="card household-widget">
+          <div class="hh-header">Household Members</div>
+          <div class="hh-member">
+            <div class="hh-member-info">
+              <div class="hh-name">David Mitchell</div>
+              <div class="hh-rel">Spouse</div>
+            </div>
+            <span class="material-icons-outlined hh-arrow">chevron_right</span>
+          </div>
+          <div class="hh-label">Head of Household</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── PROFILE TAB ── -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-profile">
+    <div class="placeholder-tab">
+      <span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:12px;">person</span>
+      Profile information for Sarah Mitchell
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── TIMELINE TAB ── -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-timeline">
+    <div class="placeholder-tab">
+      <span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:12px;">timeline</span>
+      Timeline view for Sarah Mitchell
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── RELATIONSHIPS TAB ── -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-relationships">
+    <div class="placeholder-tab">
+      <span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:12px;">group</span>
+      Relationships for Sarah Mitchell
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── PROSPECT AI TAB ── -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-prospectai">
+    <div class="prospect-ai-layout">
+
+      <!-- Header Card -->
+      <div class="pai-header-card">
+        <div class="pai-brand">
+          <span class="material-icons-outlined sparkle">auto_awesome</span>
+          <span class="title">ProspectAI Report</span>
+          <span class="badge">Powered by Dataro</span>
+        </div>
+        <div class="pai-subtitle">Comprehensive prospect intelligence for <strong>Sarah Mitchell</strong>. Data compiled from public records, philanthropic databases, and proprietary Dataro models.</div>
+      </div>
+
+      <!-- Executive Summary -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">summarize</span>
+          <span class="section-title">Executive Summary</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          Sarah Mitchell is a high-capacity prospect with strong philanthropic alignment to your organization's mission. As a Board Member at Riverside Corp and active community leader, she demonstrates both the financial capacity and personal motivation for a transformative gift.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a> Her giving trajectory has been consistently upward, with a lifetime giving total of $18,750 to your organization and an estimated $200,000+ in annual philanthropic commitments across all causes.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+        </div>
+      </div>
+
+      <!-- Capacity Assessment -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">account_balance_wallet</span>
+          <span class="section-title">Capacity Assessment</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div class="pai-detail-row"><span class="key">Estimated Wealth</span><span class="val">$500K+ <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Real Estate Holdings</span><span class="val">$1.2M (primary residence, Indianapolis) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Stock Holdings</span><span class="val">Detected &mdash; SEC filings indicate equity positions <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Estimated Gift Capacity</span><span class="val"><strong style="color:#3f9107">$25,000 &ndash; $50,000</strong></span></div>
+          <div class="pai-detail-row"><span class="key">Giving Capacity Rating</span><span class="val"><span class="tag green">High</span></span></div>
+        </div>
+      </div>
+
+      <!-- Affinity Assessment -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">volunteer_activism</span>
+          <span class="section-title">Affinity Assessment</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div class="pai-affinity-bar">
+            <span style="min-width:140px;font-weight:600;color:#252b37">Education</span>
+            <div class="bar-wrap"><div class="bar-fill" style="width:92%"></div></div>
+            <span class="pct">92%</span>
+            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+          </div>
+          <div class="pai-affinity-bar">
+            <span style="min-width:140px;font-weight:600;color:#252b37">Youth Development</span>
+            <div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div>
+            <span class="pct">88%</span>
+            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+          </div>
+          <div class="pai-affinity-bar">
+            <span style="min-width:140px;font-weight:600;color:#252b37">Arts &amp; Culture</span>
+            <div class="bar-wrap"><div class="bar-fill" style="width:75%"></div></div>
+            <span class="pct">75%</span>
+            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professional Background -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">business_center</span>
+          <span class="section-title">Professional Background</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div class="pai-detail-row"><span class="key">Current Role</span><span class="val">Board Member, Riverside Corp <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Previous Role</span><span class="val">VP of Operations, TechVentures Inc. <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Industry</span><span class="val">Technology / Corporate Leadership</span></div>
+          <div class="pai-detail-row"><span class="key">Board Memberships</span><span class="val">Riverside Corp, Indianapolis Arts Council, Youth Forward Initiative <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+        </div>
+      </div>
+
+      <!-- Philanthropic History -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">card_giftcard</span>
+          <span class="section-title">Philanthropic History</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <p style="margin-bottom:8px;">Known giving to <strong>15+ organizations</strong>, demonstrating broad philanthropic engagement.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></p>
+          <div class="pai-detail-row"><span class="key">Largest Known Gift</span><span class="val">$50,000 &mdash; Indianapolis Arts Council (2024) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Annual Giving (est.)</span><span class="val">$200,000+ across all organizations</span></div>
+          <div class="pai-detail-row"><span class="key">Giving Pattern</span><span class="val">Year-end concentration, responsive to events</span></div>
+          <div style="margin-top:8px;">
+            <span class="tag teal">Education</span>
+            <span class="tag teal">Arts</span>
+            <span class="tag teal">Youth</span>
+            <span class="tag gray">Healthcare</span>
+            <span class="tag gray">Community Dev</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- News & Media -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">newspaper</span>
+          <span class="section-title">News &amp; Media</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div class="pai-article">
+            <div class="article-title">"Riverside Corp Announces Community Investment Initiative"<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></div>
+            <div class="article-meta">Indianapolis Business Journal &bull; February 12, 2026</div>
+          </div>
+          <div class="pai-article">
+            <div class="article-title">"Local Leaders Honored at Youth Forward Gala"<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></div>
+            <div class="article-meta">IndyStar &bull; November 8, 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Due Diligence -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">verified_user</span>
+          <span class="section-title">Due Diligence</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
+            <span class="material-icons-outlined" style="color:#3f9107;font-size:20px;">check_circle</span>
+            <span style="font-weight:600;color:#3f9107;">No adverse findings</span>
+            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+          </div>
+          <p>No litigation, regulatory issues, or negative media coverage identified in public records screening.</p>
+        </div>
+      </div>
+
+      <!-- Family & Connections -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">family_restroom</span>
+          <span class="section-title">Family &amp; Connections</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <div class="pai-detail-row"><span class="key">Spouse</span><span class="val">David Mitchell (also a donor in your database) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Children</span><span class="val">2 children (school-age)</span></div>
+          <div class="pai-detail-row"><span class="key">Key Connections</span><span class="val">Robert Chen (Riverside Corp CEO), Lisa Park (Indianapolis Arts Council ED) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+        </div>
+      </div>
+
+      <!-- Interests & Conversation Starters -->
+      <div class="pai-section">
+        <div class="pai-section-header open" onclick="toggleSection(this)">
+          <span class="material-icons-outlined">interests</span>
+          <span class="section-title">Interests &amp; Conversation Starters</span>
+          <span class="material-icons-outlined expand-icon">expand_more</span>
+        </div>
+        <div class="pai-section-body">
+          <ul>
+            <li><strong>Tennis</strong> &mdash; Active member at Indianapolis Racquet Club <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
+            <li><strong>Opera</strong> &mdash; Season subscriber at Indianapolis Opera <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
+            <li><strong>Youth Mentoring</strong> &mdash; Volunteer mentor through Youth Forward Initiative <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="pai-footer">
+        <button class="btn-teal-outline">Regenerate Report</button>
+        <button class="btn-gray">Export PDF</button>
+        <span class="updated">Last updated: Mar 25, 2026</span>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ════════════ FLOATING CHAT BUTTON ════════════ -->
+<button class="floating-chat-btn" title="Chat">
+  <span class="material-icons-outlined">chat_bubble</span>
+</button>
+
+<!-- ════════════ JAVASCRIPT ════════════ -->
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Remove active from all tabs and panels
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    // Set active
+    this.classList.add('active');
+    const tabId = 'tab-' + this.getAttribute('data-tab');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+
+// Section toggle (ProspectAI)
+function toggleSection(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  if (header.classList.contains('open')) {
+    body.style.display = 'block';
+  } else {
+    body.style.display = 'none';
+  }
+}
+
+// Hamburger menu
+(function(){
+  var hamburger = document.querySelector('.hamburger');
+  var sidebar = document.querySelector('.sidebar');
+  var overlay = document.querySelector('.sidebar-overlay');
+  if (hamburger) {
+    hamburger.addEventListener('click', function() { sidebar.classList.toggle('open'); });
+  }
+  if (overlay) {
+    overlay.addEventListener('click', function() { sidebar.classList.remove('open'); });
+  }
+})();
+</script>
+</body>
+</html>
