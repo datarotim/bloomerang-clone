@@ -412,8 +412,20 @@ ul { list-style: none; }
 .pai-section-body { padding: 0 20px 16px; font-size: 14px; color: #535862; line-height: 1.6; }
 .pai-section-body .source-link {
   color: #00B4D8; font-size: 11px; vertical-align: super; cursor: pointer; margin-left: 2px;
+  position: relative; display: inline-block;
 }
 .pai-section-body .source-link .material-icons-outlined { font-size: 12px; }
+.pai-section-body .source-link .source-tooltip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  background: #1a1d23; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.4;
+  padding: 8px 12px; border-radius: 8px; white-space: nowrap; z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); pointer-events: none;
+}
+.pai-section-body .source-link .source-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #1a1d23;
+}
+.pai-section-body .source-link:hover .source-tooltip { display: block; }
 .pai-section-body ul { padding-left: 18px; list-style: disc; }
 .pai-section-body ul li { margin-bottom: 4px; }
 .pai-section-body .tag {
@@ -829,7 +841,6 @@ ul { list-style: none; }
             <div class="gen-segment filled"></div>
           </div>
           <div class="gen-status">On Fire!</div>
-          <button class="gen-cta">View in DonorSearch</button>
         </div>
 
         <!-- Household Members -->
@@ -902,7 +913,7 @@ ul { list-style: none; }
           <span class="material-icons-outlined expand-icon">expand_more</span>
         </div>
         <div class="pai-section-body">
-          Sarah Mitchell is a high-capacity prospect with strong philanthropic alignment to your organization's mission. As a Board Member at Riverside Corp and active community leader, she demonstrates both the financial capacity and personal motivation for a transformative gift.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a> Her giving trajectory has been consistently upward, with a lifetime giving total of $18,750 to your organization and an estimated $200,000+ in annual philanthropic commitments across all causes.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+          Sarah Mitchell is a high-capacity prospect with strong philanthropic alignment to your organization's mission. As a Board Member at Riverside Corp and active community leader, she demonstrates both the financial capacity and personal motivation for a transformative gift.<a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">LinkedIn &bull; Riverside Corp Board Page</span></a> Her giving trajectory has been consistently upward, with a lifetime giving total of $18,750 to your organization and an estimated $200,000+ in annual philanthropic commitments across all causes.<a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Internal CRM &bull; Giving History</span></a>
         </div>
       </div>
 
@@ -914,9 +925,9 @@ ul { list-style: none; }
           <span class="material-icons-outlined expand-icon">expand_more</span>
         </div>
         <div class="pai-section-body">
-          <div class="pai-detail-row"><span class="key">Estimated Wealth</span><span class="val">$500K+ <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
-          <div class="pai-detail-row"><span class="key">Real Estate Holdings</span><span class="val">$1.2M (primary residence, Indianapolis) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
-          <div class="pai-detail-row"><span class="key">Stock Holdings</span><span class="val">Detected &mdash; SEC filings indicate equity positions <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Estimated Wealth</span><span class="val">$500K+ <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Wealth Engine &bull; Wealth Screening</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Real Estate Holdings</span><span class="val">$1.2M (primary residence, Indianapolis) <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Marion County Assessor &bull; Property Records</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Stock Holdings</span><span class="val">Detected &mdash; SEC filings indicate equity positions <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">SEC EDGAR &bull; Insider Filings</span></a></span></div>
           <div class="pai-detail-row"><span class="key">Estimated Gift Capacity</span><span class="val"><strong style="color:#3f9107">$25,000 &ndash; $50,000</strong></span></div>
           <div class="pai-detail-row"><span class="key">Giving Capacity Rating</span><span class="val"><span class="tag green">High</span></span></div>
         </div>
@@ -934,19 +945,19 @@ ul { list-style: none; }
             <span style="min-width:140px;font-weight:600;color:#252b37">Education</span>
             <div class="bar-wrap"><div class="bar-fill" style="width:92%"></div></div>
             <span class="pct">92%</span>
-            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+            <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Dataro Model &bull; Affinity Scoring</span></a>
           </div>
           <div class="pai-affinity-bar">
             <span style="min-width:140px;font-weight:600;color:#252b37">Youth Development</span>
             <div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div>
             <span class="pct">88%</span>
-            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+            <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Dataro Model &bull; Affinity Scoring</span></a>
           </div>
           <div class="pai-affinity-bar">
             <span style="min-width:140px;font-weight:600;color:#252b37">Arts &amp; Culture</span>
             <div class="bar-wrap"><div class="bar-fill" style="width:75%"></div></div>
             <span class="pct">75%</span>
-            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+            <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Dataro Model &bull; Affinity Scoring</span></a>
           </div>
         </div>
       </div>
@@ -959,10 +970,10 @@ ul { list-style: none; }
           <span class="material-icons-outlined expand-icon">expand_more</span>
         </div>
         <div class="pai-section-body">
-          <div class="pai-detail-row"><span class="key">Current Role</span><span class="val">Board Member, Riverside Corp <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
-          <div class="pai-detail-row"><span class="key">Previous Role</span><span class="val">VP of Operations, TechVentures Inc. <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Current Role</span><span class="val">Board Member, Riverside Corp <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">LinkedIn &bull; Professional Profile</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Previous Role</span><span class="val">VP of Operations, TechVentures Inc. <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">LinkedIn &bull; Employment History</span></a></span></div>
           <div class="pai-detail-row"><span class="key">Industry</span><span class="val">Technology / Corporate Leadership</span></div>
-          <div class="pai-detail-row"><span class="key">Board Memberships</span><span class="val">Riverside Corp, Indianapolis Arts Council, Youth Forward Initiative <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Board Memberships</span><span class="val">Riverside Corp, Indianapolis Arts Council, Youth Forward Initiative <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">IN Secretary of State &bull; Corporate Filings</span></a></span></div>
         </div>
       </div>
 
@@ -974,8 +985,8 @@ ul { list-style: none; }
           <span class="material-icons-outlined expand-icon">expand_more</span>
         </div>
         <div class="pai-section-body">
-          <p style="margin-bottom:8px;">Known giving to <strong>15+ organizations</strong>, demonstrating broad philanthropic engagement.<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></p>
-          <div class="pai-detail-row"><span class="key">Largest Known Gift</span><span class="val">$50,000 &mdash; Indianapolis Arts Council (2024) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <p style="margin-bottom:8px;">Known giving to <strong>15+ organizations</strong>, demonstrating broad philanthropic engagement.<a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">IRS Form 990 &bull; Public Filings</span></a></p>
+          <div class="pai-detail-row"><span class="key">Largest Known Gift</span><span class="val">$50,000 &mdash; Indianapolis Arts Council (2024) <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Indianapolis Arts Council &bull; Annual Report 2024</span></a></span></div>
           <div class="pai-detail-row"><span class="key">Annual Giving (est.)</span><span class="val">$200,000+ across all organizations</span></div>
           <div class="pai-detail-row"><span class="key">Giving Pattern</span><span class="val">Year-end concentration, responsive to events</span></div>
           <div style="margin-top:8px;">
@@ -997,11 +1008,11 @@ ul { list-style: none; }
         </div>
         <div class="pai-section-body">
           <div class="pai-article">
-            <div class="article-title">"Riverside Corp Announces Community Investment Initiative"<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></div>
+            <div class="article-title">"Riverside Corp Announces Community Investment Initiative"<a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Indianapolis Business Journal &bull; Feb 12, 2026</span></a></div>
             <div class="article-meta">Indianapolis Business Journal &bull; February 12, 2026</div>
           </div>
           <div class="pai-article">
-            <div class="article-title">"Local Leaders Honored at Youth Forward Gala"<a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></div>
+            <div class="article-title">"Local Leaders Honored at Youth Forward Gala"<a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">IndyStar &bull; Nov 8, 2025</span></a></div>
             <div class="article-meta">IndyStar &bull; November 8, 2025</div>
           </div>
         </div>
@@ -1018,7 +1029,7 @@ ul { list-style: none; }
           <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
             <span class="material-icons-outlined" style="color:#3f9107;font-size:20px;">check_circle</span>
             <span style="font-weight:600;color:#3f9107;">No adverse findings</span>
-            <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a>
+            <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">LexisNexis &bull; Public Records Screening</span></a>
           </div>
           <p>No litigation, regulatory issues, or negative media coverage identified in public records screening.</p>
         </div>
@@ -1032,9 +1043,9 @@ ul { list-style: none; }
           <span class="material-icons-outlined expand-icon">expand_more</span>
         </div>
         <div class="pai-section-body">
-          <div class="pai-detail-row"><span class="key">Spouse</span><span class="val">David Mitchell (also a donor in your database) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Spouse</span><span class="val">David Mitchell (also a donor in your database) <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Internal CRM &bull; Household Records</span></a></span></div>
           <div class="pai-detail-row"><span class="key">Children</span><span class="val">2 children (school-age)</span></div>
-          <div class="pai-detail-row"><span class="key">Key Connections</span><span class="val">Robert Chen (Riverside Corp CEO), Lisa Park (Indianapolis Arts Council ED) <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></span></div>
+          <div class="pai-detail-row"><span class="key">Key Connections</span><span class="val">Robert Chen (Riverside Corp CEO), Lisa Park (Indianapolis Arts Council ED) <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">LinkedIn &bull; Mutual Connections</span></a></span></div>
         </div>
       </div>
 
@@ -1047,9 +1058,9 @@ ul { list-style: none; }
         </div>
         <div class="pai-section-body">
           <ul>
-            <li><strong>Tennis</strong> &mdash; Active member at Indianapolis Racquet Club <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
-            <li><strong>Opera</strong> &mdash; Season subscriber at Indianapolis Opera <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
-            <li><strong>Youth Mentoring</strong> &mdash; Volunteer mentor through Youth Forward Initiative <a class="source-link" title="Source"><span class="material-icons-outlined">link</span></a></li>
+            <li><strong>Tennis</strong> &mdash; Active member at Indianapolis Racquet Club <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Indianapolis Racquet Club &bull; Member Directory</span></a></li>
+            <li><strong>Opera</strong> &mdash; Season subscriber at Indianapolis Opera <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Indianapolis Opera &bull; Donor Recognition</span></a></li>
+            <li><strong>Youth Mentoring</strong> &mdash; Volunteer mentor through Youth Forward Initiative <a class="source-link"><span class="material-icons-outlined">link</span><span class="source-tooltip">Youth Forward Initiative &bull; Volunteer Page</span></a></li>
           </ul>
         </div>
       </div>
