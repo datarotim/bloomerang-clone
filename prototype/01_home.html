@@ -312,6 +312,16 @@ ul { list-style: none; }
 .prospect-avatar.green { background: #4AA74B; }
 .prospect-avatar.blue { background: var(--blue); }
 .prospect-avatar.orange { background: var(--orange); }
+.prospect-rank {
+  font-size: 12px; font-weight: 800; color: var(--dataro); flex-shrink: 0;
+  width: 22px; text-align: center;
+}
+.dataro-timestamp {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--gray-500);
+  background: var(--gray-100); border-radius: 4px; padding: 3px 8px;
+  margin-bottom: 8px;
+}
 .prospect-info { flex: 1; min-width: 0; }
 .prospect-info .name { font-size: 14px; font-weight: 700; color: var(--gray-900); }
 .prospect-info .detail { font-size: 12px; color: var(--gray-500); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -353,7 +363,7 @@ ul { list-style: none; }
 @media (max-width: 600px) {
   .prospect-row { flex-wrap: wrap; }
   .prospect-info .detail { white-space: normal; overflow: visible; text-overflow: unset; }
-  .prospect-scores { flex-shrink: 1; flex-basis: 100%; padding-left: 54px; }
+  .prospect-scores { flex-shrink: 1; flex-basis: 100%; padding-left: 76px; }
   .prospect-chevron { display: none; }
 }
 
@@ -744,11 +754,13 @@ ul { list-style: none; }
         </span>
         <span class="dataro-powered">Powered by <span>Dataro</span></span>
       </div>
-      <div class="dataro-title">We identified 3 event attendees with a HIGH chance of giving a major gift</div>
-      <div class="dataro-subtitle">These constituents attended your Spring Gala Preview last week and their profiles indicate strong major gift potential. We recommend personal outreach within 48 hours.</div>
+      <div class="dataro-timestamp"><span class="material-icons-outlined" style="font-size:13px">schedule</span> Weekly insight &middot; Mar 24, 2026</div>
+      <div class="dataro-title">Top 3 prospects from last week's Spring Gala Preview</div>
+      <div class="dataro-subtitle">These attendees from your Mar 18 event have the highest major gift propensity. Outreach within 7 days of an event increases conversion 3&times;. <strong style="color:var(--red)">4 days remaining.</strong></div>
 
       <!-- Prospect 1 — Sarah Mitchell -->
       <a href="02_constituent.html" class="prospect-row" style="text-decoration:none;color:inherit;">
+        <div class="prospect-rank">#1</div>
         <div class="prospect-avatar green">SM</div>
         <div class="prospect-info">
           <div class="name">Sarah Mitchell</div>
@@ -768,6 +780,7 @@ ul { list-style: none; }
 
       <!-- Prospect 2 — Robert Jimenez -->
       <div class="prospect-row">
+        <div class="prospect-rank">#2</div>
         <div class="prospect-avatar blue">RJ</div>
         <div class="prospect-info">
           <div class="name">Robert Jimenez</div>
@@ -787,6 +800,7 @@ ul { list-style: none; }
 
       <!-- Prospect 3 — Linda Worthington -->
       <div class="prospect-row">
+        <div class="prospect-rank">#3</div>
         <div class="prospect-avatar orange">LW</div>
         <div class="prospect-info">
           <div class="name">Linda Worthington</div>
