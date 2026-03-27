@@ -222,9 +222,9 @@ Match `giving_summary.png` exactly:
 
 **Generosity**
 Match `generosity_score.png` exactly:
-- DonorSearch "D" icon (teal+orange) + "Generosity" title + "Update" outlined button
+- Dataro icon (teal) + "Generosity" title + "Update" outlined button
 - Segmented red bar, all segments filled = **"On Fire!"**
-- Teal button: **"View in DonorSearch"**
+- Teal button: **"View Generosity Details"**
 
 **Household Members**
 - "Household Members" section
@@ -297,7 +297,7 @@ Below response: thumbs up / thumbs down icons (match `penny_ai/08_rate_good.jpg`
 |-------|-------|-------|
 | Primary Green | #3f9107 | Active states, primary buttons, chart fills |
 | Light Green | #d7f5c3 | Active sidebar bg, Penny AI bubbles |
-| Teal | #2B8C96 | CTA buttons ("Enter a Call", "View in DonorSearch"), active tabs |
+| Teal | #2B8C96 | CTA buttons ("Enter a Call", "View Generosity Details"), active tabs |
 | Background | #f4f5f5 | Page background |
 | Card bg | #ffffff | All cards/widgets |
 | Border | #e9eaeb | Card borders, dividers |

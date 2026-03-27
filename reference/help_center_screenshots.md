@@ -154,7 +154,7 @@
 - **UI elements described:**
   - **Giving Summary:** "A graph of the constituent's donation levels over the past ten years." Filter transaction types; hover data points for yearly amounts. Graph shows revenue transactions, raised transactions, and soft credits. Deselecting soft credits shows raised transactions as solid blue line.
   - **Engagement Level:** Overall measurement displayed as one of five levels: Cold, Cool, Warm, Hot, On Fire
-  - **Generosity Score:** From DonorSearch, evaluates wealth markers, real estate, philanthropic history. Same five-tier system: Cold, Cool, Warm, Hot, On Fire
+  - **Generosity Score:** From Dataro, evaluates wealth markers, real estate, philanthropic history. Same five-tier system: Cold, Cool, Warm, Hot, On Fire
   - **Recent Timeline Activity:** Ten most recent entries. "Go To Timeline" link for full view.
   - **Relationships:** All constituent relationships displayed. Click to navigate to related constituent.
 
@@ -215,10 +215,10 @@
     - **Cool** (DS1-4, DS1-5): Significant markers like $500K-1M properties
     - **Cold** (DS2, DS3): Minimal matches to giving or wealth indicators
     - **Not Scanned**: Constituents not yet screened
-  - Powered by DonorSearch partnership (wealth prospecting tool with public wealth info)
+  - Powered by Dataro (wealth prospecting tool with public wealth info)
   - Requires: first name, last name, U.S. address
   - **Location in UI:** Constituent account > Summary tab > Generosity tile
-  - **Actions:** "View Generosity Details" link, "View in DonorSearch" link (if subscribed)
+  - **Actions:** "View Generosity Details" link
   - **Updates:** New constituents within 24 hours; existing every 6 months
   - **Reporting:** Can create reports with Generosity filter and Generosity column
 

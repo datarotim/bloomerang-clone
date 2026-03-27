@@ -36,7 +36,7 @@ Source: help.bloomerang.com (Intercom-hosted help center) and bloomerang.com
 27. [Mobile App - Analytics](#mobile-app---analytics)
 28. [Mobile App - Tap to Pay](#mobile-app---tap-to-pay)
 29. [Imports](#imports)
-30. [DonorSearch Integration](#donorsearch-integration)
+30. [Dataro Generosity Integration](#dataro-generosity-integration)
 31. [QuickBooks Online Integration](#quickbooks-online-integration)
 32. [Track Sustainability with Penny AI](#track-sustainability-with-penny-ai)
 33. [First Ever Donation Automation (Welcome Series)](#first-ever-donation-automation-welcome-series)
@@ -969,10 +969,10 @@ The home dashboard contains these tiles, each with a screenshot:
 
 ---
 
-## DonorSearch Integration
+## Dataro Generosity Integration
 
-### Article: Research Constituents with DonorSearch
-**URL:** https://help.bloomerang.com/en/articles/12632742-research-constituents-with-donorsearch
+### Article: Research Constituents with Dataro
+**URL:** https://help.bloomerang.com/en/articles/12632742-research-constituents-with-dataro
 
 **Screenshots found: 3**
 
@@ -984,12 +984,12 @@ The home dashboard contains these tiles, each with a screenshot:
 2. **Generosity Details on Constituent Account**
    - Image: `https://downloads.intercomcdn.com/i/o/bkj6k0nb/2131244782/a1d9d24c0f5cf1649cccbde8210a/image1.jpg`
    - Alt: "Constituent account that includes a list of Generosity Details"
-   - Shows: Wealth markers and generosity details from DonorSearch Batch Screen
+   - Shows: Wealth markers and generosity details from Dataro Batch Screen
 
-3. **View in DonorSearch Button**
+3. **View Generosity Details Button**
    - Image: `https://downloads.intercomcdn.com/i/o/bkj6k0nb/2128237374/6fbaa35382b225cd5d10ccd3091d/463f1e14-b09a-448f-937f-80dbf8e50153`
-   - Alt: "'View in DonorSearch' button in Bloomerang CRM and the DonorSearch page that opens"
-   - Shows: Integration link from CRM profile to DonorSearch website
+   - Alt: "Generosity details button in Bloomerang CRM"
+   - Shows: Integration link from CRM profile to generosity details
 
 ---
 

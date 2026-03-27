@@ -103,7 +103,7 @@
 ### 13. Generosity Score
 - **Same visual style** as Engagement Meter
 - **Same scale:** Cold → On Fire
-- **Source label:** "Powered by DonorSearch"
+- **Source label:** "Powered by Dataro"
 
 ### 14. Giving Summary
 - **Card with metrics:**

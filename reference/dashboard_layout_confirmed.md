@@ -108,7 +108,7 @@ Algorithm by Dr. Adrian Sargeant. Factors: giving, volunteerism, marketing engag
 
 ## Generosity Score Scale
 Same visual scale as Engagement Level (Cold → On Fire).
-Based on DonorSearch publicly available wealth screening data.
+Based on Dataro publicly available wealth screening data.
 Appears on constituent/household Summary screen.
 
 ---

@@ -200,13 +200,13 @@ Inactive tab styling: Gray text, no background
 - "X Days Ago" in green text
 
 **Generosity Widget**
-- DonorSearch "D" icon (teal/orange multicolor icon) + "Generosity" title
+- Dataro icon (teal) + "Generosity" title
 - "Update" button (gray outlined, rounded)
 - Horizontal bar meter:
   - Segmented red/gradient bar showing generosity level
   - Scale similar to engagement (levels of giving potential)
 - Status text: "On Fire!" (or other levels)
-- Large teal button: **"View in DonorSearch"** (teal background, white text, rounded)
+- Large teal button: **"View Generosity Details"** (teal background, white text, rounded)
 
 **Relationships Widget**
 - "Relationships" section header
@@ -290,7 +290,7 @@ Each timeline entry has:
 **Source: TrustRadius screenshot**
 
 - White card with subtle shadow
-- **DonorSearch logo** (multicolor "D" icon - teal and orange segments)
+- **Dataro logo** (teal icon)
 - "Generosity" title in large dark text
 - "Update" button (outlined, rounded corners, gray border)
 - **Segmented horizontal bar**:
@@ -298,7 +298,7 @@ Each timeline entry has:
   - Full bar = "On Fire!" level
   - Segments have subtle separators
 - "On Fire!" text below bar in dark text
-- Large button: **"View in DonorSearch"** - teal/dark cyan background (#2B8C96 or similar), white text, full-width, rounded
+- Large button: **"View Generosity Details"** - teal/dark cyan background (#2B8C96 or similar), white text, full-width, rounded
 
 ---
 
@@ -375,7 +375,7 @@ Each timeline entry has:
 
 ### Teal/CTA Button
 - **Teal filled**: Teal/dark cyan background, white text, full-width or generous padding, rounded
-- Example: "View in DonorSearch"
+- Example: "View Generosity Details"
 
 ### Gray Outlined Button
 - **Gray outlined**: White background, gray border, dark text, rounded
