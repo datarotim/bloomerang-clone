@@ -536,6 +536,169 @@ ul { list-style: none; }
   body { font-size: 14px; }
   .floating-chat-btn { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
   .search-bar, input[type="text"], input[type="email"], input[type="search"] { font-size: 16px; }
+  /* Penny panel full-screen on mobile */
+  .penny-panel { width: 100%; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2100; }
+  .dim-overlay { display: none !important; }
+  .close-btn .close-x { display: none; }
+  .close-btn .back-arrow { display: inline !important; }
+  .close-btn { width: 44px; height: 44px; font-size: 28px; }
+  .suggested-prompts { grid-template-columns: 1fr; }
+  .penny-input-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 10;
+  }
+  .penny-input { height: 44px; font-size: 16px; }
+  .penny-send-btn { width: 44px; height: 44px; }
+  .prompt-pill { min-height: 44px; display: flex; align-items: center; }
+  .penny-feedback-btn { min-width: 44px; min-height: 44px; }
+  .new-convo-btn { min-height: 44px; }
+}
+
+/* ── PENNY OVERLAY & PANEL ── */
+.dim-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+  z-index: 999; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.dim-overlay.active { opacity: 1; pointer-events: auto; }
+
+.penny-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+  background: #fff; z-index: 1000; display: flex; flex-direction: column;
+  box-shadow: -4px 0 16px rgba(0,0,0,0.1);
+  transform: translateX(100%); transition: transform 0.3s ease;
+}
+.penny-panel.open { transform: translateX(0); }
+
+.penny-header {
+  height: 56px; min-height: 56px; border-bottom: 1px solid #e9eaeb;
+  display: flex; align-items: center; padding: 0 16px; gap: 10px;
+}
+.penny-header .sparkle-icon {
+  width: 32px; height: 32px; display: flex; align-items: center;
+  justify-content: center; color: #fff; background: #3f9107; border-radius: 50%; font-size: 18px;
+}
+.penny-header .penny-title-wrap { display: flex; align-items: center; gap: 8px; }
+.penny-header .penny-title { font-size: 18px; font-weight: 700; color: #252b37; }
+.penny-header .online-indicator { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #3f9107; }
+.penny-header .online-dot {
+  width: 8px; height: 8px; background: #3f9107; border-radius: 50%;
+  display: inline-block; animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.penny-header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.new-convo-btn {
+  font-family: inherit; font-size: 13px; font-weight: 600; color: #3f9107;
+  background: transparent; border: none; cursor: pointer; padding: 6px 10px;
+  border-radius: 6px; transition: background 0.15s; white-space: nowrap;
+}
+.new-convo-btn:hover { background: #f4f5f5; }
+.close-btn {
+  width: 32px; height: 32px; border-radius: 6px; border: none; background: transparent;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #717680; font-size: 24px; line-height: 1; transition: background 0.15s;
+}
+.close-btn:hover { background: #f4f5f5; color: #252b37; }
+
+.suggested-prompts {
+  padding: 16px; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; border-bottom: 1px solid #e9eaeb;
+}
+.prompt-pill {
+  font-family: inherit; font-size: 12px; font-weight: 500; color: #3f9107;
+  background: #fff; border: 1px solid #3f9107; border-radius: 20px;
+  padding: 10px 16px; cursor: pointer; text-align: left; line-height: 1.4;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.prompt-pill:hover { background: #f0fbe8; box-shadow: 0 1px 4px rgba(63,145,7,0.15); }
+
+.chat-area {
+  flex: 1; overflow-y: auto; padding: 16px; display: flex;
+  flex-direction: column; gap: 16px; -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.message { display: flex; flex-direction: column; max-width: 92%; }
+.message.user { align-self: flex-end; align-items: flex-end; }
+.message.penny { align-self: flex-start; align-items: flex-start; }
+.msg-label { font-size: 11px; color: #717680; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+.msg-label .sparkle-sm { color: #3f9107; font-size: 14px; }
+.msg-bubble { padding: 12px 16px; font-size: 14px; line-height: 1.6; }
+.message.user .msg-bubble { background: #f4f5f5; border-radius: 16px 16px 2px 16px; color: #252b37; }
+.message.penny .msg-bubble { background: #d7f5c3; border-radius: 16px 16px 16px 2px; color: #252b37; padding: 16px; }
+.msg-bubble strong { font-weight: 700; }
+.msg-bubble ul, .msg-bubble ol { margin: 4px 0 8px 18px; }
+.msg-bubble li { margin-bottom: 3px; }
+.msg-bubble p { margin-bottom: 8px; }
+.msg-bubble p:last-child { margin-bottom: 0; }
+.msg-time { font-size: 11px; color: #a4a7ae; margin-top: 4px; }
+
+.feedback-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.penny-feedback-btn {
+  background: transparent; border: 1px solid #d5d7da; border-radius: 6px;
+  width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; color: #717680; transition: background 0.15s, color 0.15s, border-color 0.15s; padding: 0;
+}
+.penny-feedback-btn:hover { background: #f4f5f5; color: #252b37; border-color: #a4a7ae; }
+.penny-feedback-btn.active { background: #d7f5c3; color: #3f9107; border-color: #3f9107; }
+.penny-feedback-btn .material-icons-outlined { font-size: 16px; }
+.copy-btn {
+  margin-left: auto; background: transparent; border: none; cursor: pointer;
+  color: #a4a7ae; display: flex; align-items: center; justify-content: center;
+  padding: 4px; border-radius: 4px; transition: color 0.15s;
+}
+.copy-btn:hover { color: #535862; }
+.copy-btn .material-icons-outlined { font-size: 16px; }
+
+.feedback-form { display: none; margin-top: 10px; background: #f9faf9; border: 1px solid #e9eaeb; border-radius: 8px; padding: 14px; }
+.feedback-form.show { display: block; }
+.feedback-form-title { font-size: 14px; font-weight: 700; color: #252b37; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+.feedback-form-title .close-feedback { background: none; border: none; cursor: pointer; color: #717680; font-size: 18px; line-height: 1; padding: 0; }
+.feedback-form-subtitle { font-size: 13px; color: #717680; margin-bottom: 8px; font-style: italic; }
+.feedback-form textarea {
+  width: 100%; border: 1px solid #d5d7da; border-radius: 6px; padding: 10px;
+  font-family: inherit; font-size: 13px; color: #252b37; resize: vertical;
+  min-height: 60px; outline: none; transition: border-color 0.15s;
+}
+.feedback-form textarea:focus { border-color: #3f9107; }
+.feedback-form textarea::placeholder { color: #a4a7ae; }
+.feedback-form-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.feedback-char-count { font-size: 12px; color: #a4a7ae; }
+.feedback-submit-btn {
+  background: #6c5ce7; color: #fff; border: none; border-radius: 20px;
+  padding: 8px 20px; font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+}
+.feedback-submit-btn:hover { background: #5a4bd1; }
+
+.penny-input-bar { border-top: 1px solid #e9eaeb; padding: 12px 16px; background: #fff; }
+.input-row { display: flex; align-items: center; gap: 8px; }
+.penny-input {
+  flex: 1; height: 44px; border: 1px solid #d5d7da; border-radius: 22px;
+  padding: 0 16px; font-family: inherit; font-size: 14px; color: #252b37;
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.penny-input::placeholder { color: #a4a7ae; }
+.penny-input:focus { border-color: #3f9107; box-shadow: 0 0 0 3px rgba(63,145,7,0.15); }
+.penny-send-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: none; background: #3f9107;
+  color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.penny-send-btn:hover { background: #357a06; }
+.penny-send-btn .material-icons-outlined { font-size: 20px; }
+.conversations-link {
+  display: block; text-align: center; margin-top: 8px; font-size: 13px;
+  font-weight: 600; color: #3f9107; text-decoration: none; cursor: pointer;
+}
+.conversations-link:hover { text-decoration: underline; }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+@media (max-width: 768px) {
+  .penny-panel { width: 320px; }
+  .suggested-prompts { grid-template-columns: 1fr; }
+  .msg-bubble { padding: 10px 14px; }
 }
 </style>
 </head>
@@ -569,7 +732,7 @@ ul { list-style: none; }
     <input type="text" class="search-bar" placeholder="Search for constituents">
   </div>
   <div class="header-right">
-    <a href="03_penny.html" class="ask-penny-btn"><span class="material-icons-outlined sparkle">auto_awesome</span> Ask Penny</a>
+    <button class="ask-penny-btn" id="openPenny"><span class="material-icons-outlined sparkle">auto_awesome</span> Ask Penny</button>
     <button class="header-icon-btn bloom-logo" title="Home"><span class="material-icons-outlined">spa</span></button>
     <span style="width:1px;height:24px;background:#e9eaeb;margin:0 4px;"></span>
     <button class="header-icon-btn" title="Notifications">
@@ -1082,6 +1245,119 @@ ul { list-style: none; }
   <span class="material-icons-outlined">chat_bubble</span>
 </button>
 
+<!-- ════════════ PENNY OVERLAY ════════════ -->
+<div class="dim-overlay" id="dimOverlay"></div>
+
+<!-- ════════════ PENNY AI CHAT PANEL ════════════ -->
+<div class="penny-panel" id="pennyPanel">
+  <!-- Header -->
+  <div class="penny-header">
+    <div class="sparkle-icon">
+      <span class="material-icons-outlined">auto_awesome</span>
+    </div>
+    <div class="penny-title-wrap">
+      <span class="penny-title">Penny</span>
+      <span class="online-indicator">
+        <span class="online-dot"></span>
+        Online
+      </span>
+    </div>
+    <div class="penny-header-right">
+      <button class="new-convo-btn">New Conversation</button>
+      <button class="close-btn" id="closePenny" title="Close"><span class="back-arrow" style="display:none;">&#8592;</span><span class="close-x">&times;</span></button>
+    </div>
+  </div>
+
+  <!-- Suggested Prompts -->
+  <div class="suggested-prompts" id="suggestedPrompts">
+    <button class="prompt-pill" data-prompt="Prepare me for my meeting with Sarah Mitchell tomorrow">Prepare me for my meeting with Sarah</button>
+    <button class="prompt-pill" data-prompt="What's the best ask amount for Sarah Mitchell?">What's the best ask amount?</button>
+    <button class="prompt-pill" data-prompt="Show upgrade opportunities this week">Show upgrade opportunities this week</button>
+    <button class="prompt-pill" data-prompt="Create a cultivation plan for Sarah Mitchell">Create a cultivation plan</button>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area" id="chatArea">
+    <!-- User Message -->
+    <div class="message user">
+      <div class="msg-label">You</div>
+      <div class="msg-bubble">Prepare me for my meeting with Sarah Mitchell tomorrow</div>
+      <div class="msg-time">Just now</div>
+    </div>
+
+    <!-- Penny Response -->
+    <div class="message penny">
+      <div class="msg-label">
+        <span class="material-icons-outlined sparkle-sm">auto_awesome</span>
+        Penny
+      </div>
+      <div class="msg-bubble">
+        <p>Here's your meeting brief for Sarah Mitchell:</p>
+        <p><strong>Key Facts:</strong></p>
+        <ul>
+          <li>3-year donor, lifetime giving $18,750</li>
+          <li>Board member at Riverside Corp (estimated revenue $50M+)</li>
+          <li>Attended Spring Gala Preview last week &mdash; stayed 2 hours, spoke with your ED</li>
+          <li>Engagement level: On Fire</li>
+        </ul>
+        <p><strong>Dataro Intelligence:</strong></p>
+        <ul>
+          <li>Major gift propensity: 94/100 &mdash; she's in your top 5% of prospects</li>
+          <li>Recommended ask: $25,000 for Spring Gala sponsorship</li>
+          <li>Her interests align strongly with your youth education programs</li>
+        </ul>
+        <p><strong>Talking Points:</strong></p>
+        <ol>
+          <li>Thank her for attending the Gala Preview &mdash; mention you noticed she connected with your ED</li>
+          <li>Share impact update on the youth mentoring program (her top interest area)</li>
+          <li>Present the $25,000 Platinum Sponsorship opportunity for the Spring Gala</li>
+          <li>Mention that sponsorship includes naming rights on the youth stage</li>
+        </ol>
+        <p><strong>Risk Factors:</strong></p>
+        <p>None identified. She's highly engaged and giving trajectory is upward.</p>
+        <p>Would you like me to draft a meeting agenda or follow-up email?</p>
+      </div>
+      <div class="msg-time">Just now</div>
+      <!-- Feedback -->
+      <div class="feedback-row">
+        <button class="penny-feedback-btn" id="thumbUp" title="Good response">
+          <span class="material-icons-outlined">thumb_up</span>
+        </button>
+        <button class="penny-feedback-btn" id="thumbDown" title="Bad response">
+          <span class="material-icons-outlined">thumb_down</span>
+        </button>
+        <button class="copy-btn" id="copyBtn" title="Copy response">
+          <span class="material-icons-outlined">content_copy</span>
+        </button>
+      </div>
+      <!-- Feedback Form -->
+      <div class="feedback-form" id="feedbackForm">
+        <div class="feedback-form-title">
+          Thanks for the feedback!
+          <button class="close-feedback" id="closeFeedback">&times;</button>
+        </div>
+        <div class="feedback-form-subtitle" id="feedbackSubtitle">What worked well about this response? (Optional)</div>
+        <textarea id="feedbackTextarea" placeholder="Provide more feedback" maxlength="255"></textarea>
+        <div class="feedback-form-footer">
+          <span class="feedback-char-count" id="feedbackCharCount">255 characters remaining</span>
+          <button class="feedback-submit-btn" id="feedbackSubmitBtn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Bar -->
+  <div class="penny-input-bar">
+    <div class="input-row">
+      <input class="penny-input" id="pennyInput" type="text" placeholder="Ask Penny anything...">
+      <button class="penny-send-btn" id="sendBtn">
+        <span class="material-icons-outlined">arrow_upward</span>
+      </button>
+    </div>
+    <a class="conversations-link" href="#">Conversations</a>
+  </div>
+</div>
+
 <!-- ════════════ JAVASCRIPT ════════════ -->
 <script>
 // Tab switching
@@ -1123,6 +1399,141 @@ function toggleSection(header) {
   if (overlay) {
     overlay.addEventListener('click', function() { sidebar.classList.remove('open'); });
   }
+})();
+
+// Penny panel
+(function() {
+  var panel = document.getElementById('pennyPanel');
+  var dimOverlay = document.getElementById('dimOverlay');
+  var closeBtn = document.getElementById('closePenny');
+  var openBtn = document.getElementById('openPenny');
+  var chatArea = document.getElementById('chatArea');
+  var thumbUp = document.getElementById('thumbUp');
+  var thumbDown = document.getElementById('thumbDown');
+  var copyBtn = document.getElementById('copyBtn');
+  var sendBtn = document.getElementById('sendBtn');
+  var pennyInput = document.getElementById('pennyInput');
+  var feedbackForm = document.getElementById('feedbackForm');
+  var feedbackSubtitle = document.getElementById('feedbackSubtitle');
+  var feedbackTextarea = document.getElementById('feedbackTextarea');
+  var feedbackCharCount = document.getElementById('feedbackCharCount');
+  var closeFeedback = document.getElementById('closeFeedback');
+  var feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
+
+  function openPanel() {
+    panel.classList.add('open');
+    dimOverlay.classList.add('active');
+  }
+  function closePanel() {
+    panel.classList.remove('open');
+    dimOverlay.classList.remove('active');
+  }
+
+  openBtn.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  dimOverlay.addEventListener('click', closePanel);
+
+  // Prompt pills
+  document.querySelectorAll('.prompt-pill').forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      chatArea.scrollTo({ top: 0, behavior: 'smooth' });
+      pill.style.background = '#d7f5c3';
+      setTimeout(function() { pill.style.background = ''; }, 400);
+    });
+  });
+
+  // Thumbs up/down + feedback form
+  thumbUp.addEventListener('click', function() {
+    thumbUp.classList.toggle('active');
+    thumbDown.classList.remove('active');
+    if (thumbUp.classList.contains('active')) {
+      feedbackSubtitle.textContent = 'What worked well about this response? (Optional)';
+      feedbackForm.classList.add('show');
+    } else {
+      feedbackForm.classList.remove('show');
+    }
+  });
+  thumbDown.addEventListener('click', function() {
+    thumbDown.classList.toggle('active');
+    thumbUp.classList.remove('active');
+    if (thumbDown.classList.contains('active')) {
+      feedbackSubtitle.textContent = 'What could be improved about this response? (Optional)';
+      feedbackForm.classList.add('show');
+    } else {
+      feedbackForm.classList.remove('show');
+    }
+  });
+
+  closeFeedback.addEventListener('click', function() {
+    feedbackForm.classList.remove('show');
+    thumbUp.classList.remove('active');
+    thumbDown.classList.remove('active');
+  });
+
+  feedbackTextarea.addEventListener('input', function() {
+    var remaining = 255 - feedbackTextarea.value.length;
+    feedbackCharCount.textContent = remaining + ' characters remaining';
+  });
+
+  feedbackSubmitBtn.addEventListener('click', function() {
+    feedbackForm.classList.remove('show');
+    feedbackTextarea.value = '';
+    feedbackCharCount.textContent = '255 characters remaining';
+  });
+
+  // Copy response
+  copyBtn.addEventListener('click', function() {
+    var pennyBubble = document.querySelector('.message.penny .msg-bubble');
+    if (pennyBubble) {
+      var text = pennyBubble.innerText;
+      navigator.clipboard.writeText(text).then(function() {
+        copyBtn.querySelector('.material-icons-outlined').textContent = 'check';
+        setTimeout(function() {
+          copyBtn.querySelector('.material-icons-outlined').textContent = 'content_copy';
+        }, 1500);
+      });
+    }
+  });
+
+  // Send message
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function handleSend() {
+    var text = pennyInput.value.trim();
+    if (!text) return;
+
+    var userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.innerHTML = '<div class="msg-label">You</div>' +
+      '<div class="msg-bubble">' + escapeHtml(text) + '</div>' +
+      '<div class="msg-time">Just now</div>';
+    chatArea.appendChild(userMsg);
+    pennyInput.value = '';
+
+    var typingMsg = document.createElement('div');
+    typingMsg.className = 'message penny';
+    typingMsg.innerHTML = '<div class="msg-label"><span class="material-icons-outlined sparkle-sm">auto_awesome</span> Penny</div>' +
+      '<div class="msg-bubble" style="padding:12px 16px;"><span style="animation:blink 1s infinite;">Thinking...</span></div>';
+    chatArea.appendChild(typingMsg);
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    setTimeout(function() {
+      typingMsg.querySelector('.msg-bubble').innerHTML =
+        '<p>I\'d be happy to help with that! Based on Sarah Mitchell\'s profile and recent engagement data, I can provide more detailed insights. Is there a specific aspect you\'d like me to focus on?</p>';
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }, 1500);
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  pennyInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleSend();
+  });
+
+  chatArea.scrollTop = chatArea.scrollHeight;
 })();
 </script>
 </body>
