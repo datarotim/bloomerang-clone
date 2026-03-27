@@ -536,23 +536,6 @@ ul { list-style: none; }
   body { font-size: 14px; }
   .floating-chat-btn { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
   .search-bar, input[type="text"], input[type="email"], input[type="search"] { font-size: 16px; }
-  /* Penny panel full-screen on mobile */
-  .penny-panel { width: 100%; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2100; }
-  .dim-overlay { display: none !important; }
-  .close-btn .close-x { display: none; }
-  .close-btn .back-arrow { display: inline !important; }
-  .close-btn { width: 44px; height: 44px; font-size: 28px; }
-  .suggested-prompts { grid-template-columns: 1fr; }
-  .penny-input-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
-    z-index: 10;
-  }
-  .penny-input { height: 44px; font-size: 16px; }
-  .penny-send-btn { width: 44px; height: 44px; }
-  .prompt-pill { min-height: 44px; display: flex; align-items: center; }
-  .penny-feedback-btn { min-width: 44px; min-height: 44px; }
-  .new-convo-btn { min-height: 44px; }
 }
 
 /* ── PENNY OVERLAY & PANEL ── */
@@ -699,6 +682,29 @@ ul { list-style: none; }
   .penny-panel { width: 320px; }
   .suggested-prompts { grid-template-columns: 1fr; }
   .msg-bubble { padding: 10px 14px; }
+}
+
+@media (max-width: 480px) {
+  .penny-panel {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: auto;
+    z-index: 2100; transform: translateX(100%);
+  }
+  .penny-panel.open { transform: translateX(0); }
+  .dim-overlay { display: none !important; }
+  .close-btn .close-x { display: none; }
+  .close-btn .back-arrow { display: inline !important; }
+  .close-btn { width: 44px; height: 44px; font-size: 28px; }
+  .suggested-prompts { grid-template-columns: 1fr; }
+  .penny-input-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 10;
+  }
+  .penny-input { height: 44px; font-size: 16px; }
+  .penny-send-btn { width: 44px; height: 44px; }
+  .prompt-pill { min-height: 44px; display: flex; align-items: center; }
+  .penny-feedback-btn { min-width: 44px; min-height: 44px; }
+  .new-convo-btn { min-height: 44px; }
 }
 </style>
 </head>
