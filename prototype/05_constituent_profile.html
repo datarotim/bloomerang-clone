@@ -669,6 +669,16 @@ hamburgerBtn.addEventListener('click', function() {
 sidebarOverlay.addEventListener('click', function() {
   sidebar.classList.remove('open');
 });
+
+// Tab navigation
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var label = this.textContent.trim();
+    if (label === 'Summary') { window.location.href = '02_constituent.html'; }
+    else if (label === 'Timeline') { window.location.href = '06_constituent_timeline.html'; }
+    else if (label.indexOf('ProspectAI') !== -1) { window.location.href = '02_constituent.html#prospectai'; }
+  });
+});
 </script>
 
 </body>
