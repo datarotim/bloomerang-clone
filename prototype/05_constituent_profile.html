@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarah Mitchell - Profile | Bloomerang CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Quicksand', system-ui, -apple-system, sans-serif; background: #f4f5f5; color: #252b37; line-height: 1.5; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 200px;
+  background: #fff; border-right: 1px solid #e9eaeb; z-index: 1030;
+  display: flex; flex-direction: column; transition: width 0.3s ease;
+}
+.sidebar-logo { padding: 16px 20px 12px; border-bottom: 1px solid #e9eaeb; }
+.sidebar-logo .logo-text {
+  font-size: 20px; font-weight: 700; color: #252b37; letter-spacing: -0.5px;
+  position: relative; display: inline-block; padding-top: 14px;
+}
+.sidebar-logo .logo-text::before {
+  content: '';
+  position: absolute; top: 0; left: 1px;
+  width: 12px; height: 14px;
+  background: #6abf40;
+  clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+  transform: rotate(-10deg);
+}
+.sidebar-logo .logo-sub {
+  font-size: 11px; font-weight: 700; color: #252b37; display: flex; align-items: center; gap: 6px; margin-top: -2px;
+}
+.sidebar-logo .logo-sub .bar { width: 24px; height: 3px; background: #3f9107; border-radius: 2px; }
+.sidebar-collapse {
+  position: absolute; top: 18px; right: -12px; width: 24px; height: 24px;
+  background: #fff; border: 1px solid #d5d7da; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; color: #717680;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
+}
+.sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-nav li { position: relative; }
+.sidebar-nav li a {
+  display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+  font-size: 14px; font-weight: 500; color: #535862; transition: all 0.15s ease;
+}
+.sidebar-nav li a:hover { background: #f4f5f5; }
+.sidebar-nav li a .material-icons-outlined { font-size: 20px; color: #a4a7ae; }
+.sidebar-nav li.active a {
+  background: #d7f5c3; color: #3f9107; border-left: 3px solid #3f9107;
+  padding-left: 17px;
+}
+.sidebar-nav li.active a .material-icons-outlined { color: #3f9107; }
+.sidebar-nav li a .chevron { margin-left: auto; font-size: 16px; color: #a4a7ae; }
+
+/* ── TOP HEADER ── */
+.top-header {
+  position: fixed; top: 0; left: 200px; right: 0; height: 56px;
+  background: #fff; border-bottom: 1px solid #e9eaeb; z-index: 1020;
+  display: flex; align-items: center; padding: 0 16px; gap: 12px;
+}
+.search-wrapper { display: flex; align-items: center; flex: 1; max-width: 520px; gap: 0; }
+.search-type {
+  padding: 7px 12px; border: 1px solid #d5d7da; border-right: none;
+  border-radius: 6px 0 0 6px; background: #fff; font-size: 13px;
+  color: #535862; display: flex; align-items: center; gap: 4px; height: 36px;
+  font-family: inherit; font-weight: 500;
+}
+.search-bar {
+  flex: 1; height: 36px; border: 1px solid #d5d7da; border-radius: 0 6px 6px 0;
+  padding: 0 12px 0 36px; font-size: 14px; font-family: inherit;
+  background: #fff; color: #252b37;
+}
+.search-bar::placeholder { color: #a4a7ae; }
+.search-icon {
+  position: absolute; left: 168px; top: 50%; transform: translateY(-50%);
+  color: #a4a7ae; font-size: 18px; pointer-events: none;
+}
+.header-right { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.header-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; color: #535862; position: relative;
+}
+.header-icon-btn:hover { background: #f4f5f5; }
+.header-icon-btn .material-icons-outlined { font-size: 22px; }
+.header-icon-btn.bloom-logo .material-icons-outlined { color: #3f9107; font-size: 20px; }
+.notif-dot {
+  position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
+  background: #dc3545; border-radius: 50%; border: 2px solid #fff;
+}
+.ask-penny-btn {
+  display: flex; align-items: center; gap: 6px; padding: 7px 16px;
+  background: #3f9107; color: #fff; border-radius: 20px; font-size: 13px;
+  font-weight: 600; font-family: inherit; transition: background 0.15s;
+}
+.ask-penny-btn:hover { background: #357a06; }
+.ask-penny-btn .sparkle { font-size: 16px; }
+.avatar-btn {
+  width: 32px; height: 32px; border-radius: 50%; background: #535862;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.apps-grid-btn .material-icons-outlined { font-size: 20px; }
+
+/* ── MAIN CONTENT ── */
+.main-content { margin-left: 200px; margin-top: 56px; min-height: calc(100vh - 56px); }
+
+/* ── CONSTITUENT HEADER ── */
+.constituent-header {
+  background: #fff; border-bottom: 1px solid #e9eaeb; padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: #d5d7da;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.profile-avatar .material-icons-outlined { font-size: 28px; color: #fff; }
+.profile-info-name { flex: 0 0 auto; min-width: 160px; padding-right: 24px; border-right: 1px solid #e9eaeb; }
+.profile-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.profile-name { font-size: 20px; font-weight: 700; color: #252b37; }
+.profile-id { font-size: 13px; color: #a4a7ae; font-weight: 500; }
+.profile-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.profile-badge.active { background: #4AA74B; }
+.profile-detail-columns { display: flex; align-items: flex-start; gap: 24px; flex: 1; padding: 0 16px; }
+.profile-detail-col { font-size: 13px; color: #535862; line-height: 1.4; }
+.profile-detail-col .label { font-size: 12px; font-weight: 700; color: #252b37; margin-bottom: 2px; }
+.profile-detail-col a { color: #2B8C96; }
+.profile-dropdown {
+  width: 44px; height: 44px; border-radius: 50%; background: #2B8C96;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: auto;
+}
+.profile-dropdown .material-icons-outlined { font-size: 26px; }
+
+/* ── TABS ── */
+.tabs-bar {
+  background: #fff; padding: 0 24px; display: flex; align-items: center;
+  border-bottom: 1px solid #e9eaeb;
+}
+.tabs-list { display: flex; gap: 4px; padding: 10px 0; }
+.tab-btn {
+  padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;
+  color: #717680; background: none; font-family: inherit; transition: all 0.15s;
+}
+.tab-btn:hover { background: #f4f5f5; color: #535862; }
+.tab-btn.active { background: #4AA74B; color: #fff; }
+.tab-btn.active:hover { background: #3f9107; }
+.tab-btn.dataro-tab { color: #2B8C96; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.tab-btn.dataro-tab .material-icons-outlined { color: #2B8C96; }
+.tabs-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.edit-dropdown-btn {
+  padding: 6px 14px; border: 1px solid #d5d7da; border-radius: 6px;
+  font-size: 13px; font-weight: 600; color: #535862; background: #fff;
+  display: flex; align-items: center; gap: 4px; font-family: inherit;
+}
+.edit-dropdown-btn:hover { background: #f4f5f5; }
+
+/* ── PROFILE TAB CONTENT ── */
+.profile-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  padding: 24px; max-width: 1200px;
+}
+.card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); padding: 20px; margin-bottom: 20px;
+}
+.card:last-child { margin-bottom: 0; }
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; line-height: 1;
+}
+.card-title { font-size: 18px; font-weight: 700; color: #252b37; }
+.card-add-btn {
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid #d5d7da;
+  display: flex; align-items: center; justify-content: center; color: #535862;
+  font-size: 18px; transition: all 0.15s;
+}
+.card-add-btn:hover { background: #f4f5f5; border-color: #a4a7ae; }
+
+/* Field rows */
+.field-group { margin-bottom: 20px; }
+.field-group:last-child { margin-bottom: 0; }
+.field-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid #f4f5f5;
+}
+.field-row:last-child { border-bottom: none; }
+.field-label { font-size: 13px; font-weight: 600; color: #535862; min-width: 140px; }
+.field-value { font-size: 14px; color: #252b37; font-weight: 500; flex: 1; }
+.field-value a { color: #2B8C96; }
+.field-value .social-icon { display: inline-flex; align-items: center; gap: 8px; }
+.field-value .social-icon .material-icons-outlined { font-size: 20px; }
+
+/* Address card */
+.address-entry { padding: 12px 0; border-bottom: 1px solid #f4f5f5; }
+.address-entry:last-child { border-bottom: none; }
+.address-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.address-type { font-size: 13px; font-weight: 600; color: #535862; }
+.primary-badge {
+  display: inline-block; padding: 1px 8px; border-radius: 3px;
+  background: #4AA74B; color: #fff; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.address-text { font-size: 14px; color: #252b37; line-height: 1.5; margin-bottom: 4px; }
+.address-text a { color: #2B8C96; }
+.address-actions { display: flex; gap: 12px; align-items: center; }
+.address-link {
+  font-size: 12px; font-weight: 600; color: #2B8C96; cursor: pointer;
+}
+.address-link:hover { text-decoration: underline; }
+.edit-btn {
+  padding: 4px 14px; border: 1px solid #d5d7da; border-radius: 4px;
+  font-size: 12px; font-weight: 600; color: #535862; background: #fff;
+  font-family: inherit;
+}
+.edit-btn:hover { background: #f4f5f5; }
+
+/* Contact entry (phone/email) */
+.contact-entry {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid #f4f5f5;
+}
+.contact-entry:last-child { border-bottom: none; }
+.contact-info { display: flex; align-items: center; gap: 8px; }
+.contact-type { font-size: 13px; color: #535862; font-weight: 500; }
+.contact-value { font-size: 14px; color: #252b37; font-weight: 500; }
+.contact-value a { color: #2B8C96; }
+
+/* Dataro Enrichment */
+.dataro-enrichment {
+  background: #F0FBFF; border-left: 4px solid #00B4D8;
+  border-radius: 0 8px 8px 0; padding: 20px; margin: 0 24px 24px;
+  max-width: 1160px;
+}
+.dataro-enrichment-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.dataro-enrichment-header .material-icons-outlined { color: #00B4D8; font-size: 20px; }
+.dataro-enrichment-header .title { font-size: 16px; font-weight: 700; color: #252b37; }
+.dataro-enrichment-header .powered {
+  margin-left: auto; font-size: 11px; color: #a4a7ae;
+}
+.dataro-enrichment-header .powered span { color: #00B4D8; font-weight: 600; }
+.enrichment-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.enrichment-item { background: #fff; border-radius: 8px; padding: 14px; border: 1px solid #e0f4f8; }
+.enrichment-item .item-label { font-size: 11px; font-weight: 700; color: #00B4D8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.enrichment-item .item-value { font-size: 14px; font-weight: 600; color: #252b37; }
+.enrichment-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.enrichment-tag {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 12px; font-weight: 600; background: #e0f4f8; color: #00B4D8;
+}
+
+/* ── FLOATING CHAT BUTTON ── */
+.floating-chat-btn {
+  position: fixed; bottom: 24px; left: 24px; width: 48px; height: 48px;
+  border-radius: 50%; background: #4AA74B; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1040;
+}
+.floating-chat-btn:hover { background: #3f9107; }
+.floating-chat-btn .material-icons-outlined { font-size: 24px; }
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; font-size: 24px; color: #535862;
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  border-radius: 6px; transition: background .15s;
+}
+.hamburger:hover { background: #f4f5f5; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1999; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 992px) {
+  .profile-layout { grid-template-columns: 1fr; }
+  .enrichment-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 64px; }
+  .sidebar .logo-text, .sidebar-nav li a span, .sidebar-nav li a .chevron, .sidebar-logo .logo-sub { display: none; }
+  .sidebar-nav li a { justify-content: center; padding: 12px 0; }
+  .sidebar-nav li.active a { padding-left: 0; border-left: 3px solid #3f9107; }
+  .sidebar-collapse { display: none; }
+  .top-header { left: 64px; }
+  .main-content { margin-left: 64px; }
+  .constituent-header { flex-wrap: wrap; }
+  .profile-detail-columns { gap: 12px; flex-wrap: wrap; }
+  .profile-info-name { border-right: none; padding-right: 0; }
+  .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 200px;
+    transform: translateX(-100%); transition: transform 0.3s ease; z-index: 2000;
+  }
+  .sidebar .logo-text, .sidebar-nav li a span, .sidebar-nav li a .chevron, .sidebar-logo .logo-sub { display: initial; }
+  .sidebar-nav li a { justify-content: flex-start; padding: 12px 20px; }
+  .sidebar-nav li.active a { padding-left: 17px; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open + .sidebar-overlay { display: block; }
+  .hamburger { display: flex; }
+  .top-header { left: 0; padding: 0 10px; }
+  .main-content { margin-left: 0; }
+  .profile-layout { padding: 12px; gap: 12px; }
+  .constituent-header { flex-direction: column; text-align: center; gap: 12px; padding: 16px; }
+  .profile-info-name { border-right: none; padding-right: 0; min-width: auto; }
+  .profile-detail-columns { flex-direction: column; padding: 0; gap: 8px; }
+  .profile-dropdown { margin-left: 0; }
+  .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 2px; }
+  .tab-btn { font-size: 13px; padding: 8px 14px; white-space: nowrap; flex-shrink: 0; min-height: 44px; }
+  .tabs-right { display: none; }
+  .card { padding: 16px; }
+  .enrichment-grid { grid-template-columns: 1fr; }
+  .dataro-enrichment { margin: 0 12px 12px; padding: 16px; }
+  .search-type { display: none; }
+  .ask-penny-btn { padding: 7px 10px; font-size: 12px; }
+  body { font-size: 14px; }
+  .floating-chat-btn { bottom: 16px; left: 16px; }
+  .search-bar, input[type="text"] { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Bloomerang</div>
+    <div class="logo-sub"><span class="bar"></span> CRM</div>
+  </div>
+  <button class="sidebar-collapse">
+    <span class="material-icons-outlined">chevron_left</span>
+  </button>
+  <ul class="sidebar-nav">
+    <li>
+      <a href="01_home.html">
+        <span class="material-icons-outlined">home</span>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="active">
+      <a href="02_constituent.html">
+        <span class="material-icons-outlined">people</span>
+        <span>Constituents</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="material-icons-outlined">workspaces</span>
+        <span>Groups</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="material-icons-outlined">bar_chart</span>
+        <span>Reports</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="material-icons-outlined">mail</span>
+        <span>Communications</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="material-icons-outlined">build</span>
+        <span>Data Tools</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="material-icons-outlined">settings</span>
+        <span>Settings</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── TOP HEADER ── -->
+<header class="top-header">
+  <button class="hamburger" id="hamburgerBtn">
+    <span class="material-icons-outlined">menu</span>
+  </button>
+  <div class="search-wrapper" style="position:relative;">
+    <button class="search-type">All <span class="material-icons-outlined" style="font-size:16px;">expand_more</span></button>
+    <span class="material-icons-outlined search-icon" style="position:absolute;left:52px;top:50%;transform:translateY(-50%);">search</span>
+    <input type="text" class="search-bar" placeholder="Search constituents..." style="padding-left:36px;">
+  </div>
+  <div class="header-right">
+    <button class="ask-penny-btn">
+      <span class="material-icons-outlined sparkle">auto_awesome</span>
+      Ask Penny
+    </button>
+    <button class="header-icon-btn">
+      <span class="material-icons-outlined">help_outline</span>
+    </button>
+    <button class="header-icon-btn">
+      <span class="material-icons-outlined">notifications</span>
+      <span class="notif-dot"></span>
+    </button>
+    <button class="header-icon-btn apps-grid-btn">
+      <span class="material-icons-outlined">apps</span>
+    </button>
+    <button class="avatar-btn">JD</button>
+  </div>
+</header>
+
+<!-- ── MAIN CONTENT ── -->
+<main class="main-content">
+
+  <!-- Constituent Header -->
+  <div class="constituent-header">
+    <div class="profile-avatar">
+      <span class="material-icons-outlined">person</span>
+    </div>
+    <div class="profile-info-name">
+      <div class="profile-name-row">
+        <span class="profile-name">Sarah Mitchell</span>
+        <span class="profile-id">#158</span>
+      </div>
+      <span class="profile-badge active">Active</span>
+    </div>
+    <div class="profile-detail-columns">
+      <div class="profile-detail-col">
+        <div class="label">Address</div>
+        4521 Oak Valley Drive<br>Indianapolis, IN 46220
+      </div>
+      <div class="profile-detail-col">
+        <div class="label">Phone</div>
+        Mobile (317) 555-0184
+      </div>
+    </div>
+    <button class="profile-dropdown">
+      <span class="material-icons-outlined">more_vert</span>
+    </button>
+  </div>
+
+  <!-- Tabs Bar -->
+  <div class="tabs-bar">
+    <div class="tabs-list">
+      <button class="tab-btn">Summary</button>
+      <button class="tab-btn active">Profile</button>
+      <button class="tab-btn">Timeline</button>
+      <button class="tab-btn">Relationships</button>
+      <button class="tab-btn dataro-tab">
+        <span class="material-icons-outlined" style="font-size:16px;">auto_awesome</span>
+        ProspectAI
+      </button>
+    </div>
+    <div class="tabs-right">
+      <button class="edit-dropdown-btn">
+        Edit
+        <span class="material-icons-outlined" style="font-size:16px;">expand_more</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Profile Tab Content -->
+  <div class="profile-layout">
+
+    <!-- LEFT COLUMN -->
+    <div class="profile-col-left">
+
+      <!-- Basic Info Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Basic Info</h2>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <span class="field-label">Status</span>
+            <span class="field-value">Active</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Informal Name</span>
+            <span class="field-value">Sarah</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Formal Name</span>
+            <span class="field-value">Ms. Sarah Mitchell</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Envelope Name</span>
+            <span class="field-value">Ms. Sarah Mitchell</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Recognition Name</span>
+            <span class="field-value">Ms. Sarah Mitchell</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Information Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Personal Information</h2>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <span class="field-label">Facebook</span>
+            <span class="field-value">
+              <span class="social-icon">
+                <span class="material-icons-outlined">public</span>
+                <a href="#">facebook.com/sarah.mitchell</a>
+              </span>
+            </span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Twitter/X</span>
+            <span class="field-value">
+              <span class="social-icon">
+                <span class="material-icons-outlined">tag</span>
+                <a href="#">@sarahmitchell</a>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="profile-col-right">
+
+      <!-- Addresses Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Addresses</h2>
+          <button class="card-add-btn">
+            <span class="material-icons-outlined" style="font-size:18px;">add</span>
+          </button>
+        </div>
+        <div class="address-entry">
+          <div class="address-header">
+            <span class="address-type">Home</span>
+            <span class="primary-badge">Primary</span>
+          </div>
+          <div class="address-text">4521 Oak Valley Drive<br>Indianapolis, IN 46220</div>
+          <div class="address-actions">
+            <span class="address-link">Find address</span>
+            <button class="edit-btn">Edit</button>
+          </div>
+        </div>
+        <div class="address-entry">
+          <div class="address-header">
+            <span class="address-type">Vacation</span>
+          </div>
+          <div class="address-text">892 Lakeshore Blvd<br>Naples, FL 34102</div>
+          <div class="address-actions">
+            <button class="edit-btn">Edit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emails Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Emails</h2>
+          <button class="card-add-btn">
+            <span class="material-icons-outlined" style="font-size:18px;">add</span>
+          </button>
+        </div>
+        <div class="contact-entry">
+          <div class="contact-info">
+            <span class="contact-value"><a href="mailto:sarah.mitchell@email.com">sarah.mitchell@email.com</a></span>
+            <span class="primary-badge">Primary</span>
+          </div>
+          <button class="edit-btn">Edit</button>
+        </div>
+      </div>
+
+      <!-- Phone Numbers Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Phone Numbers</h2>
+          <button class="card-add-btn">
+            <span class="material-icons-outlined" style="font-size:18px;">add</span>
+          </button>
+        </div>
+        <div class="contact-entry">
+          <div class="contact-info">
+            <span class="contact-type">Mobile</span>
+            <span class="primary-badge">Primary</span>
+            <span class="contact-value">(317) 555-0184</span>
+          </div>
+          <button class="edit-btn">Edit</button>
+        </div>
+        <div class="contact-entry">
+          <div class="contact-info">
+            <span class="contact-type">Home</span>
+            <span class="contact-value">(317) 555-0299</span>
+          </div>
+          <button class="edit-btn">Edit</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Dataro Enrichment Section -->
+  <div class="dataro-enrichment">
+    <div class="dataro-enrichment-header">
+      <span class="material-icons-outlined">auto_awesome</span>
+      <span class="title">Dataro Enrichment</span>
+      <span class="powered">Powered by <span>Dataro</span></span>
+    </div>
+    <div class="enrichment-grid">
+      <div class="enrichment-item">
+        <div class="item-label">Inferred Age Range</div>
+        <div class="item-value">45-54</div>
+      </div>
+      <div class="enrichment-item">
+        <div class="item-label">Predicted Interests</div>
+        <div class="enrichment-tags">
+          <span class="enrichment-tag">Education</span>
+          <span class="enrichment-tag">Arts &amp; Culture</span>
+          <span class="enrichment-tag">Youth Development</span>
+        </div>
+      </div>
+      <div class="enrichment-item">
+        <div class="item-label">Wealth Indicators</div>
+        <div class="item-value">High Capacity &mdash; $25K-$50K estimated</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Floating Chat Button -->
+<button class="floating-chat-btn">
+  <span class="material-icons-outlined">chat</span>
+</button>
+
+<script>
+// Hamburger toggle for mobile sidebar
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+hamburgerBtn.addEventListener('click', function() {
+  sidebar.classList.toggle('open');
+});
+
+// Sidebar overlay click to close
+sidebarOverlay.addEventListener('click', function() {
+  sidebar.classList.remove('open');
+});
+</script>
+
+</body>
+</html>
