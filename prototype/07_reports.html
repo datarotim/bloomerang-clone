@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports - Bloomerang CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Quicksand',sans-serif;background:#f4f5f5;color:#252b37;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+
+  /* ===== SIDEBAR ===== */
+  .sidebar{position:fixed;top:0;left:0;width:200px;height:100vh;background:#fff;border-right:1px solid #e9eaeb;z-index:100;display:flex;flex-direction:column;transition:width .2s}
+  .sidebar-logo{padding:16px 18px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #e9eaeb}
+  .sidebar-logo .logo-text{font-size:17px;font-weight:700;color:#252b37}
+  .sidebar-logo .logo-text span{color:#3f9107}
+  .sidebar-logo .logo-crm{font-size:10px;font-weight:600;color:#3f9107;background:#d7f5c3;border-radius:3px;padding:1px 5px;margin-left:2px}
+  .sidebar-logo .logo-bar{width:3px;height:22px;background:#3f9107;border-radius:2px;margin-right:4px}
+  .sidebar-nav{flex:1;padding:8px 0}
+  .sidebar-nav a{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13.5px;font-weight:500;color:#535862;transition:background .15s,color .15s;position:relative}
+  .sidebar-nav a:hover{background:#f4f5f5}
+  .sidebar-nav a.active{background:#d7f5c3;color:#3f9107;font-weight:600;border-left:3px solid #3f9107;padding-left:15px}
+  .sidebar-nav a .material-icons-outlined{font-size:20px}
+  .sidebar-nav a .chevron{margin-left:auto;font-size:18px;color:#a4a7ae}
+  .sidebar-collapse{padding:12px 18px;border-top:1px solid #e9eaeb}
+  .sidebar-collapse button{width:28px;height:28px;border-radius:50%;border:1px solid #d5d7da;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#535862}
+  .sidebar-collapse button .material-icons-outlined{font-size:16px}
+
+  /* ===== HEADER ===== */
+  .header{position:fixed;top:0;left:200px;right:0;height:56px;background:#fff;border-bottom:1px solid #e9eaeb;display:flex;align-items:center;padding:0 16px;z-index:90;gap:10px;transition:left .2s}
+  .header-search{display:flex;align-items:center;background:#f4f5f5;border:1px solid #e9eaeb;border-radius:6px;flex:1;max-width:480px;height:34px;overflow:hidden}
+  .header-search .all-btn{padding:0 10px;font-size:12px;font-weight:600;color:#535862;border-right:1px solid #e9eaeb;height:100%;display:flex;align-items:center;gap:3px;cursor:pointer;white-space:nowrap}
+  .header-search .all-btn .material-icons-outlined{font-size:15px}
+  .header-search input{border:none;background:transparent;padding:0 10px;font-family:'Quicksand',sans-serif;font-size:13px;flex:1;outline:none;height:100%}
+  .header-search .search-icon{padding:0 8px;color:#a4a7ae;display:flex;align-items:center}
+  .header-search .search-icon .material-icons-outlined{font-size:18px}
+  .header-right{display:flex;align-items:center;gap:6px;margin-left:auto}
+  .penny-pill{display:flex;align-items:center;gap:5px;background:#3f9107;color:#fff;border-radius:20px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .penny-pill img,.penny-pill .material-icons-outlined{width:18px;height:18px;font-size:18px}
+  .header-divider{width:1px;height:28px;background:#e9eaeb;margin:0 4px}
+  .header-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;position:relative;color:#535862}
+  .header-icon:hover{background:#f4f5f5}
+  .header-icon .material-icons-outlined{font-size:20px}
+  .header-icon .red-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:#dc3545;border-radius:50%;border:2px solid #fff}
+  .bloom-logo{font-size:14px;font-weight:700;color:#3f9107;margin:0 2px}
+  .avatar{width:30px;height:30px;background:#3f9107;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer}
+
+  /* ===== MAIN AREA ===== */
+  .main{margin-left:200px;margin-top:56px;display:flex;min-height:calc(100vh - 56px);transition:margin-left .2s}
+
+  /* Reports folder sidebar */
+  .reports-sidebar{width:200px;min-width:200px;background:#fff;border-right:1px solid #e9eaeb;padding:16px 0}
+  .reports-sidebar .new-folder-btn{display:flex;align-items:center;gap:6px;margin:0 14px 16px;padding:8px 14px;border:1.5px solid #3f9107;border-radius:6px;background:#fff;color:#3f9107;font-family:'Quicksand',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+  .reports-sidebar .new-folder-btn:hover{background:#d7f5c3}
+  .reports-sidebar .new-folder-btn .material-icons-outlined{font-size:18px}
+  .reports-sidebar .folder-list{list-style:none}
+  .reports-sidebar .folder-list li{position:relative}
+  .reports-sidebar .folder-list li a{display:flex;align-items:center;gap:8px;padding:9px 18px;font-size:13.5px;font-weight:500;color:#535862;transition:background .15s}
+  .reports-sidebar .folder-list li a:hover{background:#f4f5f5}
+  .reports-sidebar .folder-list li a.active{font-weight:700;color:#3f9107}
+  .reports-sidebar .folder-list li a.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:#3f9107;border-radius:0 2px 2px 0}
+  .reports-sidebar .folder-list li a .material-icons-outlined{font-size:18px}
+
+  /* Main content */
+  .reports-content{flex:1;padding:24px 28px;overflow-x:hidden;min-width:0}
+
+  /* Dataro Smart Reports Banner */
+  .smart-reports-banner{border:2px solid #00B4D8;background:#F0FBFF;border-radius:10px;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+  .smart-reports-left{display:flex;align-items:center;gap:10px}
+  .smart-reports-left .material-icons-outlined{color:#00B4D8;font-size:22px}
+  .smart-reports-label{font-size:13px;font-weight:700;color:#252b37;letter-spacing:.5px}
+  .smart-reports-sub{font-size:11px;color:#535862;font-weight:500}
+  .smart-reports-pills{display:flex;gap:8px;flex-wrap:wrap}
+  .smart-reports-pills .pill{background:#00B4D8;color:#fff;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap}
+  .smart-reports-pills .pill:hover{background:#2B8C96}
+
+  /* Header row */
+  .reports-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+  .reports-title{font-size:22px;font-weight:700;color:#252b37}
+  .reports-header-actions{display:flex;align-items:center;gap:14px}
+  .report-filters-link{font-size:13px;color:#535862;font-weight:500;cursor:pointer}
+  .report-filters-link:hover{color:#3f9107}
+  .new-report-btn{background:#3f9107;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Quicksand',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background .15s}
+  .new-report-btn:hover{background:#357a06}
+  .new-report-btn .material-icons-outlined{font-size:17px}
+
+  /* Filter row */
+  .filter-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .search-reports{display:flex;align-items:center;background:#fff;border:1px solid #d5d7da;border-radius:6px;height:36px;flex:1;min-width:180px;max-width:360px}
+  .search-reports .material-icons-outlined{font-size:18px;color:#a4a7ae;padding:0 8px}
+  .search-reports input{border:none;background:transparent;font-family:'Quicksand',sans-serif;font-size:13px;outline:none;flex:1;height:100%;padding-right:10px}
+  .filter-pills{display:flex;gap:6px;flex-wrap:wrap}
+  .filter-pill{display:flex;align-items:center;gap:4px;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;border:1.5px solid #d5d7da;background:#fff;color:#535862;transition:all .15s;white-space:nowrap}
+  .filter-pill.active{background:#4AA74B;color:#fff;border-color:#4AA74B}
+  .filter-pill.active .material-icons-outlined{font-size:15px}
+  .filter-pill:hover:not(.active){border-color:#a4a7ae}
+  .filter-dropdowns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .filter-dropdown{display:flex;align-items:center;gap:4px;padding:5px 12px;border:1px solid #d5d7da;border-radius:6px;background:#fff;font-family:'Quicksand',sans-serif;font-size:12px;font-weight:500;color:#535862;cursor:pointer}
+  .filter-dropdown .material-icons-outlined{font-size:16px;color:#a4a7ae}
+
+  /* Data Table */
+  .table-container{background:#fff;border:1px solid #e9eaeb;border-radius:8px;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:820px}
+  thead th{background:#f8f9fa;text-transform:uppercase;font-size:11.5px;font-weight:600;color:#a4a7ae;padding:11px 14px;text-align:left;white-space:nowrap;letter-spacing:.3px}
+  tbody tr{border-bottom:1px solid #f4f5f5;transition:background .1s}
+  tbody tr:hover{background:#f8f9fa}
+  tbody tr:last-child{border-bottom:none}
+  tbody td{padding:12px 14px;font-size:13px;color:#535862;vertical-align:middle}
+  .report-name{font-weight:700;color:#252b37;cursor:pointer;transition:color .15s}
+  .report-name:hover{color:#3f9107}
+  .freq-none{color:#a4a7ae}
+  .action-btn{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border:1px solid #d5d7da;border-radius:5px;background:#fff;font-family:'Quicksand',sans-serif;font-size:12px;font-weight:500;color:#535862;cursor:pointer;transition:border-color .15s}
+  .action-btn:hover{border-color:#a4a7ae}
+  .action-btn .material-icons-outlined{font-size:15px}
+
+  /* Pagination */
+  .pagination-row{display:flex;align-items:center;justify-content:flex-end;padding:14px 0;gap:16px;font-size:13px;color:#535862;flex-wrap:wrap}
+  .pagination-row label{display:flex;align-items:center;gap:6px;font-weight:500}
+  .pagination-row select{border:1px solid #d5d7da;border-radius:5px;padding:3px 6px;font-family:'Quicksand',sans-serif;font-size:12px;background:#fff;color:#252b37;cursor:pointer}
+  .pagination-row .page-info{font-weight:600}
+  .pagination-row .page-arrows{display:flex;gap:4px}
+  .pagination-row .page-arrows button{width:30px;height:30px;border:1px solid #d5d7da;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#535862;transition:background .15s}
+  .pagination-row .page-arrows button:disabled{opacity:.4;cursor:default}
+  .pagination-row .page-arrows button:hover:not(:disabled){background:#f4f5f5}
+  .pagination-row .page-arrows button .material-icons-outlined{font-size:18px}
+
+  /* Floating Chat */
+  .chat-fab{position:fixed;bottom:24px;left:24px;width:48px;height:48px;background:#3f9107;color:#fff;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.2);z-index:200;transition:background .15s}
+  .chat-fab:hover{background:#357a06}
+  .chat-fab .material-icons-outlined{font-size:24px}
+
+  /* ===== HAMBURGER (mobile) ===== */
+  .hamburger{display:none;width:36px;height:36px;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#535862}
+  .hamburger .material-icons-outlined{font-size:24px}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:992px){
+    .reports-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid #e9eaeb;padding:10px 0}
+    .main{flex-direction:column}
+    .reports-sidebar .folder-list{display:flex;gap:0;padding:0 10px}
+    .reports-sidebar .folder-list li a{padding:8px 14px;font-size:13px}
+    .reports-sidebar .new-folder-btn{margin:0 14px 8px}
+  }
+  @media(max-width:768px){
+    .sidebar{width:64px}
+    .sidebar-logo .logo-text,.sidebar-logo .logo-crm,.sidebar-nav a span,.sidebar-nav a .chevron{display:none}
+    .sidebar-nav a{justify-content:center;padding:12px 0}
+    .sidebar-nav a.active{padding-left:0;border-left:3px solid #3f9107}
+    .sidebar-collapse{display:none}
+    .header{left:64px}
+    .main{margin-left:64px}
+    .smart-reports-banner{flex-direction:column;align-items:flex-start}
+  }
+  @media(max-width:480px){
+    .sidebar{width:0;overflow:hidden}
+    .sidebar.open{width:200px}
+    .sidebar.open~.header,.sidebar.open~.main{opacity:.5}
+    .header{left:0}
+    .main{margin-left:0}
+    .hamburger{display:flex}
+    .reports-content{padding:16px 12px}
+    .reports-title{font-size:18px}
+    .filter-row{flex-direction:column;align-items:stretch}
+    .search-reports{max-width:100%}
+    .smart-reports-pills .pill{font-size:11px;padding:5px 10px}
+    .smart-reports-label{font-size:12px}
+    .penny-pill span.penny-label{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-bar"></div>
+    <div class="logo-text">bloomerang</div>
+    <span class="logo-crm">CRM</span>
+  </div>
+  <div class="sidebar-nav">
+    <a href="01_home.html"><span class="material-icons-outlined">home</span><span>Home</span></a>
+    <a href="02_constituent.html"><span class="material-icons-outlined">people</span><span>Constituents</span></a>
+    <a href="#"><span class="material-icons-outlined">workspaces</span><span>Groups</span></a>
+    <a href="07_reports.html" class="active"><span class="material-icons-outlined">assessment</span><span>Reports</span></a>
+    <a href="#"><span class="material-icons-outlined">email</span><span>Communications</span><span class="material-icons-outlined chevron">expand_more</span></a>
+    <a href="#"><span class="material-icons-outlined">build</span><span>Data Tools</span><span class="material-icons-outlined chevron">expand_more</span></a>
+    <a href="#"><span class="material-icons-outlined">settings</span><span>Settings</span><span class="material-icons-outlined chevron">expand_more</span></a>
+  </div>
+  <div class="sidebar-collapse">
+    <button onclick="document.getElementById('sidebar').classList.toggle('collapsed')" title="Collapse sidebar">
+      <span class="material-icons-outlined">chevron_left</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
+    <span class="material-icons-outlined">menu</span>
+  </button>
+  <div class="header-search">
+    <div class="all-btn">All <span class="material-icons-outlined">expand_more</span></div>
+    <input type="text" placeholder="Search...">
+    <div class="search-icon"><span class="material-icons-outlined">search</span></div>
+  </div>
+  <div class="header-right">
+    <a href="03_penny.html" class="penny-pill">
+      <span class="material-icons-outlined">auto_awesome</span>
+      <span class="penny-label">Ask Penny</span>
+    </a>
+    <span class="bloom-logo">bloom</span>
+    <div class="header-divider"></div>
+    <div class="header-icon">
+      <span class="material-icons-outlined">notifications</span>
+      <span class="red-dot"></span>
+    </div>
+    <div class="header-icon">
+      <span class="material-icons-outlined">help_outline</span>
+    </div>
+    <div class="avatar">JD</div>
+    <div class="header-icon">
+      <span class="material-icons-outlined">apps</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- Folder Sidebar -->
+  <aside class="reports-sidebar">
+    <button class="new-folder-btn">
+      <span class="material-icons-outlined">folder_open</span>
+      New Folder
+    </button>
+    <ul class="folder-list">
+      <li><a href="#" class="active"><span class="material-icons-outlined">folder</span> All Reports</a></li>
+    </ul>
+  </aside>
+
+  <!-- Reports Content -->
+  <div class="reports-content">
+
+    <!-- Dataro Smart Reports Banner -->
+    <div class="smart-reports-banner">
+      <div class="smart-reports-left">
+        <span class="material-icons-outlined">auto_awesome</span>
+        <div>
+          <div class="smart-reports-label">SMART REPORTS</div>
+          <div class="smart-reports-sub">Powered by Dataro</div>
+        </div>
+      </div>
+      <div class="smart-reports-pills">
+        <span class="pill">At-Risk Donors (12)</span>
+        <span class="pill">Upgrade Opportunities ($47K)</span>
+        <span class="pill">Lapsed Win-Back (8)</span>
+      </div>
+    </div>
+
+    <!-- Header Row -->
+    <div class="reports-header-row">
+      <h1 class="reports-title">All Reports</h1>
+      <div class="reports-header-actions">
+        <span class="report-filters-link">Report Filters</span>
+        <button class="new-report-btn">
+          <span class="material-icons-outlined">add</span>
+          New Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Row -->
+    <div class="filter-row">
+      <div class="search-reports">
+        <span class="material-icons-outlined">search</span>
+        <input type="text" placeholder="Search Reports">
+      </div>
+      <div class="filter-pills">
+        <span class="filter-pill active">
+          <span class="material-icons-outlined">check</span>
+          Active
+        </span>
+        <span class="filter-pill">Inactive</span>
+        <span class="filter-pill">Scheduled</span>
+      </div>
+    </div>
+    <div class="filter-dropdowns">
+      <button class="filter-dropdown">Types <span class="material-icons-outlined">expand_more</span></button>
+      <button class="filter-dropdown">Created/Modified By <span class="material-icons-outlined">expand_more</span></button>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Frequency</th>
+            <th>Type</th>
+            <th>Folder</th>
+            <th>Date Created</th>
+            <th>Last Modified</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="report-name">Upcoming Grant Items Due!!!</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>4/9/2025 by kirsten@hopeval...</td>
+            <td>6/5/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Major Gift Prospects without Relationship Managers!</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>4/17/2025 by kirsten@hopeval...</td>
+            <td>6/5/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Major Gift Candidates</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>1/6/2024 by kirsten@hopeval...</td>
+            <td>6/5/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">LYBUNT Report</span></td>
+            <td>Monthly</td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>4/17/2025 by kirsten@hopeval...</td>
+            <td>6/5/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Annual Campaign Donations</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Transaction</td>
+            <td>&mdash;</td>
+            <td>4/17/2025 by kirsten@hopeval...</td>
+            <td>6/5/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Recurring Donor Report</span></td>
+            <td>Weekly</td>
+            <td>Transaction</td>
+            <td>&mdash;</td>
+            <td>5/19/2025 by kirsten@hopeval...</td>
+            <td>5/18/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Board Member Giving</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>3/4/2025 by kirsten@hopeval...</td>
+            <td>4/17/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Event Attendee Follow-Up</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Task</td>
+            <td>&mdash;</td>
+            <td>2/20/2025 by kirsten@hopeval...</td>
+            <td>3/15/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Lapsed Donor Recovery</span></td>
+            <td><span class="freq-none">None</span></td>
+            <td>Constituent</td>
+            <td>&mdash;</td>
+            <td>1/8/2025 by kirsten@hopeval...</td>
+            <td>2/28/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td><span class="report-name">Year-End Tax Receipts</span></td>
+            <td>Yearly</td>
+            <td>Transaction</td>
+            <td>&mdash;</td>
+            <td>11/5/2024 by kirsten@hopeval...</td>
+            <td>1/15/2025 by kirsten@hopeval...</td>
+            <td><button class="action-btn">Action <span class="material-icons-outlined">expand_more</span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-row">
+      <label>Rows per page:
+        <select>
+          <option>25</option>
+          <option>50</option>
+          <option>100</option>
+        </select>
+      </label>
+      <span class="page-info">1-10 of 10</span>
+      <div class="page-arrows">
+        <button disabled><span class="material-icons-outlined">chevron_left</span></button>
+        <button disabled><span class="material-icons-outlined">chevron_right</span></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Floating Chat Button -->
+<button class="chat-fab" title="Chat">
+  <span class="material-icons-outlined">chat_bubble</span>
+</button>
+
+</body>
+</html>
