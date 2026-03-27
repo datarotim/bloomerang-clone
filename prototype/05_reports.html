@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloomerang CRM — Reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #f4f5f5; color: #252b37; line-height: 1.5; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+input, select { font-family: inherit; }
+
+/* ── TOKENS ── */
+:root {
+  --green: #3f9107;
+  --green-light: #d7f5c3;
+  --green-sage: #D4E8C4;
+  --teal: #2B8C96;
+  --gray-900: #252b37;
+  --gray-700: #535862;
+  --gray-500: #a4a7ae;
+  --gray-400: #717680;
+  --gray-300: #d5d7da;
+  --gray-200: #e9eaeb;
+  --gray-100: #f4f5f5;
+  --white: #ffffff;
+  --orange: #f4913c;
+  --red: #dc3545;
+  --blue: #2a80e4;
+  --dataro: #00B4D8;
+  --dataro-dark: #0096B4;
+  --dataro-light: #48CAE4;
+  --dataro-bg: #F0FBFF;
+  --sidebar-w: 200px;
+  --header-h: 56px;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w); background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  z-index: 1030; display: flex; flex-direction: column;
+  transition: width .25s ease;
+}
+.sidebar-logo { padding: 16px 20px 12px; position: relative; border-bottom: 1px solid var(--gray-200); }
+.sidebar-logo .logo-text {
+  font-size: 20px; font-weight: 700; color: var(--gray-900); letter-spacing: -0.5px;
+  position: relative; display: inline-block; padding-top: 14px;
+}
+.sidebar-logo .logo-text::before {
+  content: '';
+  position: absolute; top: 0; left: 1px;
+  width: 12px; height: 14px;
+  background: #6abf40;
+  clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+  transform: rotate(-10deg);
+}
+.sidebar-logo .crm-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; color: var(--gray-900);
+  margin-top: -2px; letter-spacing: 1px;
+}
+.sidebar-logo .crm-bar {
+  display: inline-block; width: 24px; height: 3px;
+  background: var(--green); border-radius: 2px;
+}
+.collapse-btn {
+  position: absolute; top: 20px; right: -14px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 10;
+  color: var(--gray-500); font-size: 18px;
+}
+.sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-nav .nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; font-size: 14px; font-weight: 500;
+  color: var(--gray-700); cursor: pointer; position: relative;
+  transition: background .15s, color .15s;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+.sidebar-nav .nav-item:hover { background: #f8f9fa; }
+.sidebar-nav .nav-item.active {
+  background: var(--green-light); color: var(--green);
+  border-left-color: var(--green);
+}
+.sidebar-nav .nav-item.active .material-icons-outlined { color: var(--green); }
+.sidebar-nav .nav-item .material-icons-outlined {
+  font-size: 22px; color: var(--gray-500);
+}
+.sidebar-nav .nav-item .chevron {
+  margin-left: auto; font-size: 18px; color: var(--gray-400);
+}
+
+/* ── HEADER ── */
+.header {
+  position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+  height: var(--header-h); background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; z-index: 1020;
+}
+.header-left { display: flex; align-items: center; gap: 0; flex: 1; max-width: 480px; }
+.search-wrapper {
+  display: flex; align-items: center; width: 100%;
+  border: 1px solid var(--gray-300); border-radius: 6px; overflow: hidden;
+  background: var(--white); height: 38px;
+}
+.search-dropdown {
+  display: flex; align-items: center; gap: 4px;
+  padding: 0 12px; font-size: 14px; font-weight: 600;
+  color: var(--gray-700); border-right: 1px solid var(--gray-300);
+  height: 100%; cursor: pointer; white-space: nowrap;
+}
+.search-dropdown .material-icons-outlined { font-size: 18px; }
+.search-input {
+  flex: 1; border: none; outline: none; padding: 0 12px;
+  font-size: 14px; font-family: inherit; color: var(--gray-700);
+  height: 100%; background: transparent;
+}
+.search-input::placeholder { color: var(--gray-500); }
+.search-icon { padding: 0 10px; color: var(--gray-500); display: flex; align-items: center; }
+
+.header-right { display: flex; align-items: center; gap: 6px; }
+.header-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; color: var(--gray-700); transition: background .15s;
+}
+.header-icon-btn:hover { background: var(--gray-100); }
+.header-icon-btn .material-icons-outlined { font-size: 22px; }
+.header-icon-btn.bloom-b { color: var(--green); }
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); border: 2px solid var(--white);
+}
+.ask-penny-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border: none;
+  border-radius: 20px; font-size: 13px; font-weight: 600;
+  color: var(--white); background: var(--green);
+  transition: background .15s;
+}
+.ask-penny-btn:hover { background: #357a06; }
+.ask-penny-btn .sparkle { font-size: 16px; }
+.avatar-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gray-900); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.header-sep { width: 1px; height: 24px; background: var(--gray-200); margin: 0 4px; }
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: var(--sidebar-w); margin-top: var(--header-h);
+  padding: 0; min-height: calc(100vh - var(--header-h));
+  display: flex;
+}
+
+/* ── REPORTS LAYOUT ── */
+.reports-sidebar {
+  width: 200px; min-width: 200px;
+  background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  padding: 20px 0;
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+}
+.reports-sidebar-header {
+  padding: 0 16px 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.reports-title-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.reports-title {
+  font-size: 22px; font-weight: 700; color: var(--gray-900);
+}
+.bookmark-btn {
+  color: var(--gray-400); cursor: pointer; display: flex; align-items: center;
+}
+.bookmark-btn .material-icons-outlined { font-size: 20px; }
+.btn-new-folder {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 16px; background: var(--green); color: var(--white);
+  border-radius: 6px; font-size: 13px; font-weight: 600;
+  width: 100%; transition: background .15s;
+}
+.btn-new-folder:hover { background: #357a06; }
+.folder-icon-small { font-size: 16px; }
+
+.reports-folder-tree {
+  padding: 0;
+}
+.folder-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; font-size: 14px; font-weight: 500;
+  color: var(--gray-700); cursor: pointer;
+  transition: background .15s;
+}
+.folder-item:hover { background: var(--gray-100); }
+.folder-item.active {
+  background: var(--green-light); color: var(--green); font-weight: 600;
+}
+.folder-item .material-icons-outlined { font-size: 20px; }
+.folder-item.active .material-icons-outlined { color: var(--green); }
+.bookmark-icon { font-size: 18px; }
+
+.reports-content {
+  flex: 1; padding: 24px; overflow-x: auto; min-width: 0;
+}
+
+/* ── REPORTS HEADER ── */
+.reports-content-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.reports-content-title {
+  font-size: 20px; font-weight: 700; color: var(--gray-900);
+}
+.reports-header-actions {
+  display: flex; align-items: center; gap: 12px;
+}
+.link-report-filters {
+  font-size: 13px; font-weight: 600; color: var(--teal);
+  cursor: pointer; white-space: nowrap;
+}
+.link-report-filters:hover { text-decoration: underline; }
+.btn-new-report {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 20px; background: var(--teal); color: var(--white);
+  border-radius: 6px; font-size: 13px; font-weight: 600;
+  transition: background .15s;
+}
+.btn-new-report:hover { background: #1f6a72; }
+
+/* ── TOOLBAR ── */
+.reports-toolbar {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.report-search {
+  display: flex; align-items: center;
+  border: 1px solid var(--gray-300); border-radius: 6px;
+  background: var(--white); height: 36px; width: 220px;
+  overflow: hidden;
+}
+.report-search .material-icons-outlined {
+  font-size: 18px; color: var(--gray-500); padding: 0 8px 0 10px;
+}
+.report-search input {
+  flex: 1; border: none; outline: none; font-size: 13px;
+  font-family: inherit; color: var(--gray-700); height: 100%;
+  background: transparent; padding-right: 10px;
+}
+.report-search input::placeholder { color: var(--gray-500); }
+
+.filter-pills {
+  display: flex; gap: 0; border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--gray-300);
+}
+.filter-pill {
+  padding: 7px 14px; font-size: 12px; font-weight: 600;
+  color: var(--gray-700); background: var(--white);
+  border: none; cursor: pointer;
+  transition: background .15s, color .15s;
+  border-right: 1px solid var(--gray-300);
+}
+.filter-pill:last-child { border-right: none; }
+.filter-pill.active {
+  background: var(--green); color: var(--white);
+}
+.filter-pill .check-icon {
+  font-size: 14px; margin-right: 2px; vertical-align: middle;
+}
+.filter-pill:hover:not(.active) { background: var(--gray-100); }
+
+.toolbar-right {
+  display: flex; align-items: center; gap: 12px; margin-left: auto;
+}
+.type-dropdown, .created-dropdown {
+  display: flex; align-items: center; gap: 4px;
+  padding: 7px 12px; border: 1px solid var(--gray-300);
+  border-radius: 6px; font-size: 13px; font-weight: 500;
+  color: var(--gray-700); background: var(--white);
+  cursor: pointer; height: 36px;
+}
+.type-dropdown .material-icons-outlined,
+.created-dropdown .material-icons-outlined { font-size: 18px; }
+
+/* ── TABLE ── */
+.reports-table-wrapper {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: 8px; overflow: hidden;
+}
+.reports-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.reports-table thead th {
+  text-align: left; padding: 12px 16px;
+  font-size: 12px; font-weight: 600; color: var(--gray-500);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--white); white-space: nowrap;
+}
+.reports-table thead th .sort-icon {
+  font-size: 14px; vertical-align: middle; margin-left: 2px; color: var(--gray-400);
+}
+.reports-table tbody tr {
+  transition: background .1s;
+}
+.reports-table tbody tr:hover { background: #fafbfb; }
+.reports-table tbody td {
+  padding: 14px 16px; border-bottom: 1px solid var(--gray-200);
+  vertical-align: middle; color: var(--gray-700);
+}
+.reports-table tbody tr:last-child td { border-bottom: none; }
+.report-name { font-weight: 600; color: var(--gray-900); }
+.report-type-badge {
+  display: inline-flex; padding: 3px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; background: var(--gray-100);
+  color: var(--gray-700);
+}
+.report-date { font-size: 12px; color: var(--gray-500); }
+.report-date .date-main { color: var(--gray-700); font-weight: 500; }
+.report-date .date-by { display: block; font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+.btn-action {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px; border: 1px solid var(--gray-300);
+  border-radius: 4px; font-size: 12px; font-weight: 600;
+  color: var(--gray-700); background: var(--white);
+  transition: background .15s; cursor: pointer;
+}
+.btn-action:hover { background: var(--gray-100); }
+
+/* ── PAGINATION ── */
+.pagination-row {
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 12px 16px; border-top: 1px solid var(--gray-200);
+  gap: 16px; font-size: 13px; color: var(--gray-500);
+}
+.pagination-row select {
+  border: 1px solid var(--gray-300); border-radius: 4px;
+  padding: 4px 8px; font-size: 13px; font-family: inherit;
+  color: var(--gray-700); background: var(--white);
+  cursor: pointer;
+}
+.pagination-info { font-weight: 500; }
+.pagination-nav {
+  display: flex; gap: 4px;
+}
+.pagination-nav button {
+  width: 30px; height: 30px; border-radius: 4px;
+  border: 1px solid var(--gray-300); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-700); font-size: 18px; cursor: pointer;
+  transition: background .15s;
+}
+.pagination-nav button:hover:not(:disabled) { background: var(--gray-100); }
+.pagination-nav button:disabled { opacity: 0.4; cursor: default; }
+
+/* ── FLOATING CHAT BUTTON ── */
+.chat-fab {
+  position: fixed; bottom: 24px; left: 24px;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--green); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  z-index: 1100; cursor: pointer; border: none;
+  transition: background .15s, transform .15s;
+}
+.chat-fab:hover { background: #357a06; transform: scale(1.08); }
+.chat-fab .material-icons-outlined { font-size: 24px; }
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; font-size: 24px; color: var(--gray-700);
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  border-radius: 6px; transition: background .15s;
+}
+.hamburger:hover { background: var(--gray-100); }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1999; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1200px) {
+  .reports-sidebar { width: 180px; min-width: 180px; }
+}
+@media (max-width: 768px) {
+  .sidebar { width: 64px; }
+  .sidebar .nav-item span:not(.material-icons-outlined) { display: none; }
+  .sidebar .nav-item .chevron { display: none; }
+  .sidebar .nav-item { justify-content: center; padding: 12px 0; gap: 0; }
+  .sidebar-logo .logo-text, .sidebar-logo .crm-label { display: none; }
+  .collapse-btn { display: none; }
+  .header { left: 64px; }
+  .main { margin-left: 64px; }
+  .reports-sidebar { display: none; }
+  .reports-toolbar { flex-wrap: wrap; }
+  .toolbar-right { margin-left: 0; width: 100%; }
+}
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 200px; transform: translateX(-100%);
+    transition: transform 0.3s ease; z-index: 2000;
+  }
+  .sidebar .nav-item span:not(.material-icons-outlined) { display: inline; }
+  .sidebar .nav-item .chevron { display: inline; }
+  .sidebar .nav-item { justify-content: flex-start; padding: 14px 20px; gap: 12px; }
+  .sidebar-logo .logo-text, .sidebar-logo .crm-label { display: block; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open + .sidebar-overlay { display: block; }
+  .hamburger { display: flex; }
+  .header { left: 0; padding: 0 12px; }
+  .main { margin-left: 0; }
+  .reports-content { padding: 16px; }
+  .search-dropdown { display: none; }
+  .ask-penny-btn { padding: 7px 10px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">bloomerang</div>
+    <div class="crm-label">CRM <span class="crm-bar"></span></div>
+    <button class="collapse-btn"><span class="material-icons-outlined">chevron_left</span></button>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="01_home.html" class="nav-item">
+        <span class="material-icons-outlined">home</span>
+        <span>Home</span>
+      </a></li>
+      <li><a href="02_constituent.html" class="nav-item">
+        <span class="material-icons-outlined">people_outline</span>
+        <span>Constituents</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">workspaces</span>
+        <span>Groups</span>
+      </a></li>
+      <li><a href="05_reports.html" class="nav-item active">
+        <span class="material-icons-outlined">pie_chart_outline</span>
+        <span>Reports</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">chat_bubble_outline</span>
+        <span>Communications</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">folder_open</span>
+        <span>Data Tools</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">settings</span>
+        <span>Settings</span>
+        <span class="material-icons-outlined chevron">expand_more</span>
+      </a></li>
+      <li><a href="#" class="nav-item">
+        <span class="material-icons-outlined">volunteer_activism</span>
+        <span>Kindful</span>
+      </a></li>
+    </ul>
+  </nav>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger" aria-label="Open menu">&#9776;</button>
+    <div class="search-wrapper">
+      <div class="search-dropdown">
+        All
+        <span class="material-icons-outlined">expand_more</span>
+      </div>
+      <span class="search-icon"><span class="material-icons-outlined" style="font-size:20px">search</span></span>
+      <input class="search-input" type="text" placeholder="Search for constituents">
+    </div>
+  </div>
+  <div class="header-right">
+    <a href="03_penny.html" class="ask-penny-btn" title="Ask Penny AI">
+      <span class="sparkle material-icons-outlined" style="font-size:16px">auto_awesome</span>
+      Ask Penny
+    </a>
+    <button class="header-icon-btn bloom-b" title="Bloomerang Home">
+      <span class="material-icons-outlined" style="font-size:24px;color:var(--green);">auto_awesome</span>
+    </button>
+    <span class="header-sep"></span>
+    <button class="header-icon-btn" title="Notifications">
+      <span class="material-icons-outlined">notifications_none</span>
+      <span class="notif-dot"></span>
+    </button>
+    <button class="header-icon-btn" title="Help">
+      <span class="material-icons-outlined">help_outline</span>
+    </button>
+    <div class="avatar-circle" title="Jessica Davis">JD</div>
+    <button class="header-icon-btn" title="Apps">
+      <span class="material-icons-outlined">apps</span>
+    </button>
+  </div>
+</header>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="main">
+
+  <!-- REPORTS SIDEBAR (folder tree) -->
+  <aside class="reports-sidebar">
+    <div class="reports-sidebar-header">
+      <div class="reports-title-row">
+        <div class="reports-title">Reports</div>
+        <span class="bookmark-btn"><span class="material-icons-outlined">bookmark_border</span></span>
+      </div>
+      <button class="btn-new-folder">
+        <span class="material-icons-outlined folder-icon-small">create_new_folder</span>
+        New Folder
+      </button>
+    </div>
+    <div class="reports-folder-tree">
+      <div class="folder-item active">
+        <span class="material-icons-outlined">folder</span>
+        <span>All Reports</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- REPORTS MAIN CONTENT -->
+  <div class="reports-content">
+
+    <!-- Header row -->
+    <div class="reports-content-header">
+      <div class="reports-content-title">All Reports</div>
+      <div class="reports-header-actions">
+        <a href="#" class="link-report-filters">Report Filters</a>
+        <button class="btn-new-report">
+          <span class="material-icons-outlined" style="font-size:16px">add</span>
+          New Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="reports-toolbar">
+      <div class="report-search">
+        <span class="material-icons-outlined">search</span>
+        <input type="text" placeholder="Search Reports">
+      </div>
+      <div class="filter-pills">
+        <button class="filter-pill active"><span class="material-icons-outlined check-icon">check</span> Active</button>
+        <button class="filter-pill">Inactive</button>
+        <button class="filter-pill">Scheduled</button>
+      </div>
+      <div class="toolbar-right">
+        <div class="type-dropdown">
+          Types
+          <span class="material-icons-outlined">expand_more</span>
+        </div>
+        <div class="created-dropdown">
+          Created/Modified By
+          <span class="material-icons-outlined">expand_more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="reports-table-wrapper">
+      <table class="reports-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Frequency</th>
+            <th>Type</th>
+            <th>Folder</th>
+            <th>Date Created</th>
+            <th>Last Modified</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="report-name">Upcoming Grant Items Due!!!!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/9/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Major Gift Prospects without Relationship Managers!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/17/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Major Gift Candidates</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">1/6/2024</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Kirsi's Portfolio!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/17/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Kirsi's Portfolio member without moves management</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/17/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Kirsi's MM Tasks!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Task</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/17/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">6/5/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">TEST PLEDGES!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Transaction</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">5/19/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">5/18/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+          <tr>
+            <td class="report-name">Major Gift Prospects without Relationship Managers!!!</td>
+            <td>None</td>
+            <td><span class="report-type-badge">Constituent</span></td>
+            <td></td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">3/4/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td>
+              <div class="report-date">
+                <span class="date-main">4/17/2025</span>
+                <span class="date-by">by kirstenwantlandsandi...</span>
+              </div>
+            </td>
+            <td><button class="btn-action">Action <span class="material-icons-outlined" style="font-size:14px">expand_more</span></button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination-row">
+        <span>Rows per page:</span>
+        <select>
+          <option>25</option>
+          <option>50</option>
+          <option>100</option>
+        </select>
+        <span class="pagination-info">1–25 of 30</span>
+        <div class="pagination-nav">
+          <button disabled><span class="material-icons-outlined">chevron_left</span></button>
+          <button><span class="material-icons-outlined">chevron_right</span></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Chat FAB -->
+<button class="chat-fab" title="Chat">
+  <span class="material-icons-outlined">chat</span>
+</button>
+
+<script>
+// Mobile sidebar toggle
+const hamburger = document.querySelector('.hamburger');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.querySelector('.sidebar-overlay');
+if (hamburger) {
+  hamburger.addEventListener('click', () => sidebar.classList.toggle('open'));
+}
+if (overlay) {
+  overlay.addEventListener('click', () => sidebar.classList.remove('open'));
+}
+
+// Filter pills toggle
+document.querySelectorAll('.filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
