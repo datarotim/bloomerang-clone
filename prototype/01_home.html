@@ -326,13 +326,27 @@ ul { list-style: none; }
   padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
   background: #4AA74B; color: #fff; white-space: nowrap;
 }
-.btn-view-profile {
+.btn-cta-call {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700;
-  color: var(--white); background: var(--teal); white-space: nowrap;
-  transition: background .15s;
+  color: var(--white); background: #2B8C96; white-space: nowrap;
+  transition: background .15s; cursor: pointer;
 }
-.btn-view-profile:hover { background: #1f6a72; }
+.btn-cta-call:hover { background: #1f6a72; }
+.btn-cta-call .material-icons-outlined { font-size: 14px; }
+.btn-cta-email {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  color: var(--white); background: #4AA74B; white-space: nowrap;
+  transition: background .15s; cursor: pointer;
+}
+.btn-cta-email:hover { background: #3d8c3e; }
+.btn-cta-email .material-icons-outlined { font-size: 14px; }
+.ai-reason {
+  display: flex; align-items: flex-start; gap: 4px;
+  font-size: 11px; color: #0096B4; margin-top: 4px; line-height: 1.3;
+}
+.ai-reason .material-icons-outlined { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
 .prospect-scores { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 .prospect-chevron { color: var(--gray-400); font-size: 20px; flex-shrink: 0; }
 
@@ -732,11 +746,15 @@ ul { list-style: none; }
         <div class="prospect-info">
           <div class="name">Sarah Mitchell</div>
           <div class="detail">Board member, Riverside Corp &middot; 3-year donor &middot; Last gift: $2,500</div>
+          <div class="ai-reason">
+            <span class="material-icons-outlined">auto_awesome</span>
+            Capacity est. $2M+ &middot; Gave 3x in 12 mo &middot; Board peer says she's "ready to do more"
+          </div>
         </div>
         <div class="prospect-scores">
           <span class="score-pill green" title="Propensity Score">94</span>
           <span class="ask-pill" title="Recommended Ask">Ask $25K</span>
-          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+          <span class="btn-cta-call"><span class="material-icons-outlined">phone</span> Call Now</span>
         </div>
         <span class="prospect-chevron material-icons-outlined">chevron_right</span>
       </a>
@@ -747,11 +765,15 @@ ul { list-style: none; }
         <div class="prospect-info">
           <div class="name">Robert Jimenez</div>
           <div class="detail">CEO, Jimenez Holdings &middot; 1st event &middot; Wealth: $500K+</div>
+          <div class="ai-reason">
+            <span class="material-icons-outlined">auto_awesome</span>
+            First-time attendee &middot; Real estate portfolio $4.2M &middot; Gave $50K to similar orgs
+          </div>
         </div>
         <div class="prospect-scores">
           <span class="score-pill green">87</span>
           <span class="ask-pill">Ask $15K</span>
-          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+          <span class="btn-cta-email"><span class="material-icons-outlined">email</span> Send Email</span>
         </div>
         <span class="prospect-chevron material-icons-outlined">chevron_right</span>
       </div>
@@ -762,11 +784,15 @@ ul { list-style: none; }
         <div class="prospect-info">
           <div class="name">Linda Worthington</div>
           <div class="detail">Retired educator &middot; Lifetime: $18,200 &middot; Monthly since 2022</div>
+          <div class="ai-reason">
+            <span class="material-icons-outlined">auto_awesome</span>
+            Consistent monthly donor &middot; Recently sold property ($890K) &middot; High affinity: Education 92%
+          </div>
         </div>
         <div class="prospect-scores">
           <span class="score-pill green">82</span>
           <span class="ask-pill">Ask $10K</span>
-          <span class="btn-view-profile">View Profile <span style="font-size:14px">&rarr;</span></span>
+          <span class="btn-cta-call"><span class="material-icons-outlined">phone</span> Call Now</span>
         </div>
         <span class="prospect-chevron material-icons-outlined">chevron_right</span>
       </div>
