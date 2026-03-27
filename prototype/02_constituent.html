@@ -1367,6 +1367,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     // Navigate to dedicated pages for profile and timeline
     if (tab === 'profile') { window.location.href = '05_constituent_profile.html'; return; }
     if (tab === 'timeline') { window.location.href = '06_constituent_timeline.html'; return; }
+    if (tab === 'relationships') { window.location.href = '08_constituent_relationships.html'; return; }
     // Remove active from all tabs and panels
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));

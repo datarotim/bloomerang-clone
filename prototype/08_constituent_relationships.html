@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sarah Mitchell - Timeline | Bloomerang CRM</title>
+<title>Sarah Mitchell - Relationships | Bloomerang CRM</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 <style>
@@ -193,16 +193,11 @@ ul { list-style: none; }
 .floating-chat-btn .material-icons-outlined { font-size: 24px; }
 
 /* ══════════════════════════════════════════════ */
-/* ── TIMELINE-SPECIFIC STYLES ── */
+/* ── RELATIONSHIPS-SPECIFIC STYLES ── */
 /* ══════════════════════════════════════════════ */
 
-/* Timeline layout */
-.timeline-layout {
-  display: flex; gap: 24px; padding: 24px; max-width: 1200px;
-}
-.timeline-main { flex: 1; }
-.timeline-sidebar {
-  width: 200px; flex-shrink: 0; position: sticky; top: 80px; align-self: flex-start;
+.relationships-content {
+  padding: 24px; max-width: 900px;
 }
 
 /* Dataro insight banner */
@@ -216,94 +211,93 @@ ul { list-style: none; }
 .dataro-insight p { font-size: 14px; color: #535862; line-height: 1.6; margin-bottom: 8px; }
 .dataro-insight .view-link { color: #00B4D8; font-size: 13px; font-weight: 600; }
 
-/* Timeline */
-.vertical-timeline { position: relative; padding-left: 52px; }
-.vertical-timeline::before {
-  content: ''; position: absolute; left: 19px; top: 0; bottom: 0;
-  width: 2px; background: #d5d7da;
-}
-.year-bubble {
-  position: relative; display: inline-block;
-  padding: 4px 16px; border-radius: 16px; background: #4AA74B;
-  color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 20px;
-  margin-left: -33px; /* center on the line */
-}
-.tl-entry {
-  position: relative; margin-bottom: 20px;
-}
-.tl-icon {
-  position: absolute; left: -44px; top: 4px;
-  width: 28px; height: 28px; border-radius: 50%; background: #fff;
-  border: 2px solid #e9eaeb;
-  display: flex; align-items: center; justify-content: center;
-}
-.tl-icon .material-icons-outlined { font-size: 16px; }
-.tl-icon.donation { border-color: #4AA74B; }
-.tl-icon.donation .material-icons-outlined { color: #4AA74B; }
-.tl-icon.interaction { border-color: #2a80e4; }
-.tl-icon.interaction .material-icons-outlined { color: #2a80e4; }
-.tl-icon.mail { border-color: #2B8C96; }
-.tl-icon.mail .material-icons-outlined { color: #2B8C96; }
-.tl-card {
+/* Cards */
+.rel-card {
   background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03); padding: 14px 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); margin-bottom: 20px;
+  overflow: hidden;
 }
-.tl-card-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-.tl-card-title a { cursor: pointer; }
-.tl-card-title a.green { color: #3f9107; }
-.tl-card-title a.blue { color: #2a80e4; }
-.tl-card-title a.teal { color: #2B8C96; }
-.tl-card-sub { font-size: 12px; color: #a4a7ae; }
-.tl-card-date { float: right; font-size: 12px; color: #a4a7ae; font-weight: 500; margin-top: -20px; }
-
-/* Highlights card */
-.highlights-card {
-  background: #fef9e7; border: 1px solid #f5e6b8; border-radius: 8px;
-  padding: 16px 20px; margin-bottom: 20px; margin-left: -52px; padding-left: 52px;
-  position: relative;
+.rel-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid #e9eaeb;
 }
-.highlights-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.highlights-header .material-icons-outlined { color: #f4913c; font-size: 20px; }
-.highlights-header .title { font-size: 15px; font-weight: 700; color: #252b37; }
-.highlights-list { list-style: disc; padding-left: 18px; }
-.highlights-list li { font-size: 13px; color: #535862; margin-bottom: 4px; font-weight: 500; }
-
-/* Right sidebar pills */
-.year-pill {
-  display: block; width: 100%; padding: 8px 16px; border-radius: 20px;
-  font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 6px;
-  font-family: inherit; border: 1px solid #d5d7da; color: #535862; background: #fff;
-  cursor: pointer;
-}
-.year-pill.active { background: #4AA74B; color: #fff; border-color: #4AA74B; }
-.filter-label { font-size: 11px; font-weight: 700; color: #a4a7ae; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
-.filter-pill {
-  display: inline-block; padding: 6px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 600; margin: 0 4px 6px 0;
-  border: 1px solid #d5d7da; color: #535862; background: #fff; font-family: inherit;
-  cursor: pointer;
-}
-.filter-pill.active { background: #4AA74B; color: #fff; border-color: #4AA74B; }
-.filter-pill:hover { border-color: #a4a7ae; }
-.list-view-btn {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  width: 100%; padding: 8px; border: 1px solid #d5d7da; border-radius: 6px;
+.rel-card-header-left { display: flex; align-items: center; gap: 8px; }
+.rel-card-header-left .material-icons-outlined { font-size: 20px; color: #a4a7ae; }
+.rel-card-title { font-size: 15px; font-weight: 700; color: #252b37; }
+.rel-card-subtitle { font-size: 13px; color: #a4a7ae; font-weight: 500; margin-left: 8px; }
+.rel-card-action {
+  padding: 6px 14px; border: 1px solid #d5d7da; border-radius: 6px;
   font-size: 13px; font-weight: 600; color: #535862; background: #fff;
-  margin-top: 16px; font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; gap: 4px; font-family: inherit;
 }
-.list-view-btn:hover { background: #f4f5f5; }
-.sidebar-divider { height: 1px; background: #e9eaeb; margin: 12px 0; }
+.rel-card-action:hover { background: #f4f5f5; }
+.rel-card-action.green {
+  background: #3f9107; color: #fff; border-color: #3f9107;
+}
+.rel-card-action.green:hover { background: #357a06; }
+
+/* Relationship rows */
+.rel-row {
+  display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+  border-bottom: 1px solid #f4f5f5; transition: background 0.1s;
+  cursor: pointer;
+}
+.rel-row:last-child { border-bottom: none; }
+.rel-row:hover { background: #f9fafb; }
+
+.rel-avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: #fff;
+}
+.rel-avatar.staff { background: #4AA74B; }
+.rel-avatar.individual { background: #d5d7da; }
+.rel-avatar.individual .material-icons-outlined { font-size: 22px; color: #fff; }
+.rel-avatar.org { background: #2B8C96; }
+.rel-avatar.org .material-icons-outlined { font-size: 22px; color: #fff; }
+
+.rel-info { flex: 1; min-width: 0; }
+.rel-name { font-size: 14px; font-weight: 600; color: #3f9107; margin-bottom: 1px; }
+.rel-name:hover { text-decoration: underline; }
+.rel-detail { font-size: 12px; color: #a4a7ae; font-weight: 500; }
+
+.rel-type-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.3px; flex-shrink: 0;
+}
+.rel-type-badge.household { background: #eef7e8; color: #3f9107; }
+.rel-type-badge.employer { background: #e8f4f6; color: #2B8C96; }
+.rel-type-badge.colleague { background: #f0eeff; color: #6366f1; }
+.rel-type-badge.affiliated { background: #fef3e2; color: #d97706; }
+.rel-type-badge.manager { background: #eef7e8; color: #3f9107; }
+
+.rel-contact { font-size: 12px; color: #717680; text-align: right; min-width: 130px; flex-shrink: 0; }
+.rel-contact a { color: #2B8C96; }
+.rel-chevron { color: #d5d7da; font-size: 20px; flex-shrink: 0; }
+.rel-chevron:hover { color: #a4a7ae; }
+
+/* Head of household tag */
+.hoh-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 20px; font-size: 12px; font-weight: 600; color: #717680;
+  background: #f9fafb; border-bottom: 1px solid #f4f5f5;
+}
+.hoh-tag .material-icons-outlined { font-size: 14px; color: #a4a7ae; }
+
+/* Manager card special layout */
+.manager-row {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+}
+.manager-info { flex: 1; }
+.manager-name { font-size: 15px; font-weight: 700; color: #252b37; margin-bottom: 2px; }
+.manager-title { font-size: 13px; color: #717680; margin-bottom: 2px; }
+.manager-email { font-size: 13px; color: #2B8C96; font-weight: 500; }
+.manager-date { font-size: 12px; color: #a4a7ae; margin-top: 4px; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 992px) {
-  .timeline-layout { flex-direction: column; }
-  .timeline-sidebar {
-    width: 100%; position: static; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-  }
-  .timeline-sidebar .year-pill { width: auto; display: inline-block; }
-  .timeline-sidebar .filter-label { width: 100%; margin: 8px 0 4px; }
-  .sidebar-divider { width: 100%; }
-  .list-view-btn { width: auto; margin-top: 0; }
+  .relationships-content { max-width: 100%; }
 }
 
 @media (max-width: 768px) {
@@ -319,6 +313,7 @@ ul { list-style: none; }
   .profile-info-name { border-right: none; padding-right: 0; }
   .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .rel-contact { display: none; }
 }
 
 @media (max-width: 480px) {
@@ -334,7 +329,7 @@ ul { list-style: none; }
   .hamburger { display: flex; }
   .top-header { left: 0; padding: 0 10px; }
   .main-content { margin-left: 0; -webkit-overflow-scrolling: touch; }
-  .timeline-layout { padding: 12px; gap: 12px; }
+  .relationships-content { padding: 12px; }
   .constituent-header { flex-direction: column; text-align: center; gap: 12px; padding: 16px; }
   .profile-info-name { border-right: none; padding-right: 0; min-width: auto; }
   .profile-detail-columns { flex-direction: column; padding: 0; gap: 8px; }
@@ -342,13 +337,13 @@ ul { list-style: none; }
   .tabs-list { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 2px; }
   .tab-btn { font-size: 13px; padding: 8px 14px; white-space: nowrap; flex-shrink: 0; min-height: 44px; }
   .tabs-right { display: none; }
-  .vertical-timeline { padding-left: 40px; }
-  .vertical-timeline::before { left: 14px; }
-  .tl-icon { left: -34px; width: 24px; height: 24px; }
-  .tl-icon .material-icons-outlined { font-size: 14px; }
-  .year-bubble { margin-left: -26px; font-size: 12px; padding: 3px 12px; }
-  .highlights-card { margin-left: -40px; padding-left: 40px; }
-  .tl-card-date { float: none; margin-top: 4px; display: block; }
+  .rel-row { gap: 10px; padding: 12px 14px; }
+  .rel-avatar { width: 36px; height: 36px; font-size: 12px; }
+  .rel-avatar .material-icons-outlined { font-size: 18px; }
+  .rel-type-badge { font-size: 10px; padding: 2px 8px; }
+  .rel-contact { display: none; }
+  .rel-card-header { flex-wrap: wrap; gap: 8px; padding: 12px 14px; }
+  .manager-row { flex-wrap: wrap; gap: 10px; padding: 12px 14px; }
   .search-type { display: none; }
   .ask-penny-btn { padding: 7px 10px; font-size: 12px; }
   body { font-size: 14px; }
@@ -370,7 +365,7 @@ ul { list-style: none; }
     <li><a href="01_home.html"><span class="material-icons-outlined">home</span><span>Home</span></a></li>
     <li class="active"><a href="02_constituent.html"><span class="material-icons-outlined">people</span><span>Constituents</span></a></li>
     <li><a href="#"><span class="material-icons-outlined">hexagon</span><span>Groups</span></a></li>
-    <li><a href="#"><span class="material-icons-outlined">pie_chart</span><span>Reports</span></a></li>
+    <li><a href="07_reports.html"><span class="material-icons-outlined">pie_chart</span><span>Reports</span></a></li>
     <li><a href="#"><span class="material-icons-outlined">chat_bubble_outline</span><span>Communications</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
     <li><a href="#"><span class="material-icons-outlined">folder_open</span><span>Data Tools</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
     <li><a href="#"><span class="material-icons-outlined">settings</span><span>Settings</span><span class="material-icons-outlined chevron">expand_more</span></a></li>
@@ -433,8 +428,8 @@ ul { list-style: none; }
     <div class="tabs-list">
       <a class="tab-btn" href="02_constituent.html">Summary</a>
       <a class="tab-btn" href="05_constituent_profile.html">Profile</a>
-      <button class="tab-btn active">Timeline</button>
-      <button class="tab-btn">Relationships</button>
+      <a class="tab-btn" href="06_constituent_timeline.html">Timeline</a>
+      <button class="tab-btn active">Relationships</button>
       <button class="tab-btn dataro-tab"><span class="material-icons-outlined" style="font-size:16px">auto_awesome</span> ProspectAI</button>
     </div>
     <div class="tabs-right">
@@ -443,198 +438,159 @@ ul { list-style: none; }
   </div>
 
   <!-- ══════════════════════════════════════════════ -->
-  <!-- ── TIMELINE TAB ── -->
+  <!-- ── RELATIONSHIPS CONTENT ── -->
   <!-- ══════════════════════════════════════════════ -->
-  <div class="timeline-layout">
+  <div class="relationships-content">
 
-    <!-- ── CENTER CONTENT ── -->
-    <div class="timeline-main">
-
-      <!-- Dataro Insight Banner -->
-      <div class="dataro-insight">
-        <div class="dataro-insight-header">
-          <span class="material-icons-outlined">auto_awesome</span>
-          <span class="title">Dataro Insight</span>
-        </div>
-        <p>Based on Sarah's giving pattern, Dataro predicts a 94% likelihood of a major gift. Recommended next step: Schedule a personal meeting.</p>
-        <a href="#" class="view-link">View Full Analysis &rarr;</a>
+    <!-- Dataro Insight Banner -->
+    <div class="dataro-insight">
+      <div class="dataro-insight-header">
+        <span class="material-icons-outlined">auto_awesome</span>
+        <span class="title">Dataro Insight</span>
       </div>
-
-      <!-- Vertical Timeline -->
-      <div class="vertical-timeline">
-
-        <!-- ── 2026 ── -->
-        <div class="year-bubble">2026</div>
-
-        <!-- March 15, 2026 — Recurring Payment -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$2,500.00 Recurring Payment</a></div>
-            <div class="tl-card-sub">Unrestricted &middot; Annual Campaign</div>
-            <div class="tl-card-date">March 15</div>
-          </div>
-        </div>
-
-        <!-- February 11, 2026 — Email -->
-        <div class="tl-entry">
-          <div class="tl-icon interaction">
-            <span class="material-icons-outlined">chat_bubble_outline</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="blue">Email &mdash; Spring Gala Invitation</a></div>
-            <div class="tl-card-sub">Impact/Cultivation &middot; Spring Gala 2026</div>
-            <div class="tl-card-date">February 11</div>
-          </div>
-        </div>
-
-        <!-- January 5, 2026 — Phone Call -->
-        <div class="tl-entry">
-          <div class="tl-icon interaction">
-            <span class="material-icons-outlined">chat_bubble_outline</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="blue">Phone Call &mdash; Thank You Follow-Up</a></div>
-            <div class="tl-card-sub">Assignee: Jessica Davis</div>
-            <div class="tl-card-date">January 5</div>
-          </div>
-        </div>
-
-        <!-- ── 2025 ── -->
-        <div class="year-bubble">2025</div>
-
-        <!-- December 8, 2025 — Donation -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$2,500.00 Donation</a></div>
-            <div class="tl-card-sub">Unrestricted &middot; Year-End Appeal</div>
-            <div class="tl-card-date">December 8</div>
-          </div>
-        </div>
-
-        <!-- December 8, 2025 — Acknowledgment Letter -->
-        <div class="tl-entry">
-          <div class="tl-icon mail">
-            <span class="material-icons-outlined">mail_outline</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="teal">Acknowledgment Letter &mdash; Year-End Gift</a></div>
-            <div class="tl-card-sub">Letter Template: Standard Acknowledgment</div>
-            <div class="tl-card-date">December 8</div>
-          </div>
-        </div>
-
-        <!-- November 15, 2025 — Email -->
-        <div class="tl-entry">
-          <div class="tl-icon interaction">
-            <span class="material-icons-outlined">chat_bubble_outline</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="blue">Email &mdash; Annual Impact Report</a></div>
-            <div class="tl-card-sub">Impact/Cultivation &middot; Annual Stewardship</div>
-            <div class="tl-card-date">November 15</div>
-          </div>
-        </div>
-
-        <!-- October 1, 2025 — Donation -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$1,000.00 Donation</a></div>
-            <div class="tl-card-sub">Education Fund &middot; Fall Campaign</div>
-            <div class="tl-card-date">October 1</div>
-          </div>
-        </div>
-
-        <!-- August 15, 2025 — Recurring Payment -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$500.00 Recurring Payment</a></div>
-            <div class="tl-card-sub">Unrestricted &middot; Monthly Giving</div>
-            <div class="tl-card-date">August 15</div>
-          </div>
-        </div>
-
-        <!-- Highlights Card -->
-        <div class="highlights-card">
-          <div class="highlights-header">
-            <span class="material-icons-outlined">star</span>
-            <span class="title">Highlights</span>
-          </div>
-          <ul class="highlights-list">
-            <li>Upgraded from $500 to $2,500 in 2025</li>
-            <li>Has donated 3 years in a row</li>
-            <li>Has upgraded 2 years in a row</li>
-          </ul>
-        </div>
-
-        <!-- ── 2024 ── -->
-        <div class="year-bubble">2024</div>
-
-        <!-- June 20, 2024 — Donation -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$5,000.00 Donation</a></div>
-            <div class="tl-card-sub">Capital Campaign &middot; Building Fund</div>
-            <div class="tl-card-date">June 20</div>
-          </div>
-        </div>
-
-        <!-- March 15, 2024 — Recurring Payment -->
-        <div class="tl-entry">
-          <div class="tl-icon donation">
-            <span class="material-icons-outlined">volunteer_activism</span>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-title"><a href="#" class="green">$250.00 Recurring Payment</a></div>
-            <div class="tl-card-sub">Unrestricted &middot; Annual Campaign</div>
-            <div class="tl-card-date">March 15</div>
-          </div>
-        </div>
-
-      </div><!-- /.vertical-timeline -->
-    </div><!-- /.timeline-main -->
-
-    <!-- ── RIGHT SIDEBAR ── -->
-    <div class="timeline-sidebar">
-      <button class="year-pill active">2026</button>
-      <button class="year-pill">2025</button>
-      <button class="year-pill">Older</button>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="filter-label">Filter by</div>
-      <div>
-        <button class="filter-pill active">All</button>
-        <button class="filter-pill">Transactions</button>
-        <button class="filter-pill">Interactions</button>
-        <button class="filter-pill">Tasks</button>
-        <button class="filter-pill">Notes</button>
-        <button class="filter-pill">Attachments</button>
-      </div>
-
-      <div class="sidebar-divider"></div>
-
-      <button class="list-view-btn">
-        <span class="material-icons-outlined" style="font-size:18px">swap_vert</span>
-        List View
-      </button>
+      <p>Dataro identifies <strong>David Mitchell</strong> as having high independent giving potential ($10K&ndash;$25K capacity). Consider a separate cultivation strategy alongside the household approach.</p>
+      <a href="02_constituent.html#prospectai" class="view-link">View ProspectAI Report &rarr;</a>
     </div>
 
-  </div><!-- /.timeline-layout -->
+    <!-- ── RELATIONSHIP MANAGER ── -->
+    <div class="rel-card">
+      <div class="rel-card-header">
+        <div class="rel-card-header-left">
+          <span class="material-icons-outlined">supervisor_account</span>
+          <span class="rel-card-title">Relationship Manager</span>
+        </div>
+        <button class="rel-card-action">
+          <span class="material-icons-outlined" style="font-size:16px">swap_horiz</span>
+          Reassign
+        </button>
+      </div>
+      <div class="manager-row">
+        <div class="rel-avatar staff">JG</div>
+        <div class="manager-info">
+          <div class="manager-name">Jane Goodall</div>
+          <div class="manager-title">Development Director</div>
+          <a href="mailto:jane.goodall@hopeval.org" class="manager-email">jane.goodall@hopeval.org</a>
+          <div class="manager-date">Assigned Jan 15, 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HOUSEHOLD ── -->
+    <div class="rel-card">
+      <div class="rel-card-header">
+        <div class="rel-card-header-left">
+          <span class="material-icons-outlined">home</span>
+          <span class="rel-card-title">Household</span>
+          <span class="rel-card-subtitle">Mitchell Household</span>
+        </div>
+        <button class="rel-card-action green">
+          <span class="material-icons-outlined" style="font-size:16px">add</span>
+          Add
+        </button>
+      </div>
+      <div class="hoh-tag">
+        <span class="material-icons-outlined">star</span>
+        Head of Household: Sarah Mitchell
+      </div>
+
+      <!-- David Mitchell — Spouse -->
+      <div class="rel-row">
+        <div class="rel-avatar individual">
+          <span class="material-icons-outlined">person</span>
+        </div>
+        <div class="rel-info">
+          <div class="rel-name">David Mitchell</div>
+          <div class="rel-detail">Individual &middot; #159</div>
+        </div>
+        <span class="rel-type-badge household">Spouse</span>
+        <div class="rel-contact">
+          (317) 555-0291<br>
+          <a href="mailto:david.mitchell@email.com">david.mitchell@email.com</a>
+        </div>
+        <span class="material-icons-outlined rel-chevron">chevron_right</span>
+      </div>
+
+      <!-- Emma Mitchell — Daughter -->
+      <div class="rel-row">
+        <div class="rel-avatar individual">
+          <span class="material-icons-outlined">person</span>
+        </div>
+        <div class="rel-info">
+          <div class="rel-name">Emma Mitchell</div>
+          <div class="rel-detail">Individual &middot; #247</div>
+        </div>
+        <span class="rel-type-badge household">Daughter</span>
+        <div class="rel-contact">
+          (317) 555-0342
+        </div>
+        <span class="material-icons-outlined rel-chevron">chevron_right</span>
+      </div>
+    </div>
+
+    <!-- ── OTHER RELATIONSHIPS ── -->
+    <div class="rel-card">
+      <div class="rel-card-header">
+        <div class="rel-card-header-left">
+          <span class="material-icons-outlined">group</span>
+          <span class="rel-card-title">Other Relationships</span>
+        </div>
+        <button class="rel-card-action green">
+          <span class="material-icons-outlined" style="font-size:16px">add</span>
+          Add
+        </button>
+      </div>
+
+      <!-- Riverside Corp — Employer -->
+      <div class="rel-row">
+        <div class="rel-avatar org">
+          <span class="material-icons-outlined">business</span>
+        </div>
+        <div class="rel-info">
+          <div class="rel-name">Riverside Corp</div>
+          <div class="rel-detail">Organization &middot; Board Member since 2020</div>
+        </div>
+        <span class="rel-type-badge employer">Employer</span>
+        <div class="rel-contact">
+          <a href="#">riverside-corp.com</a>
+        </div>
+        <span class="material-icons-outlined rel-chevron">chevron_right</span>
+      </div>
+
+      <!-- James Harrison — Board Colleague -->
+      <div class="rel-row">
+        <div class="rel-avatar individual">
+          <span class="material-icons-outlined">person</span>
+        </div>
+        <div class="rel-info">
+          <div class="rel-name">James Harrison</div>
+          <div class="rel-detail">Individual &middot; #312 &middot; Fellow board member, Riverside Corp</div>
+        </div>
+        <span class="rel-type-badge colleague">Colleague</span>
+        <div class="rel-contact">
+          (317) 555-0488<br>
+          <a href="mailto:james.harrison@email.com">james.harrison@email.com</a>
+        </div>
+        <span class="material-icons-outlined rel-chevron">chevron_right</span>
+      </div>
+
+      <!-- Indianapolis Community Foundation — Affiliated Org -->
+      <div class="rel-row">
+        <div class="rel-avatar org">
+          <span class="material-icons-outlined">account_balance</span>
+        </div>
+        <div class="rel-info">
+          <div class="rel-name">Indianapolis Community Foundation</div>
+          <div class="rel-detail">Organization &middot; Member since 2019</div>
+        </div>
+        <span class="rel-type-badge affiliated">Affiliated</span>
+        <div class="rel-contact">
+          <a href="#">indycommfound.org</a>
+        </div>
+        <span class="material-icons-outlined rel-chevron">chevron_right</span>
+      </div>
+    </div>
+
+  </div><!-- /.relationships-content -->
 
 </main>
 
@@ -663,7 +619,7 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
     var label = this.textContent.trim();
     if (label === 'Summary') { window.location.href = '02_constituent.html'; }
     else if (label === 'Profile') { window.location.href = '05_constituent_profile.html'; }
-    else if (label === 'Relationships') { window.location.href = '08_constituent_relationships.html'; }
+    else if (label === 'Timeline') { window.location.href = '06_constituent_timeline.html'; }
     else if (label.indexOf('ProspectAI') !== -1) { window.location.href = '02_constituent.html#prospectai'; }
   });
 });
