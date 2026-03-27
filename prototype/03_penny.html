@@ -760,31 +760,6 @@
   .conversations-link:hover { text-decoration: underline; }
 
   /* ── BOTTOM-LEFT GREEN CHAT CIRCLE ── */
-  .chat-trigger {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    width: 48px;
-    height: 48px;
-    background: #3f9107;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(63,145,7,0.3);
-    z-index: 900;
-    border: none;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .chat-trigger:hover {
-    transform: scale(1.08);
-    box-shadow: 0 6px 16px rgba(63,145,7,0.4);
-  }
-  .chat-trigger .material-icons-outlined {
-    color: #fff;
-    font-size: 24px;
-  }
 
   /* ── HAMBURGER (hidden by default) ── */
   .hamburger {
@@ -852,7 +827,6 @@
     .search-bar .all-dropdown { display: none; }
     .top-icon-btn.ask-penny { padding: 0 12px; font-size: 12px; }
     body { font-size: 14px; }
-    .chat-trigger { bottom: 16px; left: 16px; padding-bottom: env(safe-area-inset-bottom); }
     .prompt-pill { min-height: 44px; display: flex; align-items: center; }
     .feedback-btn { min-width: 44px; min-height: 44px; }
     .card { padding: 16px; }
@@ -1015,12 +989,6 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- BOTTOM-LEFT GREEN CHAT CIRCLE                              -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<button class="chat-trigger" title="Chat with us">
-  <span class="material-icons-outlined">chat_bubble</span>
-</button>
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- DIM OVERLAY                                                -->
